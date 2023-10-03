@@ -5,6 +5,10 @@
 You need a Windows system.
 No Linux or MacOS support.
 
+## Installation for users 😎
+Simply access the installer from the Microsoft app store  
+https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
+
 ## Installation for developers ⚙️
 
 You need to have python >=3.10 and git installed  
