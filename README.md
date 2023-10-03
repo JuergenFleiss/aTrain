@@ -20,12 +20,10 @@ Change directory into aTrain
 ```
 cd aTrain
 ```
-Setup the virtual environment
+Setup the virtual environment - specify python version if you have multiple
 ```
 python -m venv venv
-```
-If you have multiple python versions installed specify version 3.10
-```
+#or
 py -3.10 -m venv venv
 ```
 Activate the virtual environment
