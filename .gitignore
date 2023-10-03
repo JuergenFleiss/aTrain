@@ -1,0 +1,9 @@
+venv
+__pycache__
+dist
+build
+*.spec
+models/models--*
+tailwind*
+node_modules
+package*
