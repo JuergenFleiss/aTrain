@@ -1,0 +1,14 @@
+<form method="dialog" class="modal-box">
+    <h3 class="font-bold text-lg">Oh no, the system failed to transcribe 😱😱😱</h3>
+    <template x-if="catmode">
+        <img class="my-2 mx-auto w-full h-full" src="static/cat_warning.gif"  alt="Error Image">
+    </template>
+    <template x-if="!catmode">
+        <img class="my-2 mx-auto w-1/2 h-1/2" src="static/warning.gif"  alt="Error Image">    
+    </template>    
+    <h4 class="mt-4 font-bold">The following error occured:</h4>
+    <p id="errorCode" class="mb-4">{{error | default("Unknown Error")}}</p>
+    <h4 class="mt-4 font-bold">Traceback:</h4>
+    <p id="traceback" class="mb-4">{{traceback | default("No traceback avaliable") }}</p>
+    <a class="btn btn-primary" href=".">back</a>
+</form>
