@@ -1,0 +1,11 @@
+--extra-index-url https://download.pytorch.org/whl/cu117
+torch==2.0.0+cu117
+torchvision==0.15.1+cu117
+torchaudio==2.0.1
+whisperx @ git+https://github.com/m-bain/whisperx.git@v3.1.1
+Flask==2.3.2
+pywebview==4.2.2
+screeninfo==0.8.1
+wakepy==0.7.2
+show-in-file-manager==1.1.4
+screeninfo==0.8.1
