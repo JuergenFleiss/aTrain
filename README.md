@@ -14,7 +14,7 @@ https://git-scm.com/download/win/
 
 Clone this repo
 ```
-git clone https://github.com/Juergen-J-F/aTrain.git
+git clone https://github.com/BANDAS-Center/aTrain.git
 ```
 Change directory into aTrain
 ```
