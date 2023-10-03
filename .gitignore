@@ -7,4 +7,4 @@ models/models--*
 tailwind*
 node_modules
 package*
-ffmpeg.exe
+ffmpeg*
