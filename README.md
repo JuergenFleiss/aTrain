@@ -20,7 +20,7 @@ Change directory into aTrain
 ```
 cd aTrain
 ```
-Setup the virtual environment - specify python version if you have multiple
+Setup the virtual environment
 ```
 python -m venv venv
 ```
