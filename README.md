@@ -23,8 +23,6 @@ cd aTrain
 Setup the virtual environment - specify python version if you have multiple
 ```
 python -m venv venv
-#or
-py -3.10 -m venv venv
 ```
 Activate the virtual environment
 ```
