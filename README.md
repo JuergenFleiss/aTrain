@@ -7,7 +7,7 @@ No Linux or MacOS support.
 
 ## Installation for developers ⚙️
 
-#### You need to have python version 3.10 and git installed
+#### You need to have python >=3.10 and git installed
 If you need help with installing that, look at these resources:  
 https://www.python.org/downloads/release/python-31011/  
 https://git-scm.com/download/win/  
@@ -16,7 +16,6 @@ https://git-scm.com/download/win/
 ```
 git clone https://github.com/Juergen-J-F/aTrain.git
 ```
-
 #### Change directory into aTrain
 ```
 cd aTrain
@@ -33,28 +32,14 @@ py -3.10 -m venv venv
 ```
 .\venv\Scripts\activate
 ```
-#### Install pytorch and cuda
+#### Install dependencies
 ```
-pip install torch==2.0.0+cu117 torchvision==0.15.1+cu117 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu117
-```
-#### Install [whisperX](https://github.com/m-bain/whisperX)
-```
-pip install git+https://github.com/m-bain/whisperx.git
-```
-#### Install flask and pywebview + other dependencies
-```
-pip install flask pywebview screeninfo
+pip install -r requirements.txt
 ```
 #### Run the app
 ```
 python app.py
 ```
 
-
-## Licenses
-
-Following python libraries were used for this project:  
-LIBRARY -> Licencse  
-  
-The UI was designed using [TailwindCSS](https://tailwindcss.com/) and [DaisyUI](https://daisyui.com/).  
-The GIFs and Icons are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/). 
+## Attribution
+The GIFs and Icons in aTrain are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/). 
