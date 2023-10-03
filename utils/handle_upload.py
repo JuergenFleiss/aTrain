@@ -2,6 +2,8 @@ import os
 import ffmpeg
 from utils.archive import TRANSCRIPT_DIR
 from scipy.io import wavfile
+import requests
+import shutil
 
 def get_inputs(request):
     file = request.files["file"]
@@ -58,12 +60,28 @@ def create_file_id(filename, timestamp):
     return file_id
 
 def prepare_audio (file_id,file_path,file_directory):
+    get_ffmpeg() #download ffmpeg if it does not exist
     output_file = file_id + ".wav"
     output_path =  os.path.join(file_directory,output_file)
     stream = ffmpeg.input(file_path)
     stream = ffmpeg.output(stream, output_path)
     ffmpeg.run(stream,quiet=True)
     return output_path
+
+def get_ffmpeg():
+    ffmpeg_path = "ffmpeg.exe"
+    if not os.path.exists(ffmpeg_path):
+        url = 'https://github.com/GyanD/codexffmpeg/releases/download/2023-10-02-git-9e531370b3/ffmpeg-2023-10-02-git-9e531370b3-essentials_build.zip'
+        r = requests.get(url, allow_redirects=True)
+        archive_path = "ffmpeg.zip"
+        ffmpeg_dir = "ffmpeg"
+        ffmpeg_exe = os.path.join(ffmpeg_dir,"ffmpeg-2023-10-02-git-9e531370b3-essentials_build","bin","ffmpeg.exe")
+        with open(archive_path, 'wb') as ffmpeg_file:
+            ffmpeg_file.write(r.content)
+        shutil.unpack_archive(archive_path, ffmpeg_dir,"zip")  
+        shutil.move(ffmpeg_exe,ffmpeg_path)    
+        shutil.rmtree(ffmpeg_dir)
+        os.remove(archive_path)
 
 def get_audio_duration(file_path):
     sample_rate, data = wavfile.read(file_path)
