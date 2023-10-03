@@ -73,15 +73,15 @@ def get_ffmpeg():
     if not os.path.exists(ffmpeg_path):
         url = 'https://github.com/GyanD/codexffmpeg/releases/download/2023-10-02-git-9e531370b3/ffmpeg-2023-10-02-git-9e531370b3-essentials_build.zip'
         r = requests.get(url, allow_redirects=True)
-        archive_path = "ffmpeg.zip"
+        ffmpeg_zip = "ffmpeg.zip"
         ffmpeg_dir = "ffmpeg"
         ffmpeg_exe = os.path.join(ffmpeg_dir,"ffmpeg-2023-10-02-git-9e531370b3-essentials_build","bin","ffmpeg.exe")
-        with open(archive_path, 'wb') as ffmpeg_file:
+        with open(ffmpeg_zip, 'wb') as ffmpeg_file:
             ffmpeg_file.write(r.content)
-        shutil.unpack_archive(archive_path, ffmpeg_dir,"zip")  
+        shutil.unpack_archive(ffmpeg_zip, ffmpeg_dir,"zip")  
         shutil.move(ffmpeg_exe,ffmpeg_path)    
         shutil.rmtree(ffmpeg_dir)
-        os.remove(archive_path)
+        os.remove(ffmpeg_zip)
 
 def get_audio_duration(file_path):
     sample_rate, data = wavfile.read(file_path)
