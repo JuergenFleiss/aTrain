@@ -4,15 +4,12 @@
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. aTrain offers the following benefits:
 
 <details>
-  <summary>Fast and accurate</summary>
+  <summary><b><u>Fast and accurate</u></b></summary>
 
 aTrain uses the faster-whisper and user friendly  implementation of OpenAI’s Whisper model, ensuring best in class transcription quality paired with higher speeds on your local computer. Transcription when selecting the highest-quality model takes only around three times the audio length on current mobile CPUs typically found in middle-class business notebooks (e.g., Core i5 12th Gen, Ryzen Series 6000).
 
 </details>
 
-aTrain uses the faster-whisper and user friendly  implementation of OpenAI’s Whisper model, ensuring best in class transcription quality paired with higher speeds on your local computer. Transcription when selecting the highest-quality model takes only around three times the audio length on current mobile CPUs typically found in middle-class business notebooks (e.g., Core i5 12th Gen, Ryzen Series 6000).
-\
-\
 **Speaker detection**
 \
 aTrain has a speaker detection mode and can analyze each text segment to determine which speaker it belongs to.
