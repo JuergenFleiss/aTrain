@@ -1,4 +1,4 @@
-<img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="350" alt="Logo" style="display:block; margin: auto;">
+<img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="350" alt="Logo">
 
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. aTrain offers the following benefits:
@@ -32,7 +32,6 @@ aTrain provides transcription files that are seamlessly importable into the most
 **Nvidia GPU support**
 \
 aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). An NVIDIA GPU significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
-\
 
 ## System requirements
 You need a Windows system.
