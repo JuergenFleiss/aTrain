@@ -3,19 +3,19 @@
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. 
 
-Available on the Microsoft app store https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
+It can be installed via the Microsoft app store: https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
 
 aTrain offers the following benefits:
 \
 \
 **Fast and accurate 🚀**
 \
-aTrain uses the faster-whisper and user friendly  implementation of OpenAI’s Whisper model, ensuring best in class transcription quality paired with higher speeds on your local computer. Transcription when selecting the highest-quality model takes only around three times the audio length on current mobile CPUs typically found in middle-class business notebooks (e.g., Core i5 12th Gen, Ryzen Series 6000).
+aTrain provides a user friendly access to the [faster-whisper](https://github.com/guillaumekln/faster-whisper) implementation of OpenAI’s [Whisper model](https://github.com/openai/whisper), ensuring best in class transcription quality (see [Wollin-Geiring et al. 2023](https://www.static.tu.berlin/fileadmin/www/10005401/Publikationen_sos/Wollin-Giering_et_al_2023_Automatic_transcription.pdf)) paired with higher speeds on your local computer. Transcription when selecting the highest-quality model takes only around three times the audio length on current mobile CPUs typically found in middle-class business notebooks (e.g., Core i5 12th Gen, Ryzen Series 6000).
 \
 \
 **Speaker detection 🗣️**
 \
-aTrain has a speaker detection mode and can analyze each text segment to determine which speaker it belongs to.
+aTrain has a speaker detection mode based on [pyannote-audio](https://github.com/pyannote/pyannote-audio) and can analyze each text segment to determine which speaker it belongs to.
 \
 \
 **Privacy Preservation and GDPR compliance 🔒**
@@ -35,7 +35,7 @@ aTrain provides transcription files that are seamlessly importable into the most
 \
 **Nvidia GPU support 🖥️**
 \
-aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). A CUDA-enabled NVIDIA GPU significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
+aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). A [CUDA-enabled NVIDIA GPU](https://developer.nvidia.com/cuda-gpus) significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
 
 | Screenshot 1 | Screenshot 2 |
 | --- | --- |
