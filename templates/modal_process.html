@@ -1,4 +1,4 @@
-<div id="stream" hx-ext="sse" sse-connect="{{ './transcription/' + id if id}}" x-data="{total_duration:{{total_duration if total_duration else 1000}}}"> 
+<div id="stream" hx-ext="sse" sse-connect="{{ './transcription/' + id if id}}" x-data="{total_duration:{{total_duration if total_duration else 9999}}}"> 
   <div sse-swap="message" hx-target="#currentTask" hx-swap="innerHTML"></div>
   <div sse-swap="stopstream" hx-target="#modal"></div>
   <form method="dialog" class="modal-box overflow-visible">
