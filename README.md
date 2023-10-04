@@ -15,7 +15,7 @@ aTrain provides a user friendly access to the [faster-whisper](https://github.co
 \
 **Speaker detection 🗣️**
 \
-aTrain has a speaker detection mode based on [pyannote-audio](https://github.com/pyannote/pyannote-audio) and can analyze each text segment to determine which speaker it belongs to.
+aTrain has a speaker detection mode based on [pyannote.audio](https://github.com/pyannote/pyannote-audio) and can analyze each text segment to determine which speaker it belongs to.
 \
 \
 **Privacy Preservation and GDPR compliance 🔒**
