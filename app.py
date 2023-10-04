@@ -76,7 +76,7 @@ def stay_awake():
     return ""
 
 @app.get("/openbrowser/<website>")
-def give_feedback(website):
+def open_browser(website):
     match website:
         case "github": url = "https://github.com/BANDAS-Center/aTrain"
         case "feedback": url = "https://survey.uni-graz.at/index.php/381219"
