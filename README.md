@@ -33,6 +33,8 @@ aTrain provides transcription files that are seamlessly importable into the most
 \
 aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). An NVIDIA GPU significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
 
+![Screenshot](screenshot.jpg)
+
 ## System requirements
 You need a Windows system.
 No Linux or MacOS support.
