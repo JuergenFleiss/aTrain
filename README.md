@@ -30,12 +30,12 @@ aTrain can process speech recordings in any of the following 57 languages: Afrik
 \
 **MAXQDA and Atlas.ti compatible output 📄**
 \
-aTrain provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, Atlas.ti and MAXQDA. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp.
+aTrain provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti and MAXQDA. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp.
 \
 \
 **Nvidia GPU support 🖥️**
 \
-aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). An NVIDIA GPU significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
+aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation required). A CUDA-enabled NVIDIA GPU significantly improves the speed of transcriptions and speaker detection, reducing transcription time to 20% of audio length on current entry-level gaming notebooks.
 
 | Screenshot 1 | Screenshot 2 |
 | --- | --- |
