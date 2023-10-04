@@ -14,8 +14,8 @@ TIMESTAMP_FORMAT = "%Y-%m-%d %H-%M-%S"
 def read_archive():
     os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
     all_file_directories = [ directory.name for directory in os.scandir(TRANSCRIPT_DIR) if directory.is_dir() ]
-    all_metadata = []
     all_file_directories.sort(reverse=True)
+    all_metadata = []
     for directory_name in all_file_directories:
         metadata_file_path = os.path.join(TRANSCRIPT_DIR,directory_name,METADATA_FILENAME)
         if os.path.exists(metadata_file_path):
