@@ -72,7 +72,7 @@ def add_processing_time_to_metadata(file_id):
         yaml.dump(metadata,metadata_file)
 
 def delete_transcription(file_id):
-    file_id = "" if file_id == "transcriptions" else file_id
+    file_id = "" if file_id == "all" else file_id
     directory_name = os.path.join(TRANSCRIPT_DIR,file_id)
     if os.path.exists(directory_name):    
         shutil.rmtree(directory_name)
@@ -80,7 +80,7 @@ def delete_transcription(file_id):
         os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
     
 def open_file_directory(file_id):
-    file_id = "" if file_id == "transcriptions" else file_id
+    file_id = "" if file_id == "all" else file_id
     directory_name = os.path.join(TRANSCRIPT_DIR,file_id)
     if os.path.exists(directory_name):
         show_in_file_manager(directory_name)
