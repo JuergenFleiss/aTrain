@@ -37,17 +37,11 @@ aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation req
 | --- | --- |
 | ![Screenshot1](screenshot_1.webp) | ![Screenshot2](screenshot_2.webp) |
 
-## Publications and benchmarks
-| Results | Description |
-| --- | --- |
-| ![Screenshot1](benchmark.webp) |  |
+## Benchmarks
+For testing the processing time of aTrain we transcribed an audiobook [("The Snow Queen" from Hans Christian Andersen)](https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3) with three different computers. The figure below shows the processing time of each transcription relative to the length of the speech recording. In this relative processing time (RPT), a transcription is considered ’real time’ when the recording length and the processing time are equal. Subsequently, faster transcriptions lead to an RPT below 1 and slower transcriptions to an RPT time above 1.
 
-Audio used for benchmarking:
+<img src="https://github.com/BANDAS-Center/aTrain/blob/main/benchmark.webp" width="350" alt="Benchmark">
 
-<audio controls>
-  <source src="https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
-</audio>
 
 ## System requirements
 You need a Windows system.
