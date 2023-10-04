@@ -1,7 +1,11 @@
 <img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="350" alt="Logo">
 
 ## Accessible Transcription of Interviews
-aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. aTrain offers the following benefits:
+aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. 
+
+Available on the Microsoft app store https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
+
+aTrain offers the following benefits:
 \
 \
 **Fast and accurate 🚀**
