@@ -37,6 +37,18 @@ aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation req
 | --- | --- |
 | ![Screenshot1](screenshot_1.webp) | ![Screenshot2](screenshot_2.webp) |
 
+## Publications and benchmarks
+| Results | Description |
+| --- | --- |
+| ![Screenshot1](benchmark.webp) |  |
+
+Audio used for benchmarking:
+
+<audio controls>
+  <source src="https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 ## System requirements
 You need a Windows system.
 No Linux or MacOS support.
