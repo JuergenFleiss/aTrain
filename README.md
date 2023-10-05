@@ -1,4 +1,4 @@
-<img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="350" alt="Logo">
+<img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="300" alt="Logo">
 
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. 
@@ -15,7 +15,7 @@ aTrain provides a user friendly access to the [faster-whisper](https://github.co
 \
 **Speaker detection 🗣️**
 \
-aTrain has a speaker detection mode based on [pyannote-audio](https://github.com/pyannote/pyannote-audio) and can analyze each text segment to determine which speaker it belongs to.
+aTrain has a speaker detection mode based on [pyannote.audio](https://github.com/pyannote/pyannote-audio) and can analyze each text segment to determine which speaker it belongs to.
 \
 \
 **Privacy Preservation and GDPR compliance 🔒**
@@ -28,7 +28,7 @@ aTrain processes the provided speech recordings completely offline on your own d
 aTrain can process speech recordings in any of the following 57 languages: Afrikaans, Arabic, Armenian, Azerbaijani, Belarusian, Bosnian, Bulgarian, Catalan, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Kannada, Kazakh, Korean, Latvian, Lithuanian, Macedonian, Malay, Marathi, Maori, Nepali, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Serbian, Slovak, Slovenian, Spanish, Swahili, Swedish, Tagalog, Tamil, Thai, Turkish, Ukrainian, Urdu, Vietnamese, and Welsh.
 \
 \
-**MAXQDA and Atlas.ti compatible output 📄**
+**MAXQDA and ATLAS.ti compatible output 📄**
 \
 aTrain provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti and MAXQDA. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp.
 \
@@ -42,7 +42,7 @@ aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation req
 | ![Screenshot1](screenshot_1.webp) | ![Screenshot2](screenshot_2.webp) |
 
 ## Benchmarks
-For testing the processing time of aTrain we transcribed an audiobook [("The Snow Queen" from Hans Christian Andersen)](https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3) with three different computers (see table 1). The figure below shows the processing time of each transcription relative to the length of the speech recording. In this relative processing time (RPT), a transcription is considered ’real time’ when the recording length and the processing time are equal. Subsequently, faster transcriptions lead to an RPT below 1 and slower transcriptions to an RPT time above 1.
+For testing the processing time of aTrain we transcribed an audiobook ("[The Snow Queen](https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3)" from Hans Christian Andersen with a duration of 1 hour, 13 minutes, and 38 seconds) with three different computers (see table 1). The figure below shows the processing time of each transcription relative to the length of the speech recording. In this relative processing time (RPT), a transcription is considered ’real time’ when the recording length and the processing time are equal. Subsequently, faster transcriptions lead to an RPT below 1 and slower transcriptions to an RPT time above 1.
 
 | Benchmark results | Used hardware |
 | --- | --- |
