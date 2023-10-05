@@ -87,6 +87,6 @@ Run the app
 ```
 python app.py
 ```
-
+Note: The developer version of aTrain will download ffmpeg and the Whisper models during the first transcription. The user version in the Microsoft store has those assets already included. 
 ## Attribution
 The GIFs and Icons in aTrain are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/). 
