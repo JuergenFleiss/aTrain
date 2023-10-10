@@ -109,7 +109,7 @@ pyinstaller build.spec
 ```
 Congratulations! You just built a standalone executable for aTrain.  
 \
-To open this version of aTrain just go to the output folder (./dist/atrain) and open the executable (e.g. aTrain.exe for Windows).  
+To open this version of aTrain just go to the output folder (./dist/aTrain) and open the executable (e.g. aTrain.exe for Windows).  
 \
 If you want to go a step further and create an MSIX-installer for aTrain you can use [Advanced Installer Express](https://www.advancedinstaller.com/express-edition.html).  
 For information on how to use Advanced Installer Express refer to their [documentation](https://www.advancedinstaller.com/user-guide/introduction.html).
