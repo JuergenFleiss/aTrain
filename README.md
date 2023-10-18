@@ -32,7 +32,7 @@ aTrain can process speech recordings in any of the following 57 languages: Afrik
 \
 **MAXQDA and ATLAS.ti compatible output 📄**
 \
-aTrain provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti and MAXQDA. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp.
+aTrain provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti and MAXQDA. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp. Go to the [tutorial](https://github.com/BANDAS-Center/aTrain/wiki/Tutorials).
 \
 \
 **Nvidia GPU support 🖥️**
