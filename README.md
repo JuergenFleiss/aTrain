@@ -3,7 +3,7 @@
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. 
 
-The Working Paper is now on SSRN: [Take the aTrain. Introducing an Interface for the Accesible Transcription of Interviews.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4594103)
+The Working Paper is now on SSRN: [Take the aTrain. Introducing an Interface for the Accessible Transcription of Interviews.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4594103)
 
 It can be installed via the Microsoft app store: https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
 
