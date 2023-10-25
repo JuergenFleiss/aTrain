@@ -89,5 +89,5 @@ if __name__ == "__main__":
     #app.run(port=5000)
     width, height = get_screen_size()
     webview.create_window("aTrain",app, height=height, width=width)
-    with keep.running() as k:
+    with keep.running():
         webview.start()
