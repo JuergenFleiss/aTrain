@@ -71,10 +71,6 @@ def revert_latest_changes(upload_id):
     delete_transcription(upload_id)
     return redirect(request.referrer)
 
-@app.get("/wakeup") #This route gets called every 3s by the client to prevent server from shutting down when no request is incoming for a while
-def stay_awake():
-    return ""
-
 @app.get("/openbrowser/<website>")
 def open_browser(website):
     match website:

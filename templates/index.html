@@ -14,7 +14,6 @@
     <style> [x-cloak] { display: none !important; } </style>
 </head>
 <body class="flex flex-col min-h-screen justify-between bg-base-200" x-data="{drawer: false, duration: 0}">
-    <div class="hidden" hx-get="/wakeup" hx-trigger="every 3s" hx-swap="none"></div>
     <div>
     {% include 'navbar.html' with context %}    
     {% include 'sidebar.html' %}  
