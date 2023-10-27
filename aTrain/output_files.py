@@ -1,6 +1,5 @@
 import os
 import json 
-import zipfile
 
 def create_json_file(file_directory, outfile_name, content):
         output_file_text = os.path.join(file_directory,outfile_name)
