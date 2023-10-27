@@ -1,5 +1,5 @@
 from output_files import create_txt_files, create_json_file
-from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR, APP_DIR
+from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
 import os
 import traceback
 from flask import render_template
