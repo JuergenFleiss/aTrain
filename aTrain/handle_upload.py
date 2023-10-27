@@ -56,8 +56,6 @@ def create_file_id(filename, timestamp):
     file_id = timestamp + " " + short_base_name
     return file_id
 
-
-
 def estimate_processing_time(duration, model):
     from torch import cuda
     device = "GPU" if cuda.is_available() else "CPU"
@@ -75,8 +73,6 @@ def estimate_processing_time(duration, model):
         case "large-v1", "GPU": estimate = duration * 0.25 
         case "large-v2", "GPU": estimate = duration * 0.3
     return estimate, device
-
-
 
 if __name__ == "__main__":
     ...
