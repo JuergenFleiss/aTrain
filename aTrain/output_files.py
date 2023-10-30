@@ -1,5 +1,6 @@
 import os
 import json 
+import pandas as pd
 
 def create_json_file(file_directory, outfile_name, content):
         output_file_text = os.path.join(file_directory,outfile_name)
@@ -41,6 +42,35 @@ def format_time(time):
     remaining_seconds = seconds % 60  # The remaining seconds
     formatted_time = "[{:02d}:{:02d}:{:02d}]".format(hours, minutes, remaining_seconds)
     return formatted_time
+
+def transform_speakers_results(diarization_segments):    
+    diarize_df = pd.DataFrame(diarization_segments.itertracks(yield_label=True))
+    diarize_df['start'] = diarize_df[0].apply(lambda x: x.start)
+    diarize_df['end'] = diarize_df[0].apply(lambda x: x.end)
+    diarize_df.rename(columns={2: "speaker"}, inplace=True)
+    return diarize_df
+
+def named_tuple_to_dict(obj):
+    if isinstance(obj, dict):
+        return {key: named_tuple_to_dict(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [named_tuple_to_dict(value) for value in obj]
+    elif isnamedtupleinstance(obj):
+        return {key: named_tuple_to_dict(value) for key, value in obj._asdict().items()}
+    elif isinstance(obj, tuple):
+        return tuple(named_tuple_to_dict(value) for value in obj)
+    else:
+        return obj
+
+def isnamedtupleinstance(x):
+    _type = type(x)
+    bases = _type.__bases__
+    if len(bases) != 1 or bases[0] != tuple:
+        return False
+    fields = getattr(_type, '_fields', None)
+    if not isinstance(fields, tuple):
+        return False
+    return all(type(i)==str for i in fields)
 
 if __name__ == "__main__":
     ...

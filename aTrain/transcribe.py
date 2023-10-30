@@ -1,11 +1,10 @@
-from output_files import create_txt_files, create_json_file
+from output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
 from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
 from audio import load_audio
 import os
 import traceback
 from flask import render_template
 from huggingface_hub import snapshot_download
-import pandas as pd
 import json
 
 def handle_transcription(file_id):
@@ -81,34 +80,6 @@ def get_model(model):
         snapshot_download(repo_id=model_info["repo_id"],revision=model_info["revision"],cache_dir=MODELS_DIR)
     return model_path
 
-def transform_speakers_results(diarization_segments):    
-    diarize_df = pd.DataFrame(diarization_segments.itertracks(yield_label=True))
-    diarize_df['start'] = diarize_df[0].apply(lambda x: x.start)
-    diarize_df['end'] = diarize_df[0].apply(lambda x: x.end)
-    diarize_df.rename(columns={2: "speaker"}, inplace=True)
-    return diarize_df
-
-def named_tuple_to_dict(obj):
-    if isinstance(obj, dict):
-        return {key: named_tuple_to_dict(value) for key, value in obj.items()}
-    elif isinstance(obj, list):
-        return [named_tuple_to_dict(value) for value in obj]
-    elif isnamedtupleinstance(obj):
-        return {key: named_tuple_to_dict(value) for key, value in obj._asdict().items()}
-    elif isinstance(obj, tuple):
-        return tuple(named_tuple_to_dict(value) for value in obj)
-    else:
-        return obj
-
-def isnamedtupleinstance(x):
-    _type = type(x)
-    bases = _type.__bases__
-    if len(bases) != 1 or bases[0] != tuple:
-        return False
-    fields = getattr(_type, '_fields', None)
-    if not isinstance(fields, tuple):
-        return False
-    return all(type(i)==str for i in fields)
 
 if __name__ == "__main__":
     ...
