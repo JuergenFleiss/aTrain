@@ -39,7 +39,7 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
     language = None if language == "auto-detect" else language
     min_speakers = max_speakers = None if num_speakers == "auto-detect" else int(num_speakers)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    compute_type = "float16" if device == "cuda" else "int8"
+    compute_type = "int8"
     
     yield {"task":"Loading whisper model"}
     model_path = get_model(model)
