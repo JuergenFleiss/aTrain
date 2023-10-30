@@ -2,10 +2,10 @@ pipeline:
   name: pyannote.audio.pipelines.SpeakerDiarization
   params:
     clustering: AgglomerativeClustering
-    embedding: ./models/models--arminhaberl--diarize/snapshots/70180675a7e49a2d26bd3eaff33b969250cad8dc/embedding_pyannote.bin
+    embedding: ""
     embedding_batch_size: 32
     embedding_exclude_overlap: true
-    segmentation: ./models/models--arminhaberl--diarize/snapshots/70180675a7e49a2d26bd3eaff33b969250cad8dc/segmentation_pyannote.bin
+    segmentation: ""
     segmentation_batch_size: 32
 
 params:
