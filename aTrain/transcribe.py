@@ -1,11 +1,14 @@
 from output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
 from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
 from audio import load_audio
+from pyannote.audio import Pipeline
+from pyannote.core.utils.helper import get_class_by_name
 import os
 import traceback
 from flask import render_template
 from huggingface_hub import snapshot_download
 import json
+import yaml
 
 def handle_transcription(file_id):
     try:
@@ -32,7 +35,6 @@ def handle_transcription(file_id):
 def transcribe (file_directory, audio_file, model, language, speaker_detection, num_speakers):   
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
-    from pyannote.audio import Pipeline
     from whisperx import assign_word_speakers
 
     language = None if language == "auto-detect" else language
@@ -57,10 +59,8 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
     
     if speaker_detection:
         yield {"task":"Loading speaker detection model"}
-        get_model("diarize")
-        pipeline_config = os.path.join(MODELS_DIR, "config.yaml")
-        diarize_model = Pipeline.from_pretrained(pipeline_config, cache_dir=MODELS_DIR).to(device)
-        
+        model_path = get_model("diarize")
+        diarize_model = CustomPipeline.from_pretrained(model_path).to(device)
         yield {"task":"Detecting speakers"}
         diarization_segments = diarize_model(audio_file,min_speakers=min_speakers, max_speakers=max_speakers)
         speaker_results = transform_speakers_results(diarization_segments)
@@ -80,6 +80,22 @@ def get_model(model):
         snapshot_download(repo_id=model_info["repo_id"],revision=model_info["revision"],cache_dir=MODELS_DIR)
     return model_path
 
+class CustomPipeline(Pipeline):
+    @classmethod
+    def from_pretrained(cls,model_path) -> "Pipeline":
+        config_yml = os.path.join(MODELS_DIR,"config.yaml")
+        with open(config_yml, "r") as config_file:
+            config = yaml.load(config_file, Loader=yaml.SafeLoader)
+        pipeline_name = config["pipeline"]["name"]
+        Klass = get_class_by_name(pipeline_name, default_module_name="pyannote.pipeline.blocks")
+        params = config["pipeline"].get("params", {})
+        path_segmentation_model = os.path.join(model_path,"segmentation_pyannote.bin")
+        path_embedding_model = os.path.join(model_path,"embedding_pyannote.bin")
+        params["segmentation"] = path_segmentation_model.replace('\\', '/')
+        params["embedding"] = path_embedding_model.replace('\\', '/')
+        pipeline = Klass(**params)
+        pipeline.instantiate(config["params"])
+        return pipeline
 
 if __name__ == "__main__":
     ...
