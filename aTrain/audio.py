@@ -32,7 +32,7 @@ def get_ffmpeg():
     return ffmpeg_path
 
 def get_audio_duration(file_path):
-    sample_rate, data = wavfile.read (file_path)
+    sample_rate, data = wavfile.read(file_path)
     len_data = len(data)
     duration = int(len_data / sample_rate)
     del data
