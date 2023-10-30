@@ -1,5 +1,6 @@
 from output_files import create_txt_files, create_json_file
 from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
+from audio import load_audio
 import os
 import traceback
 from flask import render_template
@@ -33,7 +34,7 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
     from pyannote.audio import Pipeline
-    from whisperx import load_audio, assign_word_speakers
+    from whisperx import assign_word_speakers
 
     language = None if language == "auto-detect" else language
     min_speakers = max_speakers = None if num_speakers == "auto-detect" else int(num_speakers)
