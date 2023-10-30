@@ -1,5 +1,6 @@
 from transcribe import handle_transcription
-from handle_upload import check_inputs, get_inputs, handle_file, format_duration
+from handle_upload import check_inputs, get_inputs, handle_file
+from audio import format_duration
 from archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, APP_DIR
 from flask import Flask, render_template, request, redirect, stream_with_context
 import traceback
