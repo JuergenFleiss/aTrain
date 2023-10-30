@@ -32,6 +32,6 @@
 "diarize" : {
     "repo_id" : "arminhaberl/diarize",
     "revision" : "70180675a7e49a2d26bd3eaff33b969250cad8dc",
-    "path" : ["models--arminhaberl--diarize", "snapshots", "caba9f3d9dc4498e64d3ec1a47f38e0010e04eb7"]
+    "path" : ["models--arminhaberl--diarize", "snapshots", "70180675a7e49a2d26bd3eaff33b969250cad8dc"]
 }
 }
