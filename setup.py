@@ -13,6 +13,7 @@ setup(
     name='aTrain',
     version='1.1.0',
     readme="README.md",
+    license="LICENSE",
     python_requires=">=3.10",
     install_requires=[
         torch,
