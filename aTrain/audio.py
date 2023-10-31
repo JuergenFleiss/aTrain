@@ -4,7 +4,7 @@ import requests
 import shutil
 from scipy.io import wavfile
 import numpy as np
-from archive import APP_DIR
+from .archive import APP_DIR
 
 def prepare_audio (file_id,file_path,file_directory):
     ffmpeg_path = get_ffmpeg() #download ffmpeg if it does not exist

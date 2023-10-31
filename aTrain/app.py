@@ -1,14 +1,14 @@
-from transcribe import handle_transcription
-from handle_upload import check_inputs, get_inputs, handle_file
-from audio import format_duration
-from archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, APP_DIR
+from .transcribe import handle_transcription
+from .handle_upload import check_inputs, get_inputs, handle_file
+from .audio import format_duration
+from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, APP_DIR
 from flask import Flask, render_template, request, redirect, stream_with_context
+from .version import VERSION
 import traceback
 import os
 import yaml
 from datetime import datetime
 import webbrowser
-from version import VERSION
 
 app = Flask(__name__)
 app.jinja_env.filters['format_duration'] = format_duration

@@ -1,6 +1,6 @@
 import os
-from archive import TRANSCRIPT_DIR
-from audio import prepare_audio, get_audio_duration
+from .archive import TRANSCRIPT_DIR
+from .audio import prepare_audio, get_audio_duration
 
 def get_inputs(request):
     file = request.files["file"]

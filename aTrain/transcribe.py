@@ -1,6 +1,6 @@
-from output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
-from archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
-from audio import load_audio
+from .output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
+from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
+from .audio import load_audio
 from pyannote.audio import Pipeline
 from pyannote.core.utils.helper import get_class_by_name
 import os
