@@ -21,7 +21,6 @@ setup(
         "faster-whisper>=0.8",
         "transformers",
         "ffmpeg-python>=0.2",
-        "pyannote.audio==3.0.1",
         "pandas",
         "whisperx @ git+https://github.com/m-bain/whisperx.git@v3.1.1",
         "Flask==2.3.2",
