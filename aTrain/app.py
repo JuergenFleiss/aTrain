@@ -4,6 +4,9 @@ from .audio import format_duration
 from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, APP_DIR
 from flask import Flask, render_template, request, redirect, stream_with_context
 from .version import VERSION
+from screeninfo import get_monitors
+import webview
+from wakepy import keep
 import traceback
 import os
 import yaml
@@ -77,3 +80,10 @@ def open_browser(website):
         case "feedback": url = "https://survey.uni-graz.at/index.php/381219"
     webbrowser.open_new(url)
     return ""
+
+def run_app():
+    app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
+    app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
+    webview.create_window("aTrain",app,height=app_height,width=app_width)
+    with keep.running():
+        webview.start()
