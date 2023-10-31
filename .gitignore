@@ -7,3 +7,4 @@ tailwind*
 node_modules
 package*
 ffmpeg*
+aTrain.egg-info
