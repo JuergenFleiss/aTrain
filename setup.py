@@ -29,9 +29,10 @@ setup(
         "show-in-file-manager==1.1.4"
     ],
     packages=find_packages(),
-    include_package_data=True,
+    package_dir={"": "aTrain"},
+    package_data={"": ["*"]},
     entry_points={
-        'gui_scripts': ['aTrain = aTrain:hello_world',]
+        'gui_scripts': ['aTrain = aTrain.app:run_app',]
     }
 )
 
