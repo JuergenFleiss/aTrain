@@ -1,6 +1,5 @@
-recursive-include aTrain/faq
-recursive-include aTrain/models
-recursive-include aTrain/static
-recursive-include aTrain/templates
-include aTrain/*
-recursive-exclude aTrain/__pycache__
+recursive-include aTrain/faq *
+recursive-include aTrain/models *
+recursive-include aTrain/static *
+recursive-include aTrain/templates *
+include aTrain/ffmpeg*
