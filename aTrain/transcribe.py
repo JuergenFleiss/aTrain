@@ -1,7 +1,8 @@
 from .output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
-from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR, MODELS_DIR
+from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR
 from .audio import load_audio
 import os
+from importlib.resources import files
 import traceback
 from flask import render_template
 from huggingface_hub import snapshot_download
@@ -69,13 +70,13 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
         yield {"task":"Finishing up", "result":transcript_with_speaker}
 
 def get_model(model):
-    models_config_path = os.path.join(MODELS_DIR,"models.json")
+    models_config_path = str(files("aTrain.models").joinpath("models.json"))
     with open(models_config_path, "r") as models_config_file:
         models_config = json.load(models_config_file)
     model_info = models_config[model]
-    model_path = os.path.join(MODELS_DIR,*model_info["path"])
+    model_path = str(files("aTrain.models").joinpath(os.path.join(*model_info["path"])))
     if not os.path.exists(model_path):
-        snapshot_download(repo_id=model_info["repo_id"],revision=model_info["revision"],cache_dir=MODELS_DIR)
+        snapshot_download(repo_id=model_info["repo_id"],revision=model_info["revision"],cache_dir=str(files("aTrain.models").joinpath("")))
     return model_path
 
 if __name__ == "__main__":

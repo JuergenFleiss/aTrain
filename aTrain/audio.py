@@ -4,7 +4,7 @@ import requests
 import shutil
 from scipy.io import wavfile
 import numpy as np
-from .archive import APP_DIR
+from importlib.resources import files
 
 def prepare_audio (file_id,file_path,file_directory):
     ffmpeg_path = get_ffmpeg() #download ffmpeg if it does not exist
@@ -16,12 +16,12 @@ def prepare_audio (file_id,file_path,file_directory):
     return output_path
 
 def get_ffmpeg():
-    ffmpeg_path = os.path.join(APP_DIR,"ffmpeg.exe")
+    ffmpeg_path = str(files("aTrain").joinpath("ffmpeg.exe"))
     if not os.path.exists(ffmpeg_path):
         url = 'https://github.com/GyanD/codexffmpeg/releases/download/2023-10-02-git-9e531370b3/ffmpeg-2023-10-02-git-9e531370b3-essentials_build.zip'
         r = requests.get(url, allow_redirects=True)
-        ffmpeg_zip = os.path.join(APP_DIR,"ffmpeg.zip")
-        ffmpeg_dir = os.path.join(APP_DIR,"ffmpeg")
+        ffmpeg_zip = str(files("aTrain").joinpath("ffmpeg.zip"))
+        ffmpeg_dir = str(files("aTrain").joinpath("ffmpeg"))
         ffmpeg_exe = os.path.join(ffmpeg_dir,"ffmpeg-2023-10-02-git-9e531370b3-essentials_build","bin","ffmpeg.exe")
         with open(ffmpeg_zip, 'wb') as ffmpeg_file:
             ffmpeg_file.write(r.content)

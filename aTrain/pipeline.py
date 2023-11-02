@@ -1,13 +1,13 @@
-from .archive import MODELS_DIR
 from pyannote.audio import Pipeline
 from pyannote.core.utils.helper import get_class_by_name
+from importlib.resources import files
 import yaml
 import os
 
 class CustomPipeline(Pipeline):
     @classmethod
     def from_pretrained(cls,model_path) -> "Pipeline":
-        config_yml = os.path.join(MODELS_DIR,"config.yaml")
+        config_yml = str(files("aTrain.models").joinpath("config.yaml"))
         with open(config_yml, "r") as config_file:
             config = yaml.load(config_file, Loader=yaml.SafeLoader)
         pipeline_name = config["pipeline"]["name"]

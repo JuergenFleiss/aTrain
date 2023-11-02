@@ -4,8 +4,6 @@ from showinfm import show_in_file_manager
 import yaml
 from datetime import datetime
 
-APP_DIR = os.path.dirname(os.path.abspath(__file__))
-MODELS_DIR = os.path.join(APP_DIR,"models")
 USER_DIR = os.path.expanduser("~")
 DOCUMENTS_DIR = os.path.join(USER_DIR,"Documents")
 ATRAIN_DIR = os.path.join(DOCUMENTS_DIR,"aTrain")
