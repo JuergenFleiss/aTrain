@@ -22,7 +22,7 @@ setup(
         "transformers",
         "ffmpeg-python>=0.2",
         "pandas",
-        "pyannote.audio == 2.1.1",
+        "pyannote.audio @ git+https://github.com/pyannote/pyannote-audio@11b56a137a578db9335efc00298f6ec1932e6317",
         "whisperx @ git+https://github.com/m-bain/whisperx.git@v3.1.1",
         "Flask==2.3.2",
         "pywebview==4.2.2",
