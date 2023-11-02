@@ -28,10 +28,10 @@ def make_install(exe):
 
 def make_msi(exe):
     return exe.to_wix_msi_builder(
-        "myapp",
-        "My Application",
-        "1.0",
-        "Alice Jones"
+        "aTrain",
+        "aTrain",
+        "1.1.0",
+        "BANDAS-Center"
     )
 
 def register_code_signers():
