@@ -2,7 +2,7 @@ venv
 __pycache__
 dist
 build
-aTrain/models/models--*
+aTrain/models/*/
 tailwind*
 node_modules
 package*
