@@ -1,5 +1,5 @@
 from .app import run_app
-from .load_resources import download_all_models
+from .load_resources import download_all_resources
 import argparse
 
 def cli():
@@ -8,8 +8,8 @@ def cli():
     args = parser.parse_args()
 
     if args.command == "init":
-        print("Downloading all needed models:")
-        download_all_models()
+        print("Downloading ffmpeg and all models:")
+        download_all_resources()
     if args.command == "start":
         print("Starting aTrain")
         run_app()
