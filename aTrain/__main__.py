@@ -10,8 +10,9 @@ def cli():
     if args.command == "init":
         print("Downloading ffmpeg and all models:")
         download_all_resources()
+        print("Finished")
     if args.command == "start":
-        print("Starting aTrain")
+        print("Running aTrain")
         run_app()
 
 if __name__ == "__main__":
