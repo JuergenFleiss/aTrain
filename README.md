@@ -77,11 +77,15 @@ Install aTrain
 ```
 pip install aTrain@git+https://github.com/BANDAS-Center/aTrain.git
 ```
+Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
+Note: The user version in the Microsoft store has those assets already included. 
+```
+aTrain init
+```
 Run the app with the console script
 ```
-aTrain
+aTrain start
 ```
-Note: The developer version of aTrain will download ffmpeg and the Whisper models during the first transcription. The user version in the Microsoft store has those assets already included. 
 
 If wishing to modify this package, clone and install in editable mode:
 
