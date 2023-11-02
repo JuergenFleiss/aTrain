@@ -5,6 +5,10 @@ import requests
 import json
 import os
 
+def download_all_resources():
+    download_all_models()
+    get_ffmpeg()
+
 def download_all_models():
     models_config = load_model_config_file()
     for model in models_config:
