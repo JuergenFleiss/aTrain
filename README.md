@@ -65,15 +65,7 @@ If you need help with installing that, look at these resources:
 https://www.python.org/downloads/release/python-31011/  
 https://git-scm.com/download/win/  
 
-Clone this repo
-```
-git clone https://github.com/BANDAS-Center/aTrain.git
-```
-Change directory into aTrain
-```
-cd aTrain
-```
-Setup the virtual environment
+Setup a virtual environment
 ```
 python -m venv venv
 ```
@@ -81,15 +73,23 @@ Activate the virtual environment
 ```
 .\venv\Scripts\activate
 ```
-Install dependencies
+Install aTrain
 ```
-pip install -r requirements.txt
+pip install aTrain@git+https://github.com/BANDAS-Center/aTrain.git
 ```
-Run the app
+Run the app with the console script
 ```
-python app.py
+aTrain
 ```
 Note: The developer version of aTrain will download ffmpeg and the Whisper models during the first transcription. The user version in the Microsoft store has those assets already included. 
+
+If wishing to modify this package, clone and install in editable mode:
+
+```
+$ git clone https://github.com/BANDAS-Center/aTrain.git
+$ cd aTrain
+$ pip install -e .
+```
 
 ## How to build a standalone executable 📦
 We use pyinstaller to freeze the code of aTrain and create a standalone executable.  
