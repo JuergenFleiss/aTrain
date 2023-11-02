@@ -2,8 +2,9 @@ from .transcribe import handle_transcription
 from .handle_upload import check_inputs, get_inputs, handle_file
 from .audio import format_duration
 from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT
-from flask import Flask, render_template, request, redirect, stream_with_context
+from .load_resources import download_all_resources
 from .version import VERSION
+from flask import Flask, render_template, request, redirect, stream_with_context
 from importlib.resources import files
 from screeninfo import get_monitors
 import webview
@@ -12,6 +13,7 @@ import traceback
 import yaml
 from datetime import datetime
 import webbrowser
+import argparse
 
 app = Flask(__name__)
 app.jinja_env.filters['format_duration'] = format_duration
@@ -87,3 +89,16 @@ def run_app():
     webview.create_window("aTrain",app,height=app_height,width=app_width)
     with keep.running():
         webview.start()
+
+def cli():
+    parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
+    parser.add_argument("command", choices=['init', 'start'], help="Command for aTrain to perform.")
+    args = parser.parse_args()
+
+    if args.command == "init":
+        print("Downloading ffmpeg and all models:")
+        download_all_resources()
+        print("Finished")
+    if args.command == "start":
+        print("Running aTrain")
+        run_app()
