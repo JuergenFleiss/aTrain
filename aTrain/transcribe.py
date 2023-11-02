@@ -1,7 +1,7 @@
 from .output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
 from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR
 from .audio import load_audio
-from .transcribe import get_model
+from .load_models import get_model
 import os
 import traceback
 from flask import render_template
