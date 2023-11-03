@@ -87,22 +87,21 @@ Run the app with the console script
 aTrain start
 ```
 
-If wishing to modify this package, clone and install in editable mode:
-
-```
-$ git clone https://github.com/BANDAS-Center/aTrain.git
-$ cd aTrain
-$ pip install -e .
-```
-
 ## How to build a standalone executable 📦
 We use pyinstaller to freeze the code of aTrain and create a standalone executable.  
 **If you want to create your own code package follow these steps:**  
 \
-Install aTrain using the steps above.  
+Clone and install aTrain in **editable mode** 
+```
+git clone https://github.com/BANDAS-Center/aTrain.git
+cd aTrain
+pip install -e .
+```
 \
-Make sure aTrain already downloaded all models and ffmpeg. You can achieve that by transcribing an audio with every model and aTrain will download the models automatically.  
-\
+Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
+```
+aTrain init
+```
 Install pyinstaller
 ```
 pip install pyinstaller
