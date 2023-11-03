@@ -2,17 +2,12 @@
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
 datas = []
-datas += [('static', 'static')]
-datas += [('templates', 'templates')]
-datas += [('models','models')]
-datas += [('ffmpeg.exe','.')]
-datas += [('faq.yaml', '.')]
+datas += collect_data_files('aTrain')
 datas += [('venv/Lib/site-packages/transformers','transformers')]
 datas += [('venv/Lib/site-packages/speechbrain','speechbrain')]
 datas += collect_data_files('torch')
 datas += collect_data_files('transformers')
 datas += collect_data_files('lightning')
-datas += collect_data_files('lightning_cloud')
 datas += collect_data_files('lightning_fabric')
 datas += collect_data_files('lightning_utilities')
 datas += collect_data_files('pyannote')
@@ -24,7 +19,6 @@ datas += collect_data_files('faster_whisper')
 datas += collect_data_files('whisperx')
 datas += copy_metadata('transformers')
 datas += copy_metadata('lightning')
-datas += copy_metadata('lightning_cloud')
 datas += copy_metadata('lightning_utilities')
 datas += copy_metadata('torch')
 datas += copy_metadata('tqdm')
@@ -48,7 +42,7 @@ hiddenimports += collect_submodules('pyannote')
 hiddenimports += collect_submodules('sklearn')
 
 a = Analysis(
-    ['app.py'],
+    ['build.py'],
     pathex=[],
     binaries=[],
     datas=datas,
@@ -80,7 +74,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['static\\favicon.ico'],
+    icon=['aTrain\\static\\favicon.ico'],
 )
 coll = COLLECT(
     exe,
