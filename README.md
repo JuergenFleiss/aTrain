@@ -1,4 +1,4 @@
-<img src="https://github.com/BANDAS-Center/aTrain/blob/main/static/logo.svg" width="300" alt="Logo">
+<img src="https://github.com/BANDAS-Center/aTrain/blob/main/docs/images/logo.svg" width="300" alt="Logo">
 
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz. 
@@ -41,14 +41,14 @@ aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation req
 
 | Screenshot 1 | Screenshot 2 |
 | --- | --- |
-| ![Screenshot1](screenshot_1.webp) | ![Screenshot2](screenshot_2.webp) |
+| ![Screenshot1](docs/images/screenshot_1.webp) | ![Screenshot2](docs/images/screenshot_2.webp) |
 
 ## Benchmarks
 For testing the processing time of aTrain we transcribed an audiobook ("[The Snow Queen](https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3)" from Hans Christian Andersen with a duration of 1 hour, 13 minutes, and 38 seconds) with three different computers (see table 1). The figure below shows the processing time of each transcription relative to the length of the speech recording. In this relative processing time (RPT), a transcription is considered ’real time’ when the recording length and the processing time are equal. Subsequently, faster transcriptions lead to an RPT below 1 and slower transcriptions to an RPT time above 1.
 
 | Benchmark results | Used hardware |
 | --- | --- |
-| ![Benchmark](benchmark.webp) | ![Hardware](hardware.webp) |
+| ![Benchmark](docs/images/benchmark.webp) | ![Hardware](docs/images/hardware.webp) |
 
 ## System requirements
 You need a Windows system.
@@ -65,15 +65,7 @@ If you need help with installing that, look at these resources:
 https://www.python.org/downloads/release/python-31011/  
 https://git-scm.com/download/win/  
 
-Clone this repo
-```
-git clone https://github.com/BANDAS-Center/aTrain.git
-```
-Change directory into aTrain
-```
-cd aTrain
-```
-Setup the virtual environment
+Setup a virtual environment
 ```
 python -m venv venv
 ```
@@ -81,24 +73,35 @@ Activate the virtual environment
 ```
 .\venv\Scripts\activate
 ```
-Install dependencies
+Install aTrain
 ```
-pip install -r requirements.txt
+pip install aTrain@git+https://github.com/BANDAS-Center/aTrain.git
 ```
-Run the app
+Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
+Note: The user version in the Microsoft store has those assets already included. 
 ```
-python app.py
+aTrain init
 ```
-Note: The developer version of aTrain will download ffmpeg and the Whisper models during the first transcription. The user version in the Microsoft store has those assets already included. 
+Run the app with the console script
+```
+aTrain start
+```
 
 ## How to build a standalone executable 📦
 We use pyinstaller to freeze the code of aTrain and create a standalone executable.  
 **If you want to create your own code package follow these steps:**  
 \
-Install aTrain using the steps above.  
+Clone and install aTrain in **editable mode** 
+```
+git clone https://github.com/BANDAS-Center/aTrain.git
+cd aTrain
+pip install -e .
+```
 \
-Make sure aTrain already downloaded all models and ffmpeg. You can achieve that by transcribing an audio with every model and aTrain will download the models automatically.  
-\
+Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
+```
+aTrain init
+```
 Install pyinstaller
 ```
 pip install pyinstaller

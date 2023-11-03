@@ -2,8 +2,9 @@ venv
 __pycache__
 dist
 build
-models/models--*
+aTrain/models/*/
 tailwind*
 node_modules
 package*
 ffmpeg*
+aTrain.egg-info

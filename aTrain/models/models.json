@@ -1,0 +1,30 @@
+{
+"tiny" : {
+    "repo_id" : "arminhaberl/faster-whisper-tiny",
+    "revision" : "12181dc3a568fa64cc301915a9a6282ea5db9c00"
+},
+"base" : {
+    "repo_id" : "arminhaberl/faster-whisper-base",
+    "revision" : "dd7bbe845b028a8e65a048a93d0fa582a2d7c476"
+},
+"small" : {
+    "repo_id" : "arminhaberl/faster-whisper-small",
+    "revision" : "b1829eac9f187bfe6571529d894b6602968ca674"
+},
+"medium" : {
+    "repo_id" : "arminhaberl/faster-whisper-medium",
+    "revision" : "78824e75c581da8ecb616466aaa5eab6eae31268"
+},
+"large-v1" : {
+    "repo_id" : "arminhaberl/faster-whisper-large-v1",
+    "revision" : "5065f1e9b04f6a852a7e9af3d9f320031aad113b"
+},
+"large-v2" : {
+    "repo_id" : "arminhaberl/faster-whisper-large-v2",
+    "revision" : "f7cc452200bff83d699477d7a947fa0ee1c4b09c"
+},
+"diarize" : {
+    "repo_id" : "arminhaberl/diarize",
+    "revision" : "70180675a7e49a2d26bd3eaff33b969250cad8dc"
+}
+}
