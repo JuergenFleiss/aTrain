@@ -1,7 +1,7 @@
 <div class="card w-full bg-base-100" x-data="{multispeaker: false, catmode: false}">
   <div class="card-body">
     <form id="inputForm" x-ref="inputForm" @submit="duration = 0; $refs.modal.showModal(), Timer = setInterval(()=>{duration++}, 1000);" 
-          hx-encoding=multipart/form-data hx-post="./upload" hx-target="#modal" hx-swap="innerHTML">
+          hx-encoding=multipart/form-data hx-post="./upload" hx-include="#advancedSettings" hx-target="#modal" hx-swap="innerHTML">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         
         <div>
@@ -125,12 +125,20 @@
       </div>
       <div class="divider my-4"></div>
       <div class="card-actions justify-between items-center">
-        <div @click="route = 'faq'" hx-get="./faq" hx-target="#content" class="link">Help needed?</div>
+        <div>
+          <div class="text-sm mb-2">⚙️ <span @click="$refs.advancedSettings.showModal()" class="link ml-1">Advanced Settings</span> </div>
+          <div class="text-sm">📖 <span @click="route = 'faq'" hx-get="./faq" hx-target="#content" class="link ml-1">Help needed?</span> </div>
+        </div>
         <img @click="catmode = !catmode"  :class="catmode ? 'opacity-100' : 'opacity-20'" src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
         <input id="startButton" class="btn btn-primary" type="submit" value="Start">
       </div>
     </form>
   </div>
+
+  <dialog x-ref="advancedSettings" id="advancedSettings" class="modal" hx-get="./settings" hx-trigger="load">
+    {% include 'modals/modal_settings.html' %}
+  </dialog>
+
   <dialog x-ref="modal" id="modal" class="modal" @cancel.prevent>
     {% include 'modals/modal_process.html' %}
   </dialog>
