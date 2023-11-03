@@ -1,4 +1,4 @@
-from .output_files import create_txt_files, create_json_file, named_tuple_to_dict, transform_speakers_results
+from .output_files import create_output_files, named_tuple_to_dict, transform_speakers_results
 from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR
 from .audio import load_audio
 from .load_resources import get_model
@@ -11,10 +11,10 @@ def handle_transcription(file_id):
         filename, model, language, speaker_detection, num_speakers = read_metadata(file_id)
         file_directory = os.path.join(TRANSCRIPT_DIR,file_id)
         prepared_file = os.path.join(file_directory, file_id + ".wav")
-        for step in transcribe(file_directory, prepared_file, model, language, speaker_detection, num_speakers):
+        for step in transcribe(prepared_file, model, language, speaker_detection, num_speakers):
             response = f"data: {step['task']}\n\n"
             yield response
-        create_txt_files(step["result"], speaker_detection, file_directory, filename)
+        create_output_files(step["result"], speaker_detection, file_directory, filename)
         add_processing_time_to_metadata(file_id)
         os.remove(prepared_file)
         html = render_template("modals/modal_download.html", file_id=file_id).replace('\n', '')
@@ -28,7 +28,7 @@ def handle_transcription(file_id):
         response = f"event: stopstream\ndata: {html}\n\n"
         yield response
 
-def transcribe (file_directory, audio_file, model, language, speaker_detection, num_speakers):   
+def transcribe (audio_file, model, language, speaker_detection, num_speakers):   
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
     from whisperx import assign_word_speakers
@@ -51,7 +51,6 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
     del transcription_model; gc.collect(); torch.cuda.empty_cache()
     
     if not speaker_detection:
-        create_json_file(file_directory,outfile_name="transcription.json",content=transcript)
         yield {"task":"Finishing up", "result" : transcript}
     
     if speaker_detection:
@@ -63,8 +62,6 @@ def transcribe (file_directory, audio_file, model, language, speaker_detection, 
         speaker_results = transform_speakers_results(diarization_segments)
         del diarize_model; gc.collect(); torch.cuda.empty_cache()
         transcript_with_speaker = assign_word_speakers(speaker_results,transcript)
-        create_json_file(file_directory,outfile_name="transcription.json",content=transcript_with_speaker)
-        
         yield {"task":"Finishing up", "result":transcript_with_speaker}
 
 if __name__ == "__main__":
