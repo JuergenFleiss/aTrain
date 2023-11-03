@@ -1,6 +1,5 @@
 from .transcribe import handle_transcription
 from .handle_upload import check_inputs, get_inputs, handle_file
-from .audio import format_duration
 from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT
 from .load_resources import download_all_resources
 from .version import VERSION
@@ -11,11 +10,15 @@ import webview
 from wakepy import keep
 import traceback
 import yaml
+import time
 from datetime import datetime
 import webbrowser
 import argparse
 
 app = Flask(__name__)
+
+def format_duration(duration): 
+    return time.strftime("%Hh %Mm %Ss", time.gmtime(duration))
 app.jinja_env.filters['format_duration'] = format_duration
 
 @app.get("/")
