@@ -4,16 +4,16 @@ import pandas as pd
 import time
 
 def create_output_files(result, speaker_detection, file_directory, orig_filename):
-        create_json_file(file_directory,outfile_name="transcription.json",content=result)
+        create_json_file(result, file_directory)
         create_txt_file(result, file_directory, orig_filename, speaker_detection, maxqda=False, timestamps = False)
         create_txt_file(result, file_directory, orig_filename, speaker_detection, maxqda=False, timestamps = True)
         create_txt_file(result, file_directory, orig_filename, speaker_detection, maxqda=True, timestamps = True)
         create_srt_file(result, file_directory)
 
-def create_json_file(file_directory, outfile_name, content):
-        output_file_text = os.path.join(file_directory,outfile_name)
+def create_json_file(result, file_directory):
+        output_file_text = os.path.join(file_directory,"transcription.json")
         with open(output_file_text,"w", encoding="utf-8") as json_file:
-            json.dump(content, json_file,ensure_ascii=False)
+            json.dump(result, json_file,ensure_ascii=False)
 
 def create_txt_file (result,file_directory, orig_filename, speaker_detection, timestamps, maxqda):
     segments = result["segments"]
