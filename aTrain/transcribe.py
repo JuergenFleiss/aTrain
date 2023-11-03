@@ -8,10 +8,10 @@ from flask import render_template
 
 def handle_transcription(file_id):
     try:
-        filename, model, language, speaker_detection, num_speakers = read_metadata(file_id)
+        filename, model, language, speaker_detection, num_speakers, device, compute_type = read_metadata(file_id)
         file_directory = os.path.join(TRANSCRIPT_DIR,file_id)
         prepared_file = os.path.join(file_directory, file_id + ".wav")
-        for step in transcribe(prepared_file, model, language, speaker_detection, num_speakers):
+        for step in transcribe(prepared_file, model, language, speaker_detection, num_speakers, device, compute_type):
             response = f"data: {step['task']}\n\n"
             yield response
         create_output_files(step["result"], speaker_detection, file_directory, filename)
@@ -28,17 +28,16 @@ def handle_transcription(file_id):
         response = f"event: stopstream\ndata: {html}\n\n"
         yield response
 
-def transcribe (audio_file, model, language, speaker_detection, num_speakers):   
+def transcribe (audio_file, model, language, speaker_detection, num_speakers, device, compute_type):   
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
     from whisperx import assign_word_speakers
     from .pipeline import CustomPipeline
-
+    
     language = None if language == "auto-detect" else language
     min_speakers = max_speakers = None if num_speakers == "auto-detect" else int(num_speakers)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    compute_type = "int8"
-    
+    device = "cuda" if device=="GPU" else "cpu"
+
     yield {"task":"Loading whisper model"}
     model_path = get_model(model)
     transcription_model = WhisperModel(model_path,device,compute_type=compute_type)

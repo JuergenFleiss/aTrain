@@ -8,7 +8,9 @@ def get_inputs(request):
     language = request.form.get('language')
     speaker_detection = True if request.form.get('speaker_detection') else False
     num_speakers = request.form.get("num_speakers")
-    return file, model, language, speaker_detection, num_speakers
+    device = "GPU" if request.form.get('GPU') else "CPU"
+    compute_type = "float16" if request.form.get('float16') else "int8"
+    return file, model, language, speaker_detection, num_speakers, device, compute_type
 
 def check_inputs(file, model, language, num_speakers):
     file_correct = check_file(file)
@@ -36,7 +38,7 @@ def check_num_speakers(num_speakers):
     correct_num_speakers = ["auto-detect","1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     return num_speakers in correct_num_speakers
 
-def handle_file(file, timestamp, model):
+def handle_file(file, timestamp, model, device):
     os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
     filename = file.filename
     file_id = create_file_id(filename, timestamp)
@@ -46,9 +48,9 @@ def handle_file(file, timestamp, model):
     file.save(file_path)
     processed_file = prepare_audio(file_id, file_path, file_directory)
     audio_duration = get_audio_duration(processed_file)
-    estimated_process_time, device = estimate_processing_time(audio_duration,model)
+    estimated_process_time = estimate_processing_time(audio_duration,model, device)
     os.remove(file_path)
-    return filename, file_id, estimated_process_time, device, audio_duration
+    return filename, file_id, estimated_process_time, audio_duration
 
 def create_file_id(filename, timestamp):
     file_base_name = os.path.normpath(filename)
@@ -56,9 +58,7 @@ def create_file_id(filename, timestamp):
     file_id = timestamp + " " + short_base_name
     return file_id
 
-def estimate_processing_time(duration, model):
-    from torch import cuda
-    device = "GPU" if cuda.is_available() else "CPU"
+def estimate_processing_time(duration, model, device):
     match model, device: 
         case "tiny", "CPU": estimate = duration * 0.5
         case "base", "CPU": estimate = duration * 0.75
@@ -72,7 +72,7 @@ def estimate_processing_time(duration, model):
         case "medium", "GPU": estimate = duration * 0.2
         case "large-v1", "GPU": estimate = duration * 0.25 
         case "large-v2", "GPU": estimate = duration * 0.3
-    return estimate, device
+    return estimate
 
 if __name__ == "__main__":
     ...

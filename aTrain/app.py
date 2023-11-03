@@ -38,16 +38,21 @@ def render_faq():
         faqs = yaml.safe_load(faq_file)
     return render_template("pages/faq.html", faqs = faqs)
 
+@app.get("/settings")
+def get_default_settings():
+    from torch.cuda import is_available as cuda_available
+    return render_template("modals/modal_settings.html", cuda_available=cuda_available())
+
 @app.post("/upload")
 def upload():
     timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
     try:
-        file, model, language, speaker_detection, num_speakers = get_inputs(request) 
+        file, model, language, speaker_detection, num_speakers, device, compute_type = get_inputs(request) 
         inputs_correct = check_inputs(file, model, language, num_speakers)
         if inputs_correct is False:
             return render_template("modals/modal_wrongInput.html")
-        filename, file_id, estimated_process_time, device, audio_duration = handle_file(file, timestamp, model)
-        create_metadata(file_id, filename, audio_duration, model, language, speaker_detection, num_speakers, device, timestamp)
+        filename, file_id, estimated_process_time, audio_duration = handle_file(file, timestamp, model, device)
+        create_metadata(file_id, filename, audio_duration, model, language, speaker_detection, num_speakers, device, compute_type, timestamp)
         return render_template("modals/modal_process.html", id=file_id, task="Processing file", total_duration=estimated_process_time, device=device)
     except Exception as error:
         delete_transcription(timestamp)
