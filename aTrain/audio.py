@@ -4,6 +4,7 @@ import os
 import ffmpeg
 from scipy.io import wavfile
 import numpy as np
+import time
 
 def prepare_audio (file_id,file_path,file_directory):
     ffmpeg_path = get_ffmpeg() #download ffmpeg if it does not exist
@@ -20,13 +21,8 @@ def get_audio_duration(file_path):
     duration = int(len_data / sample_rate)
     return duration
 
-def format_duration(time):
-    seconds = int(time)
-    hours = seconds // 3600  # Divide by 3600 to get the number of hours
-    minutes = (seconds % 3600) // 60  # Divide the remaining seconds by 60 to get the number of minutes
-    remaining_seconds = seconds % 60  # The remaining seconds
-    formatted_time = f"{hours:02d}h {minutes:02d}m {remaining_seconds:02d}s"
-    return formatted_time
+def format_duration(duration): 
+    return time.strftime("%Hh %Mm %Ss", time.gmtime(duration))
 
 def load_audio(file: str, sr: int = 16000):
     ffmpeg_path = get_ffmpeg()
