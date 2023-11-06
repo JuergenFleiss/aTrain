@@ -135,10 +135,6 @@
     </form>
   </div>
 
-  <dialog x-ref="advancedSettings" id="advancedSettings" class="modal" hx-get="./settings" hx-trigger="load">
-    {% include 'modals/modal_settings.html' %}
-  </dialog>
-
   <dialog x-ref="modal" id="modal" class="modal" @cancel.prevent>
     {% include 'modals/modal_process.html' %}
   </dialog>

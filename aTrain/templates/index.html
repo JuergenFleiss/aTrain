@@ -17,6 +17,9 @@
     <div>
     {% include 'layout/navbar.html' with context %}    
     {% include 'layout/sidebar.html' %}  
+    <dialog x-ref="advancedSettings" id="advancedSettings" class="modal" hx-get="./settings" hx-trigger="load">
+        {% include 'modals/modal_settings.html' %}
+    </dialog>
     </div>
     {% include 'layout/footer.html' %}
 </body>
