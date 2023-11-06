@@ -26,6 +26,7 @@ setup(
         "whisperx @ git+https://github.com/m-bain/whisperx.git@v3.1.1",
         "Flask==2.3.2",
         "pywebview==4.2.2",
+        "flaskwebgui",
         "screeninfo==0.8.1",
         "wakepy==0.7.2",
         "show-in-file-manager==1.1.4"
