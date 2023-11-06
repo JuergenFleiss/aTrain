@@ -8,3 +8,4 @@ node_modules
 package*
 ffmpeg*
 aTrain.egg-info
+installer.iss
