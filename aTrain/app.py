@@ -110,7 +110,7 @@ def cli():
     args = parser.parse_args()
 
     if args.command == "init":
-        print("Downloading ffmpeg and all models:")
+        print("Downloading all models:")
         download_all_resources()
         print("Finished")
     if args.command == "start":
