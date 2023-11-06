@@ -2,10 +2,8 @@ from setuptools import setup, find_packages
 import platform
 
 system = platform.system()
-if system == "Windows":
-    torch = "torch@https://download.pytorch.org/whl/cu118/torch-2.0.0%2Bcu118-cp310-cp310-win_amd64.whl#sha256=5ee2b7c19265b9c869525c378fcdf350510b8f3fc08af26da1a2587a34cea8f5"
-if system == "Linux":
-    torch = "torch@https://download.pytorch.org/whl/cu118/torch-2.0.0%2Bcu118-cp310-cp310-linux_x86_64.whl#sha256=4b690e2b77f21073500c65d8bb9ea9656b8cb4e969f357370bbc992a3b074764"
+if system in ["Windows","Linux"]:
+    torch = "torch==2.0.0+cu118"
 if system == "Darwin":
     torch = "torch==2.0.0"
 
@@ -22,8 +20,7 @@ setup(
         "transformers",
         "ffmpeg-python>=0.2",
         "pandas",
-        "pyannote.audio @ git+https://github.com/pyannote/pyannote-audio@11b56a137a578db9335efc00298f6ec1932e6317",
-        "whisperx @ git+https://github.com/m-bain/whisperx.git@v3.1.1",
+        "pyannote.audio==3.0.0",
         "Flask==2.3.2",
         "pywebview==4.2.2",
         "flaskwebgui",
