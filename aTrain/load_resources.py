@@ -4,6 +4,8 @@ import shutil
 import requests
 import json
 import os
+from tqdm import tqdm
+import platform
 
 def download_all_resources():
     download_all_models()
@@ -29,20 +31,40 @@ def get_model(model):
     return model_path
 
 def get_ffmpeg():
+    system = platform.system()
+    if system == "Windows":
+        ffmpeg_path = get_ffmpeg_windows()
+    if system in ["Darwin","Linux"]:
+        ffmpeg_path ="ffmpeg"
+    return ffmpeg_path
+
+def get_ffmpeg_windows():
     ffmpeg_path = str(files("aTrain").joinpath("ffmpeg.exe"))
     if not os.path.exists(ffmpeg_path):
-        url = 'https://github.com/GyanD/codexffmpeg/releases/download/2023-10-02-git-9e531370b3/ffmpeg-2023-10-02-git-9e531370b3-essentials_build.zip'
-        r = requests.get(url, allow_redirects=True)
+        url = 'https://github.com/GyanD/codexffmpeg/releases/download/6.0/ffmpeg-6.0-essentials_build.zip'
         ffmpeg_zip = str(files("aTrain").joinpath("ffmpeg.zip"))
-        ffmpeg_dir = str(files("aTrain").joinpath("ffmpeg"))
-        ffmpeg_exe = os.path.join(ffmpeg_dir,"ffmpeg-2023-10-02-git-9e531370b3-essentials_build","bin","ffmpeg.exe")
-        with open(ffmpeg_zip, 'wb') as ffmpeg_file:
-            ffmpeg_file.write(r.content)
+        ffmpeg_dir = str(files("aTrain").joinpath("ffmpeg_dir"))
+        ffmpeg_exe = os.path.join(ffmpeg_dir,"ffmpeg-6.0-essentials_build","bin","ffmpeg.exe")
+        download_with_progress_bar(url,ffmpeg_zip)
         shutil.unpack_archive(ffmpeg_zip, ffmpeg_dir,"zip")  
         shutil.move(ffmpeg_exe,ffmpeg_path)    
         shutil.rmtree(ffmpeg_dir)
         os.remove(ffmpeg_zip)
     return ffmpeg_path
+
+def download_with_progress_bar(url: str, filename: str, chunk_size=1024):
+    resp = requests.get(url, stream=True)
+    total = int(resp.headers.get('content-length', 0))
+    with open(filename, 'wb') as file, tqdm(
+        desc=filename,
+        total=total,
+        unit='iB',
+        unit_scale=True,
+        unit_divisor=1024,
+    ) as bar:
+        for data in resp.iter_content(chunk_size=chunk_size):
+            size = file.write(data)
+            bar.update(size)
 
 if __name__ == "__main__":
     ...
