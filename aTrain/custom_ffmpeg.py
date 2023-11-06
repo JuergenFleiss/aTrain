@@ -22,7 +22,7 @@ def run_async(
     return subprocess.Popen(args, stdin=stdin_stream, stdout=stdout_stream, stderr=stderr_stream, creationflags=DETACHED_PROCESS)
 
 @output_operator()
-def run(
+def custom_ffmpeg_run(
     stream_spec,
     cmd='ffmpeg',
     capture_stdout=False,
