@@ -1,4 +1,4 @@
-<form method="dialog" class="modal-box">
+<form   method="dialog" class="modal-box" x-data="{{'{cuda_available:true, GPU:true}' if cuda_available else '{cuda_available:false, GPU:false}'}}">
     <h3 class="font-bold text-lg">Advanced Settings</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
         <div>
@@ -6,7 +6,7 @@
             <div class="divider my-0"></div>
             <div class="flex justify-between items-center px-4">
                 <span class="text-sm font-medium">CPU</span> 
-                <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" {{ "disabled" if not cuda_available else "checked" }}/>
+                <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" x-model="GPU" :disabled="!cuda_available"/>
                 <span class="text-sm font-medium">GPU</span> 
             </div>
         </div>
@@ -15,7 +15,7 @@
             <div class="divider my-0"></div>
             <div class="flex justify-between items-center px-4">
                 <span class="text-sm font-medium">int8</span> 
-                <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2" {{ "disabled" if not cuda_available}}/>
+                <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2" :disabled="!GPU" :checked="!GPU && false"/>
                 <span class="text-sm font-medium">float16</span> 
             </div>
         </div>
