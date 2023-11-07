@@ -60,10 +60,9 @@ https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
 
 ## Installation for developers ⚙️
 
-**You need to have python >=3.10 and git installed**  
+**You need to have python >=3.10**  
 If you need help with installing that, look at these resources:  
-https://www.python.org/downloads/release/python-31011/  
-https://git-scm.com/download/win/  
+https://www.python.org/downloads/release/python-31011/
 
 Setup a virtual environment
 ```
