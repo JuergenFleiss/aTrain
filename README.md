@@ -51,8 +51,11 @@ For testing the processing time of aTrain we transcribed an audiobook ("[The Sno
 | ![Benchmark](docs/images/benchmark.webp) | ![Hardware](docs/images/hardware.webp) |
 
 ## System requirements
-You need a Windows system.
-No Linux or MacOS support.
+Windows is fully supported. 
+
+Basic Debian support, manual installation required, see [Wiki instructions](https://github.com/BANDAS-Center/aTrain/wiki/Linux-Support-(in-progress)) 
+
+Currently no MacOS support.
 
 ## Installation for users 😎
 Simply access the installer from the Microsoft app store  
