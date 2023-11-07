@@ -100,9 +100,13 @@ def run_app():
         with keep.running():
             webview.start()
     except:
-        browser_options = ["--bwsi","--disable-features=Translate"]
-        with keep.running():
-            CustomUI(app=app, server="flask", fullscreen=True, custom_flags=browser_options).run()
+        try:
+            browser_options = ["--bwsi","--disable-features=Translate"]
+            with keep.running():
+                CustomUI(app=app, server="flask", fullscreen=True, custom_flags=browser_options).run()
+        except:
+            with keep.running():
+                CustomUI(app=app, server="flask", fullscreen=True).run()
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
