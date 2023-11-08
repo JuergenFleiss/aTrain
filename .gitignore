@@ -9,3 +9,4 @@ package*
 ffmpeg*
 aTrain.egg-info
 installer.iss
+prepare_msix.py
