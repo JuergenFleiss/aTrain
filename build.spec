@@ -1,10 +1,13 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
+from importlib.resources import files
+
+icon_path = str(files("aTrain.static").joinpath("favicon.ico"))
 
 datas = []
 datas += collect_data_files('aTrain')
-datas += [('venv/Lib/site-packages/transformers','transformers')]
-datas += [('venv/Lib/site-packages/speechbrain','speechbrain')]
+datas += [(str(files("transformers").joinpath("")),'transformers')]
+datas += [(str(files("speechbrain").joinpath("")),'speechbrain')]
 datas += collect_data_files('torch')
 datas += collect_data_files('transformers')
 datas += collect_data_files('lightning')
@@ -72,7 +75,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['aTrain\\static\\favicon.ico'],
+    icon=[icon_path],
 )
 coll = COLLECT(
     exe,
