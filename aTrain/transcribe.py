@@ -1,6 +1,5 @@
 from .output_files import create_output_files, named_tuple_to_dict, transform_speakers_results
 from .archive import read_metadata, delete_transcription, add_processing_time_to_metadata, TRANSCRIPT_DIR
-from .audio import load_audio
 from .load_resources import get_model
 import numpy as np
 import os
@@ -43,8 +42,7 @@ def transcribe (audio_file, model, language, speaker_detection, num_speakers, de
     transcription_model = WhisperModel(model_path,device,compute_type=compute_type)
 
     yield {"task":"Transcribing file with whisper"}
-    audio_array = load_audio(audio_file)
-    transcription_segments, _ = transcription_model.transcribe(audio=audio_array,vad_filter=True, word_timestamps=True,language=language,no_speech_threshold=0.6)
+    transcription_segments, _ = transcription_model.transcribe(audio=audio_file,vad_filter=True, word_timestamps=True,language=language,no_speech_threshold=0.6)
     transcript = {"segments":[named_tuple_to_dict(segment) for segment in transcription_segments]}
     
     del transcription_model; gc.collect(); torch.cuda.empty_cache()
