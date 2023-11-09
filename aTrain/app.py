@@ -54,6 +54,7 @@ def get_default_settings():
         from torch import cuda
         cuda_available = cuda.is_available()
         settings = {"cuda":cuda_available}
+        os.makedirs(ATRAIN_DIR, exist_ok=True)
         with open(settings_file_path,"w", encoding='utf-8') as settings_file:
             yaml.safe_dump(settings,settings_file)
     return render_template("modals/modal_settings.html", cuda_available=cuda_available)
