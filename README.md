@@ -53,7 +53,7 @@ For testing the processing time of aTrain we transcribed an audiobook ("[The Sno
 ## System requirements
 Windows is fully supported. 
 
-Basic Debian support, manual installation required, see [Wiki instructions](https://github.com/BANDAS-Center/aTrain/wiki/Linux-Support-(in-progress)) 
+Debian support with manual installation [Wiki instructions](https://github.com/BANDAS-Center/aTrain/wiki/Linux-Support-(in-progress)) 
 
 Currently no MacOS support.
 
