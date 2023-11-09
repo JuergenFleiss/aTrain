@@ -7,7 +7,7 @@
     </div> 
     <div class="drawer-side h-full">
         <label @click="drawer = false" class="drawer-overlay"></label> 
-        <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-3">
+        <ul hx-sync="#advancedSettings:queue last" class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-3">
             <li><a hx-get="./transcribe" hx-target="#content" @click="drawer = false; route = 'transcribe'" :class="route == 'transcribe' && 'bg-base-300'" class="bg-base-100 text-base font-medium">🎧 <span class=" ml-2">Transcribe</span> </a></li>
             <li><a hx-get="./archive" hx-target="#content" @click="drawer = false; route = 'archive'" :class="route == 'archive' && 'bg-base-300'" class="bg-base-100 text-base font-medium">💾 <span class=" ml-2">Archive</span> </a></li>
             <li><a hx-get="./faq" hx-target="#content" @click="drawer = false; route = 'faq'" :class="route == 'faq' && 'bg-base-300'" class="bg-base-100 text-base font-medium">📖 <span class=" ml-2">FAQ</span> </a></li>
