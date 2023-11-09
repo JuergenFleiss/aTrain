@@ -1,12 +1,13 @@
 from .transcribe import handle_transcription
 from .handle_upload import check_inputs, get_inputs, handle_file
-from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT
+from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, ATRAIN_DIR
 from .load_resources import download_all_resources
 from .version import VERSION
 from .custom_flaskwebgui import CustomUI
 from flask import Flask, render_template, request, redirect, stream_with_context
 from importlib.resources import files
 from screeninfo import get_monitors
+import os
 import webview
 from wakepy import keep
 import traceback
@@ -44,8 +45,18 @@ def render_faq():
 
 @app.get("/settings")
 def get_default_settings():
-    from torch.cuda import is_available as cuda_available
-    return render_template("modals/modal_settings.html", cuda_available=cuda_available())
+    settings_file_path = os.path.join(ATRAIN_DIR,"settings.txt")
+    if os.path.exists(settings_file_path):
+        with open(settings_file_path,"r", encoding='utf-8') as settings_file:
+            settings = yaml.safe_load(settings_file)
+            cuda_available = settings["cuda"]
+    else:
+        from torch import cuda
+        cuda_available = cuda.is_available()
+        settings = {"cuda":cuda_available}
+        with open(settings_file_path,"w", encoding='utf-8') as settings_file:
+            yaml.safe_dump(settings,settings_file)
+    return render_template("modals/modal_settings.html", cuda_available=cuda_available)
 
 @app.post("/upload")
 def upload():
