@@ -19,9 +19,9 @@ import argparse
 
 app = Flask(__name__)
 
+@app.template_filter()
 def format_duration(duration): 
     return time.strftime("%Hh %Mm %Ss", time.gmtime(duration))
-app.jinja_env.filters['format_duration'] = format_duration
 
 @app.get("/")
 def render_home():
