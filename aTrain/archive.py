@@ -34,7 +34,13 @@ def read_archive():
 
 def create_metadata(file_id, filename, audio_duration, model, language, speaker_detection, num_speakers, device, compute_type, timestamp):
     metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)
-    metadata = {
+    if os.path.exists(metadata_file_path):
+        with open(metadata_file_path, "r", encoding="utf-8") as metadata_file:
+            metadata = yaml.safe_load(metadata_file)
+    else:
+        metadata = {}
+    metadata.update(
+    {
         "file_id" : file_id,
         "filename" : filename,
         "audio_duration" : audio_duration,
@@ -46,6 +52,7 @@ def create_metadata(file_id, filename, audio_duration, model, language, speaker_
         "compute_type" : compute_type,
         "timestamp": timestamp 
         }
+    )  
     with open(metadata_file_path,"w", encoding="utf-8") as metadata_file:
         yaml.dump(metadata, metadata_file)
 
@@ -61,6 +68,17 @@ def read_metadata(file_id):
     device = metadata["device"]
     compute_type = metadata["compute_type"]
     return filename, model, language, speaker_detection, num_speakers, device, compute_type
+
+def add_to_metadata(file_id, key, value):
+    metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)
+    if os.path.exists(metadata_file_path):
+        with open(metadata_file_path, "r", encoding="utf-8") as metadata_file:
+            metadata = yaml.safe_load(metadata_file)
+    else:
+        metadata = {}
+    metadata[key] = value
+    with open(metadata_file_path, "w", encoding="utf-8") as metadata_file:
+        yaml.dump(metadata,metadata_file)
 
 def add_processing_time_to_metadata(file_id):
     metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)

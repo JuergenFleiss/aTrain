@@ -1,6 +1,7 @@
 import os
-from .archive import TRANSCRIPT_DIR
+from .archive import TRANSCRIPT_DIR, add_to_metadata, TIMESTAMP_FORMAT
 from .audio import prepare_audio, get_audio_duration
+from datetime import datetime
 
 def get_inputs(request):
     file = request.files["file"]
@@ -44,8 +45,10 @@ def handle_file(file, timestamp, model, device):
     file_id = create_file_id(filename, timestamp)
     file_directory = os.path.join(TRANSCRIPT_DIR,file_id)
     os.makedirs(file_directory)
+    add_to_metadata(file_id=file_id,key="benchmark_0_start",value=timestamp)
     file_path = os.path.join(file_directory, filename)
     file.save(file_path)
+    add_to_metadata(file_id=file_id,key="benchmark_1_ffmpeg",value=datetime.now().strftime(TIMESTAMP_FORMAT))
     processed_file = prepare_audio(file_id, file_path, file_directory)
     audio_duration = get_audio_duration(processed_file)
     estimated_process_time = estimate_processing_time(audio_duration,model, device)
