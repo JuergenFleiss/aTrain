@@ -7,7 +7,7 @@ The Working Paper is now on SSRN: [Take the aTrain. Introducing an Interface for
 
 Windows (10 and 11) users can install aTrain via the Microsoft app store ([Link](https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2)) or by downloading the installer from the BANDAS-Center Website ([Link](https://business-analytics.uni-graz.at/de/forschen/atrain/download/)).
 
-For Linux, follow the [instructions](https://github.com/BANDAS-Center/aTrain/wiki/Linux-Support-(in-progress)) in our Wiki.
+For Linux, follow the [instructions](https://github.com/JuergenFleiss/aTrain/wiki/Linux-Support-(in-progress)) in our Wiki.
 
 aTrain offers the following benefits:
 \
@@ -55,7 +55,7 @@ For testing the processing time of aTrain we transcribed an audiobook ("[The Sno
 ## System requirements
 Windows is fully supported. 
 
-Debian support with manual installation [Wiki instructions](https://github.com/BANDAS-Center/aTrain/wiki/Linux-Support-(in-progress)) 
+Debian support with manual installation [Wiki instructions](https://github.com/JuergenFleiss/aTrain/wiki/Linux-Support-(in-progress)) 
 
 Currently no MacOS support.
 
@@ -79,7 +79,7 @@ Activate the virtual environment
 ```
 Install aTrain
 ```
-pip install aTrain@git+https://github.com/BANDAS-Center/aTrain.git --extra-index-url https://download.pytorch.org/whl/cu118
+pip install aTrain@git+https://github.com/JuergenFleiss/aTrain.git --extra-index-url https://download.pytorch.org/whl/cu118
 ```
 Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
 Note: The user version in the Microsoft store has those assets already included. 
@@ -97,7 +97,7 @@ We use pyinstaller to freeze the code of aTrain and create a standalone executab
 \
 Clone and install aTrain in **editable mode** 
 ```
-git clone https://github.com/BANDAS-Center/aTrain.git
+git clone https://github.com/JuergenFleiss/aTrain.git
 cd aTrain
 pip install -e . --extra-index-url https://download.pytorch.org/whl/cu118
 ```
