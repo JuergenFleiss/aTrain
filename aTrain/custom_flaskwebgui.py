@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class CustomUI(FlaskUI):
-    '''Add custom_flags option to class'''
+    #Add custom_flags option to class
     custom_flags: List[str] = None
     def get_browser_command(self):
         flags = [
