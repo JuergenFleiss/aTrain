@@ -2,7 +2,7 @@ from .transcribe import handle_transcription
 from .handle_upload import check_inputs, get_inputs, handle_file
 from .archive import read_archive, create_metadata, delete_transcription, open_file_directory, TIMESTAMP_FORMAT, ATRAIN_DIR
 from .load_resources import download_all_resources
-from .version import VERSION
+from .version import __version__
 from .custom_flaskwebgui import CustomUI
 from flask import Flask, render_template, request, redirect, stream_with_context
 from importlib.resources import files
@@ -25,7 +25,7 @@ def format_duration(duration):
 
 @app.get("/")
 def render_home():
-    return render_template("index.html", version=VERSION)
+    return render_template("index.html", version=__version__)
 
 @app.get("/transcribe")
 def render_transcribe():
