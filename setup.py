@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from distutils.util import convert_path
 import platform
 
 system = platform.system()
@@ -7,9 +8,14 @@ if system in ["Windows","Linux"]:
 if system == "Darwin":
     torch = "torch==2.0.0"
 
+main_ns = {}
+ver_path = convert_path('aTrain/version.py')
+with open(ver_path) as ver_file:
+    exec(ver_file.read(), main_ns)
+
 setup(
     name='aTrain',
-    version='1.1.0',
+    version=main_ns['__version__'],
     readme="README.md",
     license="LICENSE",
     python_requires=">=3.10",
