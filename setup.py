@@ -22,7 +22,7 @@ setup(
     install_requires=[
         torch,
         "torchaudio==2.0.1",
-        "faster-whisper>=0.8",
+        "faster-whisper>=0.8,<=0.9",
         "transformers",
         "ffmpeg-python>=0.2",
         "pandas",
