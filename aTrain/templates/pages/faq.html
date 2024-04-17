@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <div id="faq" class="grid grid-cols-1 gap-4">
 {% for faq in faqs %}
 <div tabindex="0" class="collapse collapse-arrow bg-base-100"> 
@@ -10,3 +12,4 @@
 </div>
 {% endfor %}
 </div>
+{% endblock %}

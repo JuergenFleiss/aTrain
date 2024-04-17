@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <div class="card w-full bg-base-100" x-data="{multispeaker: false, catmode: false}">
   <div class="card-body">
     <form id="inputForm" x-ref="inputForm" @submit="duration = 0; $refs.modal.showModal(), Timer = setInterval(()=>{duration++}, 1000);" 
@@ -139,3 +141,4 @@
     {% include 'modals/modal_process.html' %}
   </dialog>
 </div>
+{% endblock %}
