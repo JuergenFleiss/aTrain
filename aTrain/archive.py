@@ -2,7 +2,6 @@ import os
 import shutil
 from showinfm import show_in_file_manager
 import yaml
-from datetime import datetime
 
 USER_DIR = os.path.expanduser("~")
 DOCUMENTS_DIR = os.path.join(USER_DIR,"Documents")
@@ -31,48 +30,6 @@ def read_archive():
             }
             all_metadata.append(metadata)
     return all_metadata
-
-def create_metadata(file_id, filename, audio_duration, model, language, speaker_detection, num_speakers, device, compute_type, timestamp):
-    metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)
-    metadata = {
-        "file_id" : file_id,
-        "filename" : filename,
-        "audio_duration" : audio_duration,
-        "model" : model,
-        "language" : language,
-        "speaker_detection" : speaker_detection,
-        "num_speakers" : num_speakers,
-        "device": device,
-        "compute_type" : compute_type,
-        "timestamp": timestamp 
-        }
-    with open(metadata_file_path,"w", encoding="utf-8") as metadata_file:
-        yaml.dump(metadata, metadata_file)
-
-def read_metadata(file_id):
-    metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)
-    with open(metadata_file_path,"r", encoding="utf-8") as metadata_file:
-        metadata = yaml.safe_load(metadata_file)
-    filename = metadata["filename"]
-    model = metadata["model"]
-    language = metadata["language"]
-    speaker_detection = metadata["speaker_detection"]
-    num_speakers = metadata["num_speakers"]
-    device = metadata["device"]
-    compute_type = metadata["compute_type"]
-    return filename, model, language, speaker_detection, num_speakers, device, compute_type
-
-def add_processing_time_to_metadata(file_id):
-    metadata_file_path = os.path.join(TRANSCRIPT_DIR,file_id,METADATA_FILENAME)
-    with open(metadata_file_path, "r", encoding="utf-8") as metadata_file:
-        metadata = yaml.safe_load(metadata_file)
-    timestamp = metadata["timestamp"]
-    start_time = datetime.strptime(timestamp,TIMESTAMP_FORMAT)
-    stop_time = timestamp = datetime.now()
-    processing_time = stop_time-start_time
-    metadata["processing_time"] = int(processing_time.total_seconds())
-    with open(metadata_file_path, "w", encoding="utf-8") as metadata_file:
-        yaml.dump(metadata,metadata_file)
 
 def delete_transcription(file_id):
     file_id = "" if file_id == "all" else file_id
