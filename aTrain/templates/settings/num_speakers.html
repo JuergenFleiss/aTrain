@@ -1,0 +1,20 @@
+<template x-if="true">
+    <div id="InputNumSpeakers" x-show="multispeaker">
+      <h2 class="font-bold text-primary">Number of speakers</h2>
+      <div class="divider my-0"></div>
+      <select name="num_speakers" id="num_speakers" class="select select-bordered	 select-sm my-2 w-full max-w-xs">
+        <option value="auto-detect" selected="selected">Detect automatically</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <p class="text-sm">Specifiying speaker count improves results.</p>
+    </div>
+</template>
