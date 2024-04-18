@@ -965,13 +965,6 @@ html {
   width: 100%;
 }
 
-.\!drawer {
-  position: relative !important;
-  display: grid !important;
-  grid-auto-columns: max-content auto !important;
-  width: 100% !important;
-}
-
 .drawer {
   position: relative;
   display: grid;
@@ -3534,6 +3527,11 @@ details.collapse summary::-webkit-details-marker {
     cursor: default;
     background-color: transparent;
   }
+}
+
+.target\:bg-base-200:target {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--b2) / var(--tw-bg-opacity));
 }
 
 @media (min-width: 768px) {
