@@ -1,12 +1,12 @@
 <nav class="navbar bg-base-100 px-10 justify-between items-center">
     <div>
-      <div class="btn btn-ghost text-xl lg:hidden mr-2" @click="drawer = !drawer">☰</div>
+      <label for="drawer" class="btn btn-ghost text-xl lg:hidden mr-2">☰</label>
       <a href="/">
         <img src="static/images/logo.svg" alt="Logo" height="25" width="80">
       </a>
     </div>
     <div>
       <img class="mr-2" src="static/images/github.svg" alt="GithubLogo" height="25" width="25">
-      <span class="text-sm link"  hx-get="./openbrowser/github" hx-swap="none">Version {{version}}</span>
+      <a class="text-sm link" href="https://github.com/BANDAS-Center/aTrain" target="_blank">Version {{version}}</a>
     </div>
 </nav>
