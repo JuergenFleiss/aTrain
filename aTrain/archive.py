@@ -1,14 +1,8 @@
+from .globals import TRANSCRIPT_DIR
 import os
 import shutil
 from showinfm import show_in_file_manager
 import yaml
-
-USER_DIR = os.path.expanduser("~")
-DOCUMENTS_DIR = os.path.join(USER_DIR,"Documents")
-ATRAIN_DIR = os.path.join(DOCUMENTS_DIR,"aTrain")
-TRANSCRIPT_DIR = os.path.join(ATRAIN_DIR,"transcriptions")
-METADATA_FILENAME = "metadata.txt"
-TIMESTAMP_FORMAT = "%Y-%m-%d %H-%M-%S"
 
 def read_archive():
     os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
