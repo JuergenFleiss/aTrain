@@ -128,7 +128,7 @@
       <div class="divider my-4"></div>
       <div class="card-actions justify-between items-center">
         <div>
-          <div class="text-sm mb-2">⚙️ <span @click="$refs.advancedSettings.showModal()" class="link ml-1">Advanced Settings</span> </div>
+          <div class="text-sm mb-2">⚙️ <span _="on click toggle .modal-open on #advancedSettings" class="link ml-1">Advanced Settings</span> </div>
           <div class="text-sm">📖 <span @click="route = 'faq'" hx-get="./faq" hx-target="#content" class="link ml-1">Help needed?</span> </div>
         </div>
         <img @click="catmode = !catmode"  :class="catmode ? 'opacity-100' : 'opacity-20'" src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
@@ -136,7 +136,7 @@
       </div>
     </form>
   </div>
-
+  {% include 'modals/modal_settings.html' %}
   <dialog x-ref="modal" id="modal" class="modal" @cancel.prevent>
     {% include 'modals/modal_process.html' %}
   </dialog>
