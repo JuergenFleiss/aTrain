@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card w-full bg-base-100" x-data="{multispeaker: false, catmode: false}">
+<div class="card w-full bg-base-100" x-data="{catmode: false}">
   <div class="card-body">
     <form id="inputForm" x-ref="inputForm" @submit="duration = 0; $refs.modal.showModal(), Timer = setInterval(()=>{duration++}, 1000);" 
     hx-encoding=multipart/form-data hx-post="./upload" hx-include="#advancedSettings" hx-target="#modal" hx-swap="innerHTML">
