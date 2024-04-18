@@ -25,23 +25,23 @@ def set_globals():
 #-----Routes------#
 
 @app.get("/")
-def render_home():
+def home():
     return render_template("pages/transcribe.html")
 
 @app.get("/archive")
-def render_archive():
+def archive():
     archive_data = read_archive()
     return render_template("pages/archive.html", archive_data=archive_data)
 
 @app.get("/faq")
-def render_faq():
+def faq():
     faq_path = str(files("aTrain.faq").joinpath("faq.yaml"))
     with open(faq_path,"r", encoding='utf-8') as faq_file:
         faqs = yaml.safe_load(faq_file)
     return render_template("pages/faq.html", faqs = faqs)
 
 @app.post("/transcribe")
-def upload():
+def transcribe():
     
     return render_template("modals/modal_wrongInput.html")
 
@@ -53,20 +53,19 @@ def upload():
     #    error = str(error)
     #    return render_template("modals/modal_error.html",error=error, traceback=traceback_str)
 
-
 @app.route('/open/<file_id>')
-def open_transcription(file_id):
+def open_directory(file_id):
     open_file_directory(file_id)
     return ""
     
 @app.route("/delete/<file_id>")
-def delete_archive_files(file_id):
+def delete_directory(file_id):
     delete_transcription(file_id)
     archive_data = read_archive()
     return render_template("pages/archive.html", archive_data=archive_data)
 
 @app.route("/revert_changes/<upload_id>")
-def revert_latest_changes(upload_id):
+def revert_changes(upload_id):
     delete_transcription(upload_id)
     return redirect(request.referrer)
 
@@ -76,7 +75,6 @@ def run_app():
     webview.create_window("aTrain",app,height=app_height,width=app_width)
     with keep.running():
         webview.start()
-
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
