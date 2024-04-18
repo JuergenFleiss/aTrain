@@ -15,32 +15,20 @@
 <body class="flex flex-col min-h-screen justify-between bg-base-200" x-data="{duration: 0}">
     <div>
     {% include 'layout/navbar.html' with context %}   
-    <!-- sidebar start -->
+    <!-- drawer start -->
     <div class="drawer lg:drawer-open">
         <input id="drawer" type="checkbox" class="drawer-toggle"/>
         <div class="drawer-content flex flex-col bg-base-200">
             <div id="content" class="p-4">
-
             {% block content %}
-
-            <!-- page content goes here -->  
-                          
+            <!-- page content goes here -->         
             {% endblock %}
 
             </div>             
         </div> 
-        <div class="drawer-side h-full">
-            <label for="drawer" class="drawer-overlay"></label> 
-            <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-3">
-                <li><a href="/" class="bg-base-100 text-base font-medium">🎧 <span class=" ml-2">Transcribe</span> </a></li>
-                <li><a href="/archive" class="bg-base-100 text-base font-medium">💾 <span class=" ml-2">Archive</span> </a></li>
-                <li><a href="/faq" class="bg-base-100 text-base font-medium">📖 <span class=" ml-2">FAQ</span> </a></li>
-                <div class="divider my-0"></div>
-                <li><a href="https://survey.uni-graz.at/index.php/381219" target="_blank" class="bg-base-100 text-base font-medium">🗣️ <span class=" ml-2">Feedback</span> </a></li>
-            </ul>
-        </div>
+    {% include 'layout/sidebar.html' %}
     </div>
-    <!-- sidebar stop -->
+    <!-- drawer stop -->
     </div>
     {% include 'layout/footer.html' %}
 </body>
