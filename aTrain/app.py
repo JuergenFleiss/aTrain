@@ -69,6 +69,8 @@ def revert_changes(upload_id):
     delete_transcription(upload_id)
     return redirect(request.referrer)
 
+#-----Run App------#
+
 def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
