@@ -29,7 +29,7 @@
             </template>
           </div>
         </div>
-        <a href="{{'./revert_changes/' + id if id else '.'}}" class="mt-3 btn btn-primary">stop</a>
+        <a href="{{ url_for('revert_changes') + '/' + id if id else url_for('home')}}" class="mt-3 btn btn-primary">stop</a>
       </div>
     </form>
 </div>
