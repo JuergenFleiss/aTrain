@@ -1,0 +1,20 @@
+<script type="text/hyperscript">
+    eventsource SSE from {{url_for("SSE")}}
+    
+        on {{server_events.wrong_input}} as string
+            remove .modal-open from .modal
+            add .modal-open to #modalWrongInput
+        end
+    
+        on {{server_events.error}} as json
+            put it.error into #errorCode 
+            put it.traceback into #traceback
+            remove .modal-open from .modal
+            add .modal-open to #modalError
+        end
+
+        on {{server_events.task}} as string
+            put it into #currentTask
+        end
+    end
+</script>
