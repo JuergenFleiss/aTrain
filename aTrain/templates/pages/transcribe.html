@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card w-full bg-base-100" x-data="{catmode: false}">
+<div class="card w-full bg-base-100" x-data="{catmode: false}" _="on init call SSE.open()">
   <div class="card-body">
-    <form id="inputForm" x-ref="inputForm" @submit="duration = 0; $refs.modal.showModal(), Timer = setInterval(()=>{duration++}, 1000);" 
-    hx-encoding=multipart/form-data hx-post="{{url_for('start_transcription')}}" hx-include="#advancedSettings" hx-target="#modal" hx-swap="innerHTML">
+    <form hx-encoding=multipart/form-data hx-post="{{url_for('start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit add .modal-open to #modalProcess">
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% include 'settings/file_input.html' with context %}
@@ -20,7 +19,7 @@
           <div class="text-sm mb-2">⚙️ <span _="on click toggle .modal-open on #advancedSettings" class="link ml-1">Advanced Settings</span> </div>
           <div class="text-sm">📖 <a href="{{url_for('faq')}}" class="link ml-1">Help needed?</a> </div>
         </div>
-        <img @click="catmode = !catmode"  :class="catmode ? 'opacity-100' : 'opacity-20'" src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
+        <img _="on click toggle .hidden on .modal-image then toggle .opacity-20 on me" class="opacity-20" src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
         <input id="startButton" class="btn btn-primary" type="submit" value="Start">
       </div>
 
@@ -29,9 +28,10 @@
 
   {% include 'settings/advanced_settings.html' with context %}
 
-  <dialog x-ref="modal" id="modal" class="modal" @cancel.prevent>
-    {% include 'modals/modal_process.html' with context %}
-  </dialog>
+  {% include 'modals/modal_process.html' with context %}
+  {% include 'modals/modal_wrongInput.html' with context %}
+  {% include 'modals/modal_error.html' with context %}
+  {% include 'modals/modal_download.html' with context %}
 
 </div>
 {% endblock %}
