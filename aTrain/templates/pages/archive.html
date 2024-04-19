@@ -1,4 +1,6 @@
-{% extends 'base.html' %}
+{% if not only_content %}
+    {% extends 'base.html' %}
+{% endif %}
 {% block content %}
 <div id="archive" class="card w-full bg-base-100">
     <div class="card-body">
