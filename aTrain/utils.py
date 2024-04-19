@@ -1,8 +1,9 @@
-from .globals import TRANSCRIPT_DIR
+from .globals import TRANSCRIPT_DIR, METADATA_FILENAME
 import os
 import shutil
 from showinfm import show_in_file_manager
 import yaml
+from importlib.resources import files
 
 def read_archive():
     os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
@@ -38,6 +39,12 @@ def open_file_directory(file_id):
     directory_name = os.path.join(TRANSCRIPT_DIR,file_id)
     if os.path.exists(directory_name):
         show_in_file_manager(directory_name)
+
+def load_faqs():
+    faq_path = str(files("aTrain.faq").joinpath("faq.yaml"))
+    with open(faq_path,"r", encoding='utf-8') as faq_file:
+        faqs = yaml.safe_load(faq_file)
+    return faqs
 
 if __name__ == "__main__":
     ...
