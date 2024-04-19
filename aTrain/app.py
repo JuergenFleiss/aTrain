@@ -6,6 +6,7 @@ from .globals import SERVER_EVENTS
 from .mockup_core import check_inputs, transcribe
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
+from threading import Thread
 import webview
 from wakepy import keep
 import json
@@ -46,7 +47,8 @@ def start_transcription():
         send_event("",event=SERVER_EVENTS.wrong_input)
         return ""
     try:
-        transcribe()
+        t = Thread(target=transcribe, daemon=True)
+        t.start()
         return ""
         
     except Exception as error:
