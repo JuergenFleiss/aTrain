@@ -89,9 +89,13 @@ def file_dialog():
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
-    parser.add_argument("command", choices=['start'], help="Command for aTrain to perform.")
+    parser.add_argument("command", choices=['start', 'dev'], help="Command for aTrain to perform.")
     args = parser.parse_args()
 
     if args.command == "start":
         print("Running aTrain")
         run_app()
+
+    if args.command == "dev":
+        print("Running aTrain in dev mode")
+        app.run()
