@@ -1,10 +1,9 @@
-from .utils import read_archive, delete_transcription, open_file_directory, load_faqs, cleanup
+from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
 from .SSE import stream_events, send_event, stop_SSE
 from .globals import SERVER_EVENTS
 from .mockup_core import check_inputs, transcribe
-from  .thread import TranscriptionThread
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
 import webview
