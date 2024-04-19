@@ -84,16 +84,10 @@ def run_app():
 
     global window
     window = webview.create_window("aTrain",app,height=app_height,width=app_width)
-    window.expose(file_dialog)
     window.events.closed += stop_SSE
 
     with keep.running():
         webview.start()
-
-def file_dialog():
-        file_types = ('Audio Files (*.mp3;*.wav)', 'Video Files (*.mp4)')
-        result = window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False, file_types=file_types)
-        return(result)
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
