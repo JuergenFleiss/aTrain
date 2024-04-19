@@ -47,11 +47,7 @@ def start_transcription():
         send_event("",event=SERVER_EVENTS.wrong_input)
         return ""
     try:
-        transcription = TranscriptionThread()
-        transcription.run()
-        time.sleep(5)
-        transcription.raise_exception()
-        transcription.join()
+        transcribe()
         return ""
         
     except Exception as error:
