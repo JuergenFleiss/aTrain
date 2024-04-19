@@ -20,13 +20,13 @@ def format_duration(duration):
 
 @app.context_processor
 def set_globals():
-    return dict(version=__version__, settings=load_settings())
+    return dict(version=__version__)
 
 #-----Routes------#
 
 @app.get("/")
 def home():
-    return render_template("pages/transcribe.html")
+    return render_template("pages/transcribe.html", settings=load_settings())
 
 @app.get("/archive")
 def archive():
@@ -40,8 +40,9 @@ def faq():
         faqs = yaml.safe_load(faq_file)
     return render_template("pages/faq.html", faqs = faqs)
 
-@app.post("/transcribe")
-def transcribe():
+@app.post("/start_transcription")
+def start_transcription():
+    print("started")
     
     return render_template("modals/modal_wrongInput.html")
 
@@ -70,13 +71,21 @@ def revert_changes(upload_id):
     return redirect(request.referrer)
 
 #-----Run App------#
-
 def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
-    webview.create_window("aTrain",app,height=app_height,width=app_width)
+
+    global window
+    window = webview.create_window("aTrain",app,height=app_height,width=app_width)
+    window.expose(file_dialog)
+
     with keep.running():
         webview.start()
+
+def file_dialog():
+        file_types = ('Audio Files (*.mp3;*.wav)', 'Video Files (*.mp4)')
+        result = window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False, file_types=file_types)
+        return(result)
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
