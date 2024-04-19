@@ -1,8 +1,8 @@
-from .archive import read_archive, delete_transcription, open_file_directory
+from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
-from flask import Flask, render_template, request, redirect
-from importlib.resources import files
+from .SSE import stream_events
+from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
 import webview
 from wakepy import keep
@@ -30,15 +30,11 @@ def home():
 
 @app.get("/archive")
 def archive():
-    archive_data = read_archive()
-    return render_template("pages/archive.html", archive_data=archive_data)
+    return render_template("pages/archive.html", archive_data=read_archive())
 
 @app.get("/faq")
 def faq():
-    faq_path = str(files("aTrain.faq").joinpath("faq.yaml"))
-    with open(faq_path,"r", encoding='utf-8') as faq_file:
-        faqs = yaml.safe_load(faq_file)
-    return render_template("pages/faq.html", faqs = faqs)
+    return render_template("pages/faq.html", faqs = load_faqs())
 
 @app.post("/start_transcription")
 def start_transcription():
@@ -53,6 +49,11 @@ def start_transcription():
     #    traceback_str = traceback.format_exc()
     #    error = str(error)
     #    return render_template("modals/modal_error.html",error=error, traceback=traceback_str)
+    return ""
+
+@app.get("/SSE")
+def SSE():
+    return Response(stream_events(), mimetype="text/event-stream")
 
 @app.route('/open/<file_id>')
 def open_directory(file_id):
