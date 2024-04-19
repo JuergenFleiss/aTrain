@@ -1,13 +1,16 @@
-from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
+from .utils import read_archive, delete_transcription, open_file_directory, load_faqs, cleanup
 from .version import __version__
 from .settings import load_settings
-from .SSE import stream_events
+from .SSE import stream_events, send_event, stop_SSE
+from .globals import SERVER_EVENTS
+from .mockup_core import check_inputs, transcribe
+from  .thread import TranscriptionThread
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
 import webview
 from wakepy import keep
+import json
 import traceback
-import yaml
 import time
 import argparse
 
@@ -20,7 +23,7 @@ def format_duration(duration):
 
 @app.context_processor
 def set_globals():
-    return dict(version=__version__)
+    return dict(version=__version__, server_events=SERVER_EVENTS)
 
 #-----Routes------#
 
@@ -38,18 +41,29 @@ def faq():
 
 @app.post("/start_transcription")
 def start_transcription():
-    print("started")
-    
-    return render_template("modals/modal_wrongInput.html")
+    input_correct = check_inputs()
 
-    #return render_template("modals/modal_process.html", id=file_id, task="Processing file", total_duration=estimated_process_time, device=device)
+    if not input_correct:
+        send_event("",event=SERVER_EVENTS.wrong_input)
+        return ""
+    try:
+        transcription = TranscriptionThread()
+        transcription.run()
+        time.sleep(5)
+        transcription.raise_exception()
+        transcription.join()
+        return ""
+        
+    except Exception as error:
+        traceback_str = traceback.format_exc()
+        error = str(error)
+        error_data = json.dumps({"error" : error, "traceback" : traceback_str})
+        send_event(error_data, event=SERVER_EVENTS.error)
+        return ""
 
-    #except Exception as error:
-    #    delete_transcription(timestamp)
-    #    traceback_str = traceback.format_exc()
-    #    error = str(error)
-    #    return render_template("modals/modal_error.html",error=error, traceback=traceback_str)
-    return ""
+@app.route("/stop_transcription")
+def stop_transcription():
+    return redirect(request.referrer)
 
 @app.get("/SSE")
 def SSE():
@@ -66,11 +80,6 @@ def delete_directory(file_id):
     archive_data = read_archive()
     return render_template("pages/archive.html", archive_data=archive_data)
 
-@app.route("/revert_changes/<upload_id>")
-def revert_changes(upload_id):
-    delete_transcription(upload_id)
-    return redirect(request.referrer)
-
 #-----Run App------#
 def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
@@ -79,6 +88,7 @@ def run_app():
     global window
     window = webview.create_window("aTrain",app,height=app_height,width=app_width)
     window.expose(file_dialog)
+    window.events.closed += stop_SSE
 
     with keep.running():
         webview.start()
