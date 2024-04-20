@@ -14,9 +14,11 @@ def handle_transcription(file_id):
         
         file_directory = os.path.join(TRANSCRIPT_DIR,file_id)
         prepared_file = os.path.join(file_directory, file_id + ".wav")
+        # this was for personal debugging use
         log_metadata_to_file(filename=filename, model=model, language=language,
                         speaker_detection=speaker_detection, num_speakers=num_speakers,
                         device=device, compute_type=compute_type, prepared_file=prepared_file)
+         # end personal debugging 
         segments = split_audio(prepared_file, file_directory, segment_duration=1800)  # Split the audio file into segments of 30 minutes each
         for segment in segments:
             name = Path(segment).name
@@ -39,7 +41,7 @@ def handle_transcription(file_id):
         response = f"event: stopstream\ndata: {html}\n\n"
         yield response
         
-        
+# this was for personal debugging use
 def log_metadata_to_file(**kwargs):
     log_file_path = 'C:\\Users\\dower\\Downloads\\transcribe_log.txt'
     with open(log_file_path, 'w') as f:
@@ -53,7 +55,8 @@ def log_metadata_to_file(**kwargs):
     for key, value in kwargs.items():
         print(f"{key}: {value}")
     print()  # Just to add a newline at the end for better readability
-    
+# end personal debugging 
+
 def transcribe (audio_file, model, language, speaker_detection, num_speakers, device, compute_type):   
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
