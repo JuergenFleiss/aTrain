@@ -5,7 +5,7 @@ import numpy as np
 import os
 import traceback
 from flask import render_template
-from .split_segs import split_audio
+from .segment_audio import split_audio
 from pathlib import Path
 
 def handle_transcription(file_id):
