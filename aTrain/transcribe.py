@@ -5,21 +5,32 @@ import numpy as np
 import os
 import traceback
 from flask import render_template
+from .split_segs import split_audio
+from pathlib import Path
 
 def handle_transcription(file_id):
     try:
         filename, model, language, speaker_detection, num_speakers, device, compute_type = read_metadata(file_id)
+        
         file_directory = os.path.join(TRANSCRIPT_DIR,file_id)
         prepared_file = os.path.join(file_directory, file_id + ".wav")
-        for step in transcribe(prepared_file, model, language, speaker_detection, num_speakers, device, compute_type):
-            response = f"data: {step['task']}\n\n"
+        log_metadata_to_file(filename=filename, model=model, language=language,
+                        speaker_detection=speaker_detection, num_speakers=num_speakers,
+                        device=device, compute_type=compute_type, prepared_file=prepared_file)
+        segments = split_audio(prepared_file, file_directory, segment_duration=1800)  # Split the audio file into segments of 30 minutes each
+        for segment in segments:
+            name = Path(segment).name
+            file_directory = os.path.join(TRANSCRIPT_DIR,name)
+            prepared_file = os.path.join(file_directory, name + ".wav")
+            for step in transcribe(segment, model, language, speaker_detection, num_speakers, device, compute_type):
+                response = f"data: {step['task']}\n\n"
+                yield response
+            create_output_files(step["result"], speaker_detection, file_directory, filename)
+            add_processing_time_to_metadata(name)
+            os.remove(prepared_file)
+            html = render_template("modals/modal_download.html", file_id=name).replace('\n', '')
+            response = f"event: stopstream\ndata: {html}\n\n"
             yield response
-        create_output_files(step["result"], speaker_detection, file_directory, filename)
-        add_processing_time_to_metadata(file_id)
-        os.remove(prepared_file)
-        html = render_template("modals/modal_download.html", file_id=file_id).replace('\n', '')
-        response = f"event: stopstream\ndata: {html}\n\n"
-        yield response
     except Exception as e:
         delete_transcription(file_id)
         traceback_str = traceback.format_exc()
@@ -27,7 +38,22 @@ def handle_transcription(file_id):
         html = render_template("modals/modal_error.html", error=error, traceback=traceback_str).replace('\n', '')
         response = f"event: stopstream\ndata: {html}\n\n"
         yield response
-
+        
+        
+def log_metadata_to_file(**kwargs):
+    log_file_path = 'C:\\Users\\dower\\Downloads\\transcribe_log.txt'
+    with open(log_file_path, 'w') as f:
+        for key, value in kwargs.items():
+            try:
+                f.write(f"{key}: {value}\n")
+            except Exception as e:
+                f.write(f"{key}: {e}\n")
+    
+    # Also print the logged information to console
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+    print()  # Just to add a newline at the end for better readability
+    
 def transcribe (audio_file, model, language, speaker_detection, num_speakers, device, compute_type):   
     import gc, torch #Import inside the function to speed up the startup time of the destkop app.
     from faster_whisper import WhisperModel
