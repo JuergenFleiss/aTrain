@@ -1,7 +1,7 @@
 from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
-from .SSE import stream_events, send_event, stop_SSE
+from .SSE import stream_events, send_event, start_SSE
 from .globals import SERVER_EVENTS
 from .mockup_core import check_inputs, transcribe
 from flask import Flask, render_template, request, redirect, Response
@@ -47,8 +47,8 @@ def start_transcription():
         send_event("",event=SERVER_EVENTS.wrong_input)
         return ""
     try:
-        t = Thread(target=transcribe, daemon=True)
-        t.start()
+        transciption = Thread(target=transcribe, daemon=True)
+        transciption.start()
         return ""
         
     except Exception as error:
@@ -82,10 +82,9 @@ def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
 
-    global window
-    window = webview.create_window("aTrain",app,height=app_height,width=app_width)
-    window.events.closed += stop_SSE
-
+    webview.create_window("aTrain",app,height=app_height,width=app_width)
+    SSE = Thread(target=start_SSE, daemon=True)
+    SSE.start()
     with keep.running():
         webview.start()
 
