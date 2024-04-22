@@ -16,7 +16,6 @@ def send_event(data, event : str = "message"):
     sender.send_string(event_string)
     
 def stream_events():
-    print("connected")
     receiver = zmq.Context().socket(zmq.PULL)
     receiver.connect(SSE_RECV_URL)
     while True:
