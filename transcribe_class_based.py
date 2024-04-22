@@ -12,7 +12,9 @@ from pathlib import Path
 import json
 
 class TranscriptSegment:
-    def __init__(self, segment_path, file_directory, model, language, speaker_detection, num_speakers, device, compute_type, file_id, log_file_path, filename, segment_index):
+    def __init__(self, segment_path, file_directory, model, language, speaker_detection, 
+                        num_speakers, device, compute_type, file_id, log_file_path, 
+                        filename, segment_index):
         self.segment_path = segment_path
         self.file_directory = file_directory
         self.model = model
@@ -35,14 +37,18 @@ class TranscriptSegment:
             prepared_file = os.path.join(self.file_directory, name + ".wav")
             print(f'Transcribing segment: {name}')
             transcription_handler = TranscriptionHandler(self.file_id)  # Assuming TranscriptionHandler has helper methods
-            for step in transcription_handler.transcribe(self.segment_path, self.model, self.language, self.speaker_detection, self.num_speakers, self.device, self.compute_type):
+            for step in transcription_handler.transcribe(self.segment_path, self.model, 
+                                                            self.language, self.speaker_detection, self.num_speakers, 
+                                                            self.device, self.compute_type):
                 yield {"task": step["task"]}
             
-            transcription_handler.log_metadata_to_file(speaker=self.speaker_detection, file_id=name, prepared_file=prepared_file, filename=self.filename)
+            transcription_handler.log_metadata_to_file(speaker=self.speaker_detection, 
+                                                        file_id=name, prepared_file=prepared_file, filename=self.filename)
             
             transcript_result = step.get("result") if step and "result" in step else {}
             
-            transcript_update = create_output_files(transcript_result, self.speaker_detection, self.file_directory, self.filename, self.segment_index)
+            transcript_update = create_output_files(transcript_result, self.speaker_detection, 
+                                                        self.file_directory, self.filename, self.segment_index)
             
             try:
                 add_processing_time_to_metadata(name)
@@ -114,7 +120,8 @@ class TranscriptionHandler:
         transcription_model = WhisperModel(model_path, device, compute_type=compute_type)
 
         yield {"task":"Transcribing file with whisper"}
-        transcription_segments, _ = transcription_model.transcribe(audio=audio_file, vad_filter=True, word_timestamps=True, language=language, no_speech_threshold=0.6)
+        transcription_segments, _ = transcription_model.transcribe(audio=audio_file, vad_filter=True, 
+                                                                word_timestamps=True, language=language, no_speech_threshold=0.6)
         transcript ={"segments": [named_tuple_to_dict(segment) for segment in transcription_segments]}
 
         del transcription_model; gc.collect(); torch.cuda.empty_cache()
