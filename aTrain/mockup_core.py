@@ -2,7 +2,6 @@
 import time
 from .SSE import send_event
 from .globals import SERVER_EVENTS
-from flask import url_for
 
 def transcribe():
     transcribe_id = 123
