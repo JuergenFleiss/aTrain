@@ -6,19 +6,19 @@ def find_free_port():
         s.bind(('localhost', 0))  # Bind to an available port provided by the OS
         return s.getsockname()[1]  # Return the port number assigned
 
-SSE_FRONT_PORT = find_free_port()
-SSE_BACK_PORT = find_free_port()
+SSE_SEND_URL = f"tcp://localhost:{find_free_port()}"
+SSE_RECV_URL = f"tcp://localhost:{find_free_port()}"
 
 def send_event(data, event : str = "message"):
     sender = zmq.Context().socket(zmq.PUSH)
-    sender.connect(f"tcp://localhost:{SSE_FRONT_PORT}")
+    sender.connect(SSE_SEND_URL)
     event_string = f"event: {event}\ndata: {data}\n\n"
     sender.send_string(event_string)
     
 def stream_events():
     print("connected")
     receiver = zmq.Context().socket(zmq.PULL)
-    receiver.connect(f"tcp://localhost:{SSE_BACK_PORT}")
+    receiver.connect(SSE_RECV_URL)
     while True:
         event = receiver.recv_string()
         yield event
@@ -27,9 +27,9 @@ def start_SSE():
     try:
         context = zmq.Context()
         frontend = context.socket(zmq.PULL)
-        frontend.bind(f"tcp://localhost:{SSE_FRONT_PORT}")
+        frontend.bind(SSE_SEND_URL)
         backend = context.socket(zmq.PUSH)
-        backend.bind(f"tcp://localhost:{SSE_BACK_PORT}")
+        backend.bind(SSE_RECV_URL)
         zmq.device(zmq.STREAMER, frontend, backend)
     finally:
         frontend.close()
