@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card w-full bg-base-100" x-data="{catmode: false}" _="on init call SSE.open()">
+{% include "utils/eventsource.html" %}
+<div class="card w-full bg-base-100" x-data="{catmode: false}">
   <div class="card-body">
     <form hx-encoding=multipart/form-data hx-post="{{url_for('start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit add .modal-open to #modalProcess">
 
