@@ -5,6 +5,12 @@
             remove .modal-open from .modal
             add .modal-open to #modalWrongInput
         end
+
+        on {{server_events.finished}} as string
+            set #downloadButton@hx-get to it
+            remove .modal-open from .modal
+            add .modal-open to #modalDownload
+        end
     
         on {{server_events.error}} as json
             put it.error into #errorCode 
@@ -16,5 +22,14 @@
         on {{server_events.task}} as string
             put it into #currentTask
         end
+
+        on {{server_events.progress_total}} as string
+            set #progressBar@max to it
+        end
+
+        on {{server_events.progress}} as string
+            set #progressBar@value to it
+        end
+
     end
 </script>
