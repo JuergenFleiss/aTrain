@@ -1,36 +1,42 @@
-import zmq
-import socket
+from queue import Queue, Full, Empty
+from blinker import signal
 
-def find_free_port():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('localhost', 0))  # Bind to an available port provided by the OS
-        return s.getsockname()[1]  # Return the port number assigned
-
-SSE_SEND_URL = f"tcp://localhost:{find_free_port()}"
-SSE_RECV_URL = f"tcp://localhost:{find_free_port()}"
-
-def send_event(data, event : str = "message"):
-    sender = zmq.Context().socket(zmq.PUSH)
-    sender.connect(SSE_SEND_URL)
+def send_event(data, event : str = "message", channel = "global"):
     event_string = f"event: {event}\ndata: {data}\n\n"
-    sender.send_string(event_string)
-    
-def stream_events():
-    receiver = zmq.Context().socket(zmq.PULL)
-    receiver.connect(SSE_RECV_URL)
-    while True:
-        event = receiver.recv_string()
-        yield event
+    event_signal = signal(channel)
+    event_signal.send(event_string)
 
-def start_SSE():
-    try:
-        context = zmq.Context()
-        frontend = context.socket(zmq.PULL)
-        frontend.bind(SSE_SEND_URL)
-        backend = context.socket(zmq.PUSH)
-        backend.bind(SSE_RECV_URL)
-        zmq.device(zmq.STREAMER, frontend, backend)
-    finally:
-        frontend.close()
-        backend.close()
-        context.term()
+def stream_events(channel = "global", queue_size = 0):
+    event_queue = Queue(maxsize=queue_size)
+    event_signal = signal(channel)
+
+    stop_queue = Queue(maxsize=1)
+    stop_signal = signal(f"stop_{channel}")
+
+    def add_to_event_queue(data):
+        try:
+            event_queue.put_nowait(data)
+        except Full:
+            stop_signal.send("stop")
+            event_signal.disconnect(add_to_event_queue)
+
+    event_signal.connect(add_to_event_queue)
+
+    def add_to_stop_queue(data):
+        try:
+            stop_queue.put_nowait(data)
+        except Full:
+            stop_signal.disconnect(add_to_stop_queue)
+
+    stop_signal.connect(add_to_stop_queue)
+
+    while stop_queue.empty():
+        try:
+            event = event_queue.get_nowait()
+            yield event
+        except Empty:
+            continue
+
+def stop_SSE(channel = "global"):
+    stop_signal = signal(f"stop_{channel}")
+    stop_signal.send("stop")
