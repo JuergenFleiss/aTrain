@@ -13,6 +13,7 @@ TIMESTAMP_FORMAT = "%Y-%m-%d %H-%M-%S"
 class ServerEvents:
     error: str = "transcription_error"
     wrong_input : str = "wrong_input"
+    progress_total : str = "total_progress"
     progress : str = "update_progress"
     task : str = "update_task"
     finished : str = "transcription_finished"
