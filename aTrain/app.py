@@ -76,7 +76,7 @@ def open_directory(file_id):
 def delete_directory(file_id):
     delete_transcription(file_id)
     archive_data = read_archive()
-    return render_template("pages/archive.html", archive_data=archive_data)
+    return render_template("pages/archive.html", archive_data=archive_data, only_content=True)
 
 #-----Run App------#
 def run_app():
