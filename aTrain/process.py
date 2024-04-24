@@ -1,4 +1,4 @@
-from multiprocessing import Queue
+from multiprocessing import Queue, Process
 from queue import Empty, Full
 from typing import Literal, List
 
@@ -7,6 +7,7 @@ RUNNING_PROCESSES = []
 
 def kill_all_processes():
     """Terminate all running processes."""
+    process : Process
     for process in RUNNING_PROCESSES:
         process.terminate()
         print(f"Terminated {process.name}.")
