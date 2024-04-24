@@ -40,5 +40,5 @@ class EventSender:
     def stop(self):
         self.stopper.put("stop")
 
-event_sender = EventSender()
+EVENT_SENDER = EventSender()
 
