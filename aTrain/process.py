@@ -1,5 +1,5 @@
 from multiprocessing import Queue, Process
-from queue import Empty, Full
+from queue import Full
 from typing import Literal, List
 
 SERVER_EVENTS = Literal["error", "progress_value" , "progress_max", "task" , "finished" , "wrong_input"]
@@ -18,20 +18,18 @@ class EventSender:
     def __init__(self, maxsize : int = 10):
         self.listeners : List[Queue]= []
         self.maxsize : int = maxsize
-        self.stopper : Queue = Queue(maxsize=1)
 
     def stream(self):
         listener = Queue(maxsize=self.maxsize)
         self.listeners.append(listener)
-        while self.stopper.empty():
-            try:
-                event = listener.get_nowait()
-                yield event
-            except Empty:
-                continue
+        while True:
+            event = listener.get()
+            if event == "stop":
+                break
+            yield event
 
-    def send(self, data, event : SERVER_EVENTS):
-        event_string = f"event: {event}\ndata: {data}\n\n"
+    def send(self, data, event : SERVER_EVENTS, stop: bool = False):
+        event_string = f"event: {event}\ndata: {data}\n\n" if not stop else "stop"
         for i in reversed(range(len(self.listeners))):
             try:
                 self.listeners[i].put_nowait(event_string)
@@ -39,7 +37,7 @@ class EventSender:
                 del self.listeners[i]
 
     def stop(self):
-        self.stopper.put("stop")
+        self.send(None, None, stop = True)
 
 EVENT_SENDER = EventSender()
 
