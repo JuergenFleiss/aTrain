@@ -15,9 +15,9 @@ def kill_all_processes():
     print("All processes have been terminated.")
 
 class EventSender:
-    def __init__(self, maxsize = 10):
+    def __init__(self, maxsize : int = 10):
         self.listeners : List[Queue]= []
-        self.maxsize = maxsize
+        self.maxsize : int = maxsize
         self.stopper : Queue = Queue(maxsize=1)
 
     def stream(self):
