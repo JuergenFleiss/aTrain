@@ -1,7 +1,7 @@
 from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
-from .process import stream_events, stop_stream, event_queue, running_processes, kill_all_processes
+from .process import event_sender, RUNNING_PROCESSES, kill_all_processes
 from .mockup_core import check_inputs, transcribe
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
@@ -43,19 +43,19 @@ def start_transcription():
     input_correct = check_inputs()
 
     if not input_correct:
-        event_queue.send("",event="wrong_input")
+        event_sender.send("",event="wrong_input")
         return ""
     try:
-        transciption = Process(target=transcribe, kwargs={"event_queue" : event_queue}, daemon=True)
+        transciption = Process(target=transcribe, kwargs={"event_sender" : event_sender}, daemon=True)
         transciption.start()
-        running_processes.append(transciption)
+        RUNNING_PROCESSES.append(transciption)
         return ""
         
     except Exception as error:
         traceback_str = traceback.format_exc()
         error = str(error)
         error_data = json.dumps({"error" : error, "traceback" : traceback_str})
-        event_queue.send(error_data, event="error")
+        event_sender.send(error_data, event="error")
         return ""
 
 @app.route("/stop_transcription")
@@ -65,7 +65,7 @@ def stop_transcription():
 
 @app.get("/SSE")
 def SSE():
-    return Response(stream_events(), mimetype="text/event-stream")
+    return Response(event_sender.stream(), mimetype="text/event-stream")
 
 @app.route('/open/<file_id>')
 def open_directory(file_id):
@@ -84,7 +84,7 @@ def run_app():
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
 
     window = webview.create_window("aTrain",app,height=app_height,width=app_width)
-    window.events.closed += stop_stream
+    window.events.closed += event_sender.stop
     with keep.running():
         webview.start()
 
