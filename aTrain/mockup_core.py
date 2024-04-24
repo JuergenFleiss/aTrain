@@ -21,7 +21,7 @@ def transcribe(event_sender : EventSender = EventSender()):
             print(i)
             event_sender.send(i, event="progress_value")
             if not i % 5:
-                event_sender.send(f"Task{i/5}", event="task")
+                event_sender.send(f"Task{int(i/5)+1}", event="task")
         download_url = f"open/{transcribe_id}"
         event_sender.send(download_url, event="finished")
 
