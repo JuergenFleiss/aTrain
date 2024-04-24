@@ -1,19 +1,20 @@
 #This is a mockup pipeline that will later be replaced by aTrain_core
 import time
-from .SSE import send_event
-from .globals import SERVER_EVENTS
+from .process import EventQueue
 
-def transcribe():
+def transcribe(event_queue : EventQueue = EventQueue()):
     transcribe_id = 123
     total_progess_steps = 10
-    send_event(total_progess_steps, event=SERVER_EVENTS.progress_total)
+    time.sleep(1)
+    event_queue.send(total_progess_steps, event="progress_max")
     for i in range(total_progess_steps):
         time.sleep(1)
-        send_event(i, event=SERVER_EVENTS.progress)
+        print(i)
+        event_queue.send(i, event="progress_value")
         if not i % 5:
-            send_event(f"Task{i}", event=SERVER_EVENTS.task)
+            event_queue.send(f"Task{i}", event="task")
     download_url = f"open/{transcribe_id}"
-    send_event(download_url, event=SERVER_EVENTS.finished)
+    event_queue.send(download_url, event="finished")
 
 def check_inputs():
     return True
