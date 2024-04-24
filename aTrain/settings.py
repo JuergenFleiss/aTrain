@@ -37,6 +37,3 @@ def write_settings(settings : Settings):
     os.makedirs(ATRAIN_DIR, exist_ok=True)
     with open(SETTINGS_FILE,"w", encoding='utf-8') as settings_file:
             yaml.safe_dump(settings.to_dict(),settings_file)
-
-if __name__ == "__main__":
-    print(load_settings())
