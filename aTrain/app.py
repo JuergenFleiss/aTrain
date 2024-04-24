@@ -40,23 +40,10 @@ def faq():
 
 @app.post("/start_transcription")
 def start_transcription():
-    input_correct = check_inputs()
-
-    if not input_correct:
-        EVENT_SENDER.send("",event="wrong_input")
-        return ""
-    try:
-        transciption = Process(target=transcribe, kwargs={"event_sender" : EVENT_SENDER}, daemon=True)
-        transciption.start()
-        RUNNING_PROCESSES.append(transciption)
-        return ""
-        
-    except Exception as error:
-        traceback_str = traceback.format_exc()
-        error = str(error)
-        error_data = json.dumps({"error" : error, "traceback" : traceback_str})
-        EVENT_SENDER.send(error_data, event="error")
-        return ""
+    transciption = Process(target=transcribe, kwargs={"event_sender" : EVENT_SENDER}, daemon=True)
+    transciption.start()
+    RUNNING_PROCESSES.append(transciption)
+    return ""
 
 @app.route("/stop_transcription")
 def stop_transcription():
