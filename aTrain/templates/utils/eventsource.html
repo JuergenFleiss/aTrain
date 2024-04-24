@@ -1,33 +1,33 @@
 <script type="text/hyperscript">
     eventsource SSE from {{url_for("SSE")}}
-    
-        on {{server_events.wrong_input}} as string
+     
+        on wrong_input as string
             remove .modal-open from .modal
             add .modal-open to #modalWrongInput
         end
 
-        on {{server_events.finished}} as string
+        on finished as string
             set #downloadButton@hx-get to it
             remove .modal-open from .modal
             add .modal-open to #modalDownload
         end
     
-        on {{server_events.error}} as json
+        on error as json
             put it.error into #errorCode 
             put it.traceback into #traceback
             remove .modal-open from .modal
             add .modal-open to #modalError
         end
 
-        on {{server_events.task}} as string
+        on task as string
             put it into #currentTask
         end
 
-        on {{server_events.progress_total}} as string
+        on progress_max as string
             set #progressBar@max to it
         end
 
-        on {{server_events.progress}} as string
+        on progress_value as string
             set #progressBar@value to it
         end
 
