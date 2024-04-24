@@ -37,7 +37,7 @@ class EventSender:
                 del self.listeners[i]
 
     def stop(self):
-        self.send(None, None, stop = True)
+        self.send(data = None, event = None, stop = True)
 
 EVENT_SENDER = EventSender()
 
