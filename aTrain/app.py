@@ -1,12 +1,11 @@
 from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
-from .SSE import stream_events, send_event, stop_SSE
-from .globals import SERVER_EVENTS
+from .process import stream_events, stop_stream, event_queue, running_processes, kill_all_processes
 from .mockup_core import check_inputs, transcribe
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
-from threading import Thread
+from multiprocessing import Process
 import webview
 from wakepy import keep
 import json
@@ -23,7 +22,7 @@ def format_duration(duration):
 
 @app.context_processor
 def set_globals():
-    return dict(version=__version__, server_events=SERVER_EVENTS)
+    return dict(version=__version__)
 
 #-----Routes------#
 
@@ -44,22 +43,24 @@ def start_transcription():
     input_correct = check_inputs()
 
     if not input_correct:
-        send_event("",event=SERVER_EVENTS.wrong_input)
+        event_queue.send("",event="wrong_input")
         return ""
     try:
-        transciption = Thread(target=transcribe, daemon=True)
+        transciption = Process(target=transcribe, kwargs={"event_queue" : event_queue}, daemon=True)
         transciption.start()
+        running_processes.append(transciption)
         return ""
         
     except Exception as error:
         traceback_str = traceback.format_exc()
         error = str(error)
         error_data = json.dumps({"error" : error, "traceback" : traceback_str})
-        send_event(error_data, event=SERVER_EVENTS.error)
+        event_queue.send(error_data, event="error")
         return ""
 
 @app.route("/stop_transcription")
 def stop_transcription():
+    kill_all_processes()
     return redirect(request.referrer)
 
 @app.get("/SSE")
@@ -83,7 +84,7 @@ def run_app():
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
 
     window = webview.create_window("aTrain",app,height=app_height,width=app_width)
-    window.events.closed += stop_SSE
+    window.events.closed += stop_stream
     with keep.running():
         webview.start()
 
