@@ -3,7 +3,7 @@ from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, RUNNING_PROCESSES, kill_all_processes
 from .mockup_core import transcribe
-from flask import Flask, render_template, request, redirect, Response
+from flask import Flask, render_template, redirect, Response, url_for
 from screeninfo import get_monitors
 from multiprocessing import Process
 import webview
@@ -46,7 +46,7 @@ def start_transcription():
 @app.route("/stop_transcription")
 def stop_transcription():
     kill_all_processes()
-    return redirect(request.referrer)
+    return redirect(url_for("home"))
 
 @app.get("/SSE")
 def SSE():
