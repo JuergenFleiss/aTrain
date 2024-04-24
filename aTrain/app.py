@@ -2,14 +2,12 @@ from .utils import read_archive, delete_transcription, open_file_directory, load
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, RUNNING_PROCESSES, kill_all_processes
-from .mockup_core import check_inputs, transcribe
+from .mockup_core import transcribe
 from flask import Flask, render_template, request, redirect, Response
 from screeninfo import get_monitors
 from multiprocessing import Process
 import webview
 from wakepy import keep
-import json
-import traceback
 import time
 import argparse
 
