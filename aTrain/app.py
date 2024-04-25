@@ -52,12 +52,12 @@ def stop_transcription():
 def SSE():
     return Response(EVENT_SENDER.stream(), mimetype="text/event-stream")
 
-@app.route('/open/<file_id>')
+@app.route('/open_directory/<file_id>')
 def open_directory(file_id):
     open_file_directory(file_id)
     return ""
     
-@app.route("/delete/<file_id>")
+@app.route("/delete_directory/<file_id>")
 def delete_directory(file_id):
     delete_transcription(file_id)
     archive_data = read_archive()
