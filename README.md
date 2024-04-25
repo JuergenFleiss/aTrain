@@ -59,6 +59,9 @@ Debian support with manual installation [Wiki instructions](https://github.com/J
 
 Currently no MacOS support.
 
+If you want to use Windows Server, ensure that WebView2 is installed:  
+https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download 
+
 ## Installation for users 😎
 Simply access the installer from the Microsoft app store  
 https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
