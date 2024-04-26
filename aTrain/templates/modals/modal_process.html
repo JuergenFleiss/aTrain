@@ -1,4 +1,4 @@
-<dialog class="modal" id="modalProcess" _="on started add .modal-open to me then send started to .timer">
+<dialog class="modal" id="modalProcess" _="on started add .modal-open to me then send started to #timer">
   <form method="dialog" class="modal-box overflow-visible">
       <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
       <p>The system is transcribing your file right now, be patient!</p>
@@ -10,7 +10,11 @@
         <div>
             <div class="text-sm">{{"Running on " + device if device else ""}}</div>
             <div>
-              {% include 'modals/modal_timer.html' with context %}
+              <span id="timer" class="text-sm" _="on started repeat until finished wait 1s then increment $duration then send update to <span/> in me">
+                  <span _="on update set my innerHTML to String(Math.floor($duration / 3600)).padStart(2,'0')"></span>h
+                  <span _="on update set my innerHTML to String(Math.floor(($duration mod 3600)/60)).padStart(2,'0')"></span>m
+                  <span _="on update set my innerHTML to String($duration mod 60).padStart(2,'0')"></span>s
+              </span>
             </div>
         </div>
         <a href="{{ url_for('stop_transcription')}}" class="mt-3 btn btn-primary">stop</a>
