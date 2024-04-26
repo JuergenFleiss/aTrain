@@ -41,7 +41,7 @@ def open_file_directory(file_id):
         show_in_file_manager(directory_name)
 
 def load_faqs():
-    faq_path = str(files("aTrain.faq").joinpath("faq.yaml"))
+    faq_path = str(files("aTrain.static").joinpath("faq.yaml"))
     with open(faq_path,"r", encoding='utf-8') as faq_file:
         faqs = yaml.safe_load(faq_file)
     return faqs
