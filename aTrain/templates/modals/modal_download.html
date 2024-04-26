@@ -2,7 +2,7 @@
     <form method="dialog" class="modal-box" x-init="clearInterval(Timer)">
         <h3 class="font-bold text-lg">We did it, it is finished! 🎉🎉🎉</h3>
         <p>We transcribed your file in 
-            {% include 'modals/modal_timer.html' with context %}
+        <span id="finalTime" _="on finished set my innerHTML to #timer.innerHTML"></span>
         </p>
         <img class="modal-image my-2 mx-auto w-full h-full hidden" src="static/images/cat_success.gif" alt="Success image">
         <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/success.gif" alt="Success image">
