@@ -5,7 +5,7 @@ from typing import Literal, List
 SERVER_EVENTS = Literal["error", "progress_value" , "progress_max", "task" , "finished" , "wrong_input"]
 RUNNING_PROCESSES = []
 
-def kill_all_processes():
+def stop_all_processes():
     """Terminate all running processes."""
     process : Process
     for process in RUNNING_PROCESSES:
