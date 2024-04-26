@@ -2,9 +2,7 @@
     <form method="dialog" class="modal-box" x-init="clearInterval(Timer)">
         <h3 class="font-bold text-lg">We did it, it is finished! 🎉🎉🎉</h3>
         <p>We transcribed your file in 
-            <span x-text="Math.floor(duration / 3600).toString().padStart(2,'0')"></span>h
-            <span x-text="Math.floor((duration % 3600) / 60).toString().padStart(2,'0')"></span>m
-            <span x-text="Math.floor(duration % 60).toString().padStart(2,'0')"></span>s.
+            {% include 'modals/modal_timer.html' with context %}
         </p>
         <img class="modal-image my-2 mx-auto w-full h-full hidden" src="static/images/cat_success.gif" alt="Success image">
         <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/success.gif" alt="Success image">
