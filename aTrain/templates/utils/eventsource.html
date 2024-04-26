@@ -8,6 +8,7 @@
 
         on finished as string
             set #downloadButton@hx-get to it
+            send finished to #timer and #finalTime
             remove .modal-open from .modal
             add .modal-open to #modalDownload
         end
