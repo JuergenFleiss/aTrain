@@ -13,7 +13,7 @@ def transcribe(event_sender : EventSender = EventSender()):
     
     #----running transcription----#
     try:
-        transcribe_id = 123
+        transcribe_id = "asdf"
         total_progess_steps = 10
         event_sender.send(total_progess_steps, event="progress_max")
         for i in range(total_progess_steps):
@@ -22,7 +22,7 @@ def transcribe(event_sender : EventSender = EventSender()):
             event_sender.send(i, event="progress_value")
             if not i % 5:
                 event_sender.send(f"Task{int(i/5)+1}", event="task")
-        download_url = f"open/{transcribe_id}"
+        download_url = f"open_directory/{transcribe_id}"
         event_sender.send(download_url, event="finished")
 
     except Exception as error:
