@@ -10,7 +10,6 @@ def stop_all_processes():
     process : Process
     for process in RUNNING_PROCESSES:
         process.terminate()
-        print(f"Terminated {process.name}.")
     RUNNING_PROCESSES.clear()
     print("All processes have been terminated.")
 
