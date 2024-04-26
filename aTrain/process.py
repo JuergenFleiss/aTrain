@@ -41,3 +41,6 @@ class EventSender:
 
 EVENT_SENDER = EventSender()
 
+def teardown():
+    EVENT_SENDER.stop()
+    stop_all_processes()
