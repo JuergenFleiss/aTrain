@@ -1,4 +1,4 @@
-<dialog class="modal" id="modalProcess">
+<dialog class="modal" id="modalProcess" _="on started add .modal-open to me then send started to .timer">
   <form method="dialog" class="modal-box overflow-visible">
       <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
       <p>The system is transcribing your file right now, be patient!</p>
@@ -8,20 +8,10 @@
       <progress id="progressBar" class="progress progress-primary	w-100" value="0" max="1000"></progress>
       <div class="card-actions justify-between items-center">
         <div>
-          <div class="text-sm">{{"Running on " + device if device else ""}}</div>
-          <div>
-            <span class="text-sm" x-text="Math.floor(duration / 3600).toString().padStart(2,'0')"></span>h
-            <span class="text-sm" x-text="Math.floor((duration % 3600) / 60).toString().padStart(2,'0')"></span>m
-            <span class="text-sm" x-text="Math.floor(duration % 60).toString().padStart(2,'0')"></span>s /
-            <template x-if="duration < total_duration">
-              <span class="text-sm font-bold">~ {{total_duration|format_duration if total_duration else ""}}</span>
-            </template>
-            <template x-if="duration >= total_duration">
-              <span class="tooltip" data-tip="See FAQ for more information">
-                <span class="text-sm font-bold link">Longer than estimated</span>
-              </span>
-            </template>
-          </div>
+            <div class="text-sm">{{"Running on " + device if device else ""}}</div>
+            <div>
+              {% include 'modals/modal_timer.html' with context %}
+            </div>
         </div>
         <a href="{{ url_for('stop_transcription')}}" class="mt-3 btn btn-primary">stop</a>
       </div>
