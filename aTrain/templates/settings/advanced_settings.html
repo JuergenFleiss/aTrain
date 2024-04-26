@@ -8,7 +8,7 @@
                 <div class="flex justify-between items-center px-4">
                     <span class="text-sm font-medium">CPU</span> 
                     {% if settings.cuda_available %}
-                        <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" checked/>
+                        <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" _="on change set checked of #float16 to false then toggle @disabled on #float16" checked/>
                     {% else %}
                         <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" disabled/>
                     {% endif %}
