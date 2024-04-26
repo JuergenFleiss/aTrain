@@ -3,7 +3,7 @@
 {% include "utils/eventsource.html" %}
 <div class="card w-full bg-base-100">
   <div class="card-body">
-    <form hx-encoding=multipart/form-data hx-post="{{url_for('start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit add .modal-open to #modalProcess">
+    <form hx-encoding=multipart/form-data hx-post="{{url_for('start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit send started to #modalProcess">
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% include 'settings/file_input.html' with context %}
