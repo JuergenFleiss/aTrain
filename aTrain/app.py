@@ -1,7 +1,7 @@
 from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
 from .version import __version__
 from .settings import load_settings
-from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes
+from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes, teardown
 from .mockup_core import transcribe
 from flask import Flask, render_template, redirect, Response, url_for
 from screeninfo import get_monitors
@@ -69,7 +69,7 @@ def run_app():
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
 
     window = webview.create_window("aTrain",app,height=app_height,width=app_width)
-    window.events.closed += EVENT_SENDER.stop
+    window.events.closed += teardown
     with keep.running():
         webview.start()
 
