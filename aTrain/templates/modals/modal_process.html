@@ -1,4 +1,4 @@
-<dialog class="modal" id="modalProcess" _="on started add .modal-open to me">
+<dialog class="modal" id="modalProcess" _="on started add .modal-open to me then if #GPU.checked set #device.innerHTML to 'GPU'">
   <form method="dialog" class="modal-box overflow-visible">
       <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
       <p>The system is transcribing your file right now, be patient!</p>
@@ -8,7 +8,7 @@
       <progress id="progressBar" class="progress progress-primary	w-100" value="0" max="1000"></progress>
       <div class="card-actions justify-between items-center">
         <div>
-            <div class="text-sm">{{"Running on " + device if device else ""}}</div>
+            <div class="text-sm">Running on <span id="device">CPU</span></div>
             <div>
               <span id="timer" class="text-sm" _="on started repeat until finished wait 1s then increment $duration then send update to <span/> in me">
                   <span _="on update set my innerHTML to String(Math.floor($duration / 3600)).padStart(2,'0')">00</span>h
