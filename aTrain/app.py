@@ -122,7 +122,7 @@ def run_app():
 
 def cli():
     parser = argparse.ArgumentParser(prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
-    parser.add_argument("command", choices=['init', 'start'], help="Command for aTrain to perform.")
+    parser.add_argument("command", choices=['init', 'start', 'startserver'], help="Command for aTrain to perform.")
     args = parser.parse_args()
 
     if args.command == "init":
@@ -132,3 +132,6 @@ def cli():
     if args.command == "start":
         print("Running aTrain")
         run_app()
+    if args.command == "startserver":
+        print("Starting Webserver at Port 80")
+        app.run(host='0.0.0.0', port=80)
