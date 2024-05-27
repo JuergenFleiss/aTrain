@@ -1,10 +1,21 @@
-from multiprocessing import Queue, Process
-from queue import Full
-from typing import Literal, List
+from multiprocessing import Process
+from flask import Request
+from aTrain_core.GUI_integration import EventSender
 
-SERVER_EVENTS = Literal["error", "progress_value",
-                        "progress_max", "task", "finished", "wrong_input"]
 RUNNING_PROCESSES = []
+EVENT_SENDER = EventSender()
+
+
+def get_inputs(request: Request):
+    file = request.form.get('file')
+    model = request.form.get('model')
+    language = request.form.get('language')
+    speaker_detection = True if request.form.get(
+        'speaker_detection') else False
+    num_speakers = request.form.get("num_speakers")
+    device = "GPU" if request.form.get('GPU') else "CPU"
+    compute_type = "float16" if request.form.get('float16') else "int8"
+    return file, model, language, speaker_detection, num_speakers, device, compute_type
 
 
 def stop_all_processes():
@@ -16,35 +27,6 @@ def stop_all_processes():
     print("All processes have been terminated.")
 
 
-class EventSender:
-    def __init__(self, maxsize: int = 10):
-        self.listeners: List[Queue] = []
-        self.maxsize: int = maxsize
-
-    def stream(self):
-        listener = Queue(maxsize=self.maxsize)
-        self.listeners.append(listener)
-        while True:
-            event = listener.get()
-            if event == "stop":
-                break
-            yield event
-
-    def send(self, data, event: SERVER_EVENTS, stop: bool = False):
-        event_string = f"event: {event}\ndata: {data}\n\n" if not stop else "stop"
-        for i in reversed(range(len(self.listeners))):
-            try:
-                self.listeners[i].put_nowait(event_string)
-            except Full:
-                del self.listeners[i]
-
-    def stop(self):
-        self.send(data=None, event=None, stop=True)
-
-
-EVENT_SENDER = EventSender()
-
-
 def teardown():
-    EVENT_SENDER.stop()
+    EVENT_SENDER.end_stream()
     stop_all_processes()
