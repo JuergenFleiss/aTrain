@@ -1,15 +1,10 @@
 from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod
 from .version import __version__
 from .settings import load_settings
-from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes, teardown, get_inputs
-from aTrain_core.transcribe import transcribe
+from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
 from aTrain_core.load_resources import remove_model, load_model_config_file
-from aTrain_core.globals import TIMESTAMP_FORMAT
-from aTrain_core.outputs import create_file_id
 from flask import Flask, render_template, redirect, Response, url_for, request
 from screeninfo import get_monitors
-from datetime import datetime
-from multiprocessing import Process
 import webview
 from wakepy import keep
 import time
@@ -53,25 +48,7 @@ def load_models():
 
 @app.post("/start_transcription")
 def start_transcription():
-    audio_file, model, language, speaker_detection, num_speakers, device, compute_type = get_inputs(
-        request)
-
-    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    file_id = create_file_id(audio_file, timestamp)
-
-    transciption = Process(target=transcribe, kwargs={
-        "audio_file": audio_file,
-        "file_id": file_id,
-        "model": model,
-        "language": language,
-        "speaker_detection": speaker_detection,
-        "num_speakers": num_speakers,
-        "device": device,
-        "compute_type": compute_type,
-        "timestamp": timestamp,
-        "GUI": EVENT_SENDER}, daemon=True)
-    transciption.start()
-    RUNNING_PROCESSES.append(transciption)
+    start_process(request)
     return ""
 
 
