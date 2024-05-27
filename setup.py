@@ -4,9 +4,9 @@ import platform
 
 system = platform.system()
 if system in ["Windows","Linux"]:
-    torch = "torch==2.0.0+cu118"
+    torch = "torch==2.2.0+cu121"
 if system == "Darwin":
-    torch = "torch==2.0.0"
+    torch = "torch==2.2.0"
 
 main_ns = {}
 ver_path = convert_path('aTrain/version.py')
@@ -21,12 +21,12 @@ setup(
     python_requires=">=3.10",
     install_requires=[
         torch,
-        "torchaudio==2.0.1",
-        "faster-whisper>=0.8,<=0.9",
+        "torchaudio==2.2.0",
+        "faster-whisper==1.0.2",
         "transformers",
         "ffmpeg-python>=0.2",
         "pandas",
-        "pyannote.audio==3.0.0",
+        "pyannote.audio==3.2.0",
         "Flask==2.3.2",
         "pywebview==4.2.2",
         "flaskwebgui",

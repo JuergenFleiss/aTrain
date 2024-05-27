@@ -3,6 +3,7 @@ from .process import EventSender
 import time
 import json
 import traceback
+from aTrain_core import transcribe
 
 def transcribe(event_sender : EventSender = EventSender()):
     #----input checking----#

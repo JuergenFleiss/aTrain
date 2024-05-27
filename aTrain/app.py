@@ -1,9 +1,11 @@
-from .utils import read_archive, delete_transcription, open_file_directory, load_faqs
+from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes, teardown
-from .mockup_core import transcribe
-from flask import Flask, render_template, redirect, Response, url_for
+#from .mockup_core import transcribe
+from aTrain_core import transcribe
+from aTrain_core.load_resources import remove_model, load_model_config_file
+from flask import Flask, render_template, redirect, Response, url_for, render_template_string
 from screeninfo import get_monitors
 from multiprocessing import Process
 import webview
@@ -36,6 +38,10 @@ def archive():
 def faq():
     return render_template("pages/faq.html", faqs = load_faqs())
 
+@app.get("/load_models")
+def load_models():
+    return render_template("pages/load_models.html", models= read_downloaded_models())
+
 @app.post("/start_transcription")
 def start_transcription():
     transciption = Process(target=transcribe, kwargs={"event_sender" : EVENT_SENDER}, daemon=True)
@@ -62,6 +68,30 @@ def delete_directory(file_id):
     delete_transcription(file_id)
     archive_data = read_archive()
     return render_template("pages/archive.html", archive_data=archive_data, only_content=True)
+
+@app.route('/open_model_directory/<model>')
+def open_model_directory(model):
+    open_model_dir(model)
+    return ""
+
+@app.route('/download_model/<model>')
+def download_model(model):
+    download_mod(model)
+    return ""
+
+@app.route('/delete_model/<model>')
+def delete_model(model):
+    remove_model(model)
+    models = read_downloaded_models()
+    return render_template("pages/load_models.html", models=models, only_content=True)
+
+
+
+@app.route('/get_models') # for transcription page
+def get_models():
+    models = list(load_model_config_file().keys())
+    options = ''.join([f'<option value="{model}">{model}</option>' for model in models])
+    return options
 
 #-----Run App------#
 def run_app():
