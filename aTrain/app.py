@@ -72,8 +72,7 @@ def open_directory(file_id):
 @app.route("/delete_directory/<file_id>")
 def delete_directory(file_id):
     delete_transcription(file_id)
-    archive_data = read_archive()
-    return render_template("pages/archive.html", archive_data=archive_data, only_content=True)
+    return render_template("pages/archive.html", archive_data=read_archive(), only_content=True)
 
 
 @app.route('/open_model_directory/<model>')
