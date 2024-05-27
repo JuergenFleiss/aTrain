@@ -6,7 +6,7 @@ from aTrain_core.transcribe import transcribe
 from aTrain_core.load_resources import remove_model, load_model_config_file
 from aTrain_core.globals import TIMESTAMP_FORMAT
 from aTrain_core.outputs import create_file_id
-from flask import Flask, render_template, redirect, Response, url_for, request, render_template_string
+from flask import Flask, render_template, redirect, Response, url_for, request
 from screeninfo import get_monitors
 from datetime import datetime
 from multiprocessing import Process
