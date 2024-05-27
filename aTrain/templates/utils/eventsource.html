@@ -1,9 +1,12 @@
 <script type="text/hyperscript">
     eventsource SSE from {{url_for("SSE")}}
-     
-        on wrong_input as string
-            remove .modal-open from .modal
-            add .modal-open to #modalWrongInput
+        on task as string
+            put it into #currentTask
+        end
+
+        on progress as json
+            set #progressBar@max to it.total
+            set #progressBar@value to it.current
         end
 
         on finished as string
@@ -13,25 +16,12 @@
             remove .modal-open from .modal
             add .modal-open to #modalDownload
         end
-    
+
         on error as json
             put it.error into #errorCode 
             put it.traceback into #traceback
             remove .modal-open from .modal
             add .modal-open to #modalError
-        end
-
-        on task as string
-            put it into #currentTask
-        end
-
-        on progress_max as string
-            set #progressBar@max to it
-        end
-
-        on progress_value as string
-            set #progressBar@value to it
-        end
-
+        end  
     end
 </script>
