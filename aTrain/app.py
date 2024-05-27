@@ -15,6 +15,7 @@ from wakepy import keep
 import time
 import argparse
 
+
 # -----Setup------#
 app = Flask(__name__)
 
@@ -28,9 +29,8 @@ def format_duration(duration):
 def set_globals():
     return dict(version=__version__)
 
+
 # -----Routes------#
-
-
 @app.get("/")
 def home():
     return render_template("pages/transcribe.html", settings=load_settings())
@@ -126,28 +126,16 @@ def get_models():
     return options
 
 
-# ----- pywebview API -----#
-
-
-def filedialog():
-    file_types = ('All files (*.*)', 'All files (*.*)')
-    audio_file = WINDOW.create_file_dialog(
-        webview.OPEN_DIALOG, file_types=file_types
-    )
-    return audio_file
-
-
 # ----- Run App ------#
-
-
 def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
-    global WINDOW
-    WINDOW = webview.create_window(
+    window = webview.create_window(
         "aTrain", app, height=app_height, width=app_width)
-    WINDOW.expose(filedialog)
-    WINDOW.events.closed += teardown
+
+    def filedialog(): return window.create_file_dialog(webview.OPEN_DIALOG)
+    window.expose(filedialog)
+    window.events.closed += teardown
     with keep.running():
         webview.start()
 
