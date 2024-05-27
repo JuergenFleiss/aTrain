@@ -1,12 +1,14 @@
 from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod
 from .version import __version__
 from .settings import load_settings
-from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes, teardown
-# from .mockup_core import transcribe
-from aTrain_core import transcribe
+from .process import EVENT_SENDER, RUNNING_PROCESSES, stop_all_processes, teardown, get_inputs
+from aTrain_core.transcribe import transcribe
 from aTrain_core.load_resources import remove_model, load_model_config_file
-from flask import Flask, render_template, redirect, Response, url_for, render_template_string
+from aTrain_core.globals import TIMESTAMP_FORMAT
+from aTrain_core.outputs import create_file_id
+from flask import Flask, render_template, redirect, Response, url_for, request, render_template_string
 from screeninfo import get_monitors
+from datetime import datetime
 from multiprocessing import Process
 import webview
 from wakepy import keep
@@ -51,8 +53,23 @@ def load_models():
 
 @app.post("/start_transcription")
 def start_transcription():
+    audio_file, model, language, speaker_detection, num_speakers, device, compute_type = get_inputs(
+        request)
+
+    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
+    file_id = create_file_id(audio_file, timestamp)
+
     transciption = Process(target=transcribe, kwargs={
-                           "event_sender": EVENT_SENDER}, daemon=True)
+        "audio_file": audio_file,
+        "file_id": file_id,
+        "model": model,
+        "language": language,
+        "speaker_detection": speaker_detection,
+        "num_speakers": num_speakers,
+        "device": device,
+        "compute_type": compute_type,
+        "timestamp": timestamp,
+        "GUI": EVENT_SENDER}, daemon=True)
     transciption.start()
     RUNNING_PROCESSES.append(transciption)
     return ""
@@ -108,16 +125,29 @@ def get_models():
         [f'<option value="{model}">{model}</option>' for model in models])
     return options
 
-# -----Run App------#
+
+# ----- pywebview API -----#
+
+
+def filedialog():
+    file_types = ('All files (*.*)', 'All files (*.*)')
+    audio_file = WINDOW.create_file_dialog(
+        webview.OPEN_DIALOG, file_types=file_types
+    )
+    return audio_file
+
+
+# ----- Run App ------#
 
 
 def run_app():
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
-
-    window = webview.create_window(
+    global WINDOW
+    WINDOW = webview.create_window(
         "aTrain", app, height=app_height, width=app_width)
-    window.events.closed += teardown
+    WINDOW.expose(filedialog)
+    WINDOW.events.closed += teardown
     with keep.running():
         webview.start()
 
