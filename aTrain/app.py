@@ -91,8 +91,7 @@ def download_model(model):
 @app.route('/delete_model/<model>')
 def delete_model(model):
     remove_model(model)
-    models = read_downloaded_models()
-    return render_template("pages/load_models.html", models=models, only_content=True)
+    return render_template("pages/load_models.html", models=read_downloaded_models(), only_content=True)
 
 
 @app.route('/get_models')  # for transcription page
