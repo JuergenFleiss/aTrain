@@ -23,7 +23,7 @@ def start_process(request: Request):
 
 
 def get_inputs(request: Request):
-    """This function extracts the form data from the flask request and returns it as a dictionary."""
+    """This function extracts the file and form data from the flask request and returns them."""
     file = request.files["file"]
     settings = dict(request.form)
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
