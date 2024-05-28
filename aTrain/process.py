@@ -26,10 +26,16 @@ def get_inputs(request: Request):
     """This function extracts the file and form data from the flask request and returns them."""
     file = request.files["file"]
     settings = dict(request.form)
+    settings = resolve_boolean_inputs(settings)
+    return settings, file
+
+
+def resolve_boolean_inputs(settings: dict):
+    """This function checks if on/off inputs are present and replaces them with a boolean."""
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
     settings["device"] = "GPU" if 'GPU' in settings else "CPU"
     settings["compute_type"] = "float16" if 'float16' in settings else "int8"
-    return settings, file
+    return settings
 
 
 def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender):
