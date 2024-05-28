@@ -1,5 +1,6 @@
 from multiprocessing import Process
 from flask import Request
+from io import BytesIO
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.check_inputs import check_inputs_transcribe
 from aTrain_core.globals import TIMESTAMP_FORMAT
@@ -14,31 +15,32 @@ EVENT_SENDER = EventSender()
 
 def start_process(request: Request):
     """This function executes the transcription in a seperate process."""
-    inputs = get_inputs(request=request)
+    settings, file = get_inputs(request=request)
     transciption = Process(target=try_to_transcribe,
-                           args=(inputs, EVENT_SENDER), daemon=True)
+                           args=(settings, file.filename, file.stream.read(), EVENT_SENDER), daemon=True)
     transciption.start()
     RUNNING_PROCESSES.append(transciption)
 
 
 def get_inputs(request: Request):
     """This function extracts the form data from the flask request and returns it as a dictionary."""
-    inputs = dict(request.form)
-    inputs["speaker_detection"] = True if "speaker_detection" in inputs else False
-    inputs["device"] = "GPU" if 'GPU' in inputs else "CPU"
-    inputs["compute_type"] = "float16" if 'float16' in inputs else "int8"
-    return inputs
+    file = request.files["file"]
+    settings = dict(request.form)
+    settings["speaker_detection"] = True if "speaker_detection" in settings else False
+    settings["device"] = "GPU" if 'GPU' in settings else "CPU"
+    settings["compute_type"] = "float16" if 'float16' in settings else "int8"
+    return settings, file
 
 
-def try_to_transcribe(inputs: dict, event_sender: EventSender):
+def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender):
     """A function that calls aTrain_core and handles errors if they happen."""
     try:
         check_inputs_transcribe(
-            file=inputs["file"], model=inputs["model"], language=inputs["language"], device=inputs["device"])
+            file=file_name, model=settings["model"], language=settings["language"], device=settings["device"])
         timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-        file_id = create_file_id(inputs["file"], timestamp)
-        transcribe(inputs["file"], file_id, inputs["model"], inputs["language"], inputs["speaker_detection"],
-                   inputs["num_speakers"], inputs["device"], inputs["compute_type"], timestamp, event_sender)
+        file_id = create_file_id(file_name, timestamp)
+        transcribe(BytesIO(file_content), file_id, settings["model"], settings["language"], settings["speaker_detection"],
+                   settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
