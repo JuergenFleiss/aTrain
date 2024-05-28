@@ -2,10 +2,10 @@
     {% extends 'base.html' %}
 {% endif %}
 {% block content %}
-<div id="load_models" class="card w-full bg-base-100">
+<div id="model_manager" class="card w-full bg-base-100">
     <div class="card-body">
         <div class="flex justify-between">
-            <h2 class="card-title font-bold text-accent">Model Loader</h2>
+            <h2 class="card-title font-bold text-accent">Model Manager</h2>
             <div> 
                 <div hx-get="{{url_for('open_model_directory', model = 'all')}}" hx-swap="none" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Show All</div>
                 <div hx-get="{{url_for('download_model', model = 'all')}}" hx-swap="none" class="btn mr-2 btn-xs md:btn-sm">Download All</div>
@@ -29,7 +29,7 @@
                     <td>{{'Yes' if model_dict['downloaded'] else 'No'}}</td>
                     <td>
                         <div hx-get="{{url_for('open_model_directory', model = model_dict['model'])}}" hx-swap="none" class="btn btn-neutral mr-2 btn-xs md:btn-sm">open</div>
-                        <div hx-get="{{url_for('delete_model', model = model_dict['model'])}}" hx-target="#load_models" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">delete</div>
+                        <div hx-get="{{url_for('delete_model', model = model_dict['model'])}}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">delete</div>
                     </td>
                 </tr>
                 {% endfor %}
