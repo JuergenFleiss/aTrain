@@ -41,9 +41,9 @@ def faq():
     return render_template("pages/faq.html", faqs=load_faqs())
 
 
-@app.get("/load_models")
-def load_models():
-    return render_template("pages/load_models.html", models=read_downloaded_models())
+@app.get("/model_manager")
+def model_manager():
+    return render_template("pages/model_manager.html", models=list(load_model_config_file().keys()))
 
 
 @app.post("/start_transcription")
@@ -90,12 +90,12 @@ def download_model(model):
 @app.route('/delete_model/<model>')
 def delete_model(model):
     remove_model(model)
-    return render_template("pages/load_models.html", models=read_downloaded_models(), only_content=True)
+    return render_template("pages/model_manager.html", models=read_downloaded_models(), only_content=True)
 
 
 @app.route('/get_models')  # for transcription page
 def get_models():
-    models = list(load_model_config_file().keys())
+    models = read_downloaded_models()
     options = ''.join(
         [f'<option value="{model}">{model}</option>' for model in models])
     return options
