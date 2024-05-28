@@ -107,9 +107,6 @@ def run_app():
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
     window = webview.create_window(
         "aTrain", app, height=app_height, width=app_width)
-
-    def filedialog(): return window.create_file_dialog(webview.OPEN_DIALOG)
-    window.expose(filedialog)
     window.events.closed += teardown
     with keep.running():
         webview.start()
