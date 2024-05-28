@@ -1,9 +1,6 @@
 <div>
     <h2 class="font-bold text-primary">File Input</h2>
     <div class="divider my-0"></div>
-    <div class="flex items-center my-2 gap-2 w-full max-w-xs">
-        <input id="file" type="text" name="file" placeholder="No file selected" class="input input-bordered input-sm w-full pointer-events-none" required>
-        <div class="btn btn-neutral btn-sm" _="on click set #file.value to pywebview.api.filedialog()">open</div>
-    </div>
+    <input type="file" name="file" class="file-input file-input-bordered file-input-sm w-full my-2 max-w-xs" accept="audio/*,video/*" required>
     <p class="text-sm">Most audio and video formats are allowed.</p>
 </div> 
