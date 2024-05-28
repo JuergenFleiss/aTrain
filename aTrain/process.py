@@ -13,6 +13,7 @@ EVENT_SENDER = EventSender()
 
 
 def start_process(request: Request):
+    """This function executes the transcription in a seperate process."""
     inputs = get_inputs(request=request)
     transciption = Process(target=try_to_transcribe,
                            args=(inputs, EVENT_SENDER), daemon=True)
@@ -21,6 +22,7 @@ def start_process(request: Request):
 
 
 def get_inputs(request: Request):
+    """This function extracts the form data from the flask request and returns it as a dictionary."""
     inputs = dict(request.form)
     inputs["speaker_detection"] = True if "speaker_detection" in inputs else False
     inputs["device"] = "GPU" if 'GPU' in inputs else "CPU"
@@ -29,6 +31,7 @@ def get_inputs(request: Request):
 
 
 def try_to_transcribe(inputs: dict, event_sender: EventSender):
+    """A function that calls aTrain_core and handles errors if they happen."""
     try:
         check_inputs_transcribe(
             file=inputs["file"], model=inputs["model"], language=inputs["language"], device=inputs["device"])
@@ -42,14 +45,14 @@ def try_to_transcribe(inputs: dict, event_sender: EventSender):
 
 
 def stop_all_processes():
-    """Terminate all running processes."""
+    """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_PROCESSES:
         process.terminate()
     RUNNING_PROCESSES.clear()
-    print("All processes have been terminated.")
 
 
 def teardown():
+    """A function that is invoked when the application window closes and which terminates all processes that are still running."""
     EVENT_SENDER.end_stream()
     stop_all_processes()
