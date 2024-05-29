@@ -1,6 +1,5 @@
 from setuptools import setup, find_packages
 from distutils.util import convert_path
-import platform
 
 main_ns = {}
 ver_path = convert_path('aTrain/version.py')
