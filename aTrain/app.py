@@ -84,13 +84,13 @@ def open_model_directory(model):
 @app.route('/download_model/<model>')
 def download_model(model):
     download_mod(model)
-    return ""
+    return render_template("pages/model_manager.html", models=model_metadata(), only_content=True)
 
 
 @app.route('/delete_model/<model>')
 def delete_model(model):
     remove_model(model)
-    return render_template("pages/model_manager.html", models=read_downloaded_models(), only_content=True)
+    return render_template("pages/model_manager.html", models=model_metadata(), only_content=True)
 
 
 @app.route('/get_models')  # for transcription page
