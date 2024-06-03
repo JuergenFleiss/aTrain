@@ -1,4 +1,4 @@
-from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod
+from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod, model_metadata
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
@@ -43,7 +43,7 @@ def faq():
 
 @app.get("/model_manager")
 def model_manager():
-    return render_template("pages/model_manager.html", models=list(load_model_config_file().keys()))
+    return render_template("pages/model_manager.html", models=model_metadata())
 
 
 @app.post("/start_transcription")
