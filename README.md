@@ -1,4 +1,4 @@
-## aTrain
+# aTrain Ez Transcription with Faster Whisper AI 
 
 ### - See parent readme here 
 - https://github.com/JuergenFleiss/aTrain/blob/main/README.md
