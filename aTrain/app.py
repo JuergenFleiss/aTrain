@@ -1,4 +1,4 @@
-from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod, model_metadata
+from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod, model_metadata, model_languages
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
@@ -96,9 +96,23 @@ def delete_model(model):
 @app.route('/get_models')  # for transcription page
 def get_models():
     models = read_downloaded_models()
+    try:
+        models.remove("diarize")
+    except Exception as e:
+        print("Diarize has already been removed from dropdown menu")
     options = ''.join(
         [f'<option value="{model}">{model}</option>' for model in models])
     return options
+
+@app.route('/get_languages')  # for transcription page
+def get_languages():
+    model = "faster-distil-english"
+    languages_dict = model_languages(model)  # Use a different variable name to store the result
+    options = ''.join(
+        [f'<option value="{code}">{name}</option>' for code, name in languages_dict.items()])
+    return options
+
+
 
 
 # ----- Run App ------#
