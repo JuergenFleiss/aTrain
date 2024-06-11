@@ -28,8 +28,9 @@ def set_globals():
 # -----Routes------#
 @app.get("/")
 def home():
-    return render_template("pages/transcribe.html", settings=load_settings())
-
+    default_model = read_downloaded_models()[0]
+    languages = model_languages(default_model)
+    return render_template("pages/transcribe.html", settings=load_settings(), models=read_downloaded_models(), languages = languages)
 
 @app.get("/archive")
 def archive():
@@ -93,24 +94,12 @@ def delete_model(model):
     return render_template("pages/model_manager.html", models=model_metadata(), only_content=True)
 
 
-@app.route('/get_models')  # for transcription page
-def get_models():
-    models = read_downloaded_models()
-    try:
-        models.remove("diarize")
-    except Exception as e:
-        print("Diarize has already been removed from dropdown menu")
-    options = ''.join(
-        [f'<option value="{model}">{model}</option>' for model in models])
-    return options
-
-@app.route('/get_languages')  # for transcription page
+@app.post('/get_languages')  # for transcription page
 def get_languages():
-    model = "faster-distil-english"
+    model = request.form.get('model')
     languages_dict = model_languages(model)  # Use a different variable name to store the result
-    options = ''.join(
-        [f'<option value="{code}">{name}</option>' for code, name in languages_dict.items()])
-    return options
+    print(languages_dict)
+    return render_template("settings/languages.html", languages=languages_dict)
 
 
 
