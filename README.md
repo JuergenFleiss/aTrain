@@ -3,7 +3,9 @@
 ### - See parent readme here 
 - https://github.com/JuergenFleiss/aTrain/blob/main/README.md
 
-- Clone Repo
+## Quick setup
+
+- Clone Repo https://github.com/samfisherirl/aTrain-one-click-installer/archive/refs/heads/main.zip
 
 - run step1 if you dont have git/python310 installed
 
