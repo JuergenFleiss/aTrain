@@ -41,6 +41,10 @@ def archive():
 def faq():
     return render_template("pages/faq.html", faqs=load_faqs())
 
+@app.get("/about")
+def about():
+    return render_template("pages/about.html")
+
 
 @app.get("/model_manager")
 def model_manager():
