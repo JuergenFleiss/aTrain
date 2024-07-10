@@ -32,7 +32,7 @@ setup(
         "flaskwebgui",
         "screeninfo==0.8.1",
         "wakepy==0.7.2",
-        "show-in-file-manager==1.1.4"
+        "show-in-file-manager==1.1.4",
         "numpy==1.26.4"
     ],
     packages=find_packages(),
