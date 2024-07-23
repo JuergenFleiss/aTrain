@@ -15,11 +15,6 @@ import argparse
 app = Flask(__name__)
 
 
-@app.template_filter
-def format_duration(duration):
-    return time.strftime("%Hh %Mm %Ss", time.gmtime(duration))
-
-
 @app.context_processor
 def set_globals():
     return dict(version=__version__)
