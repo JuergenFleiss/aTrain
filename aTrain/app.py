@@ -7,7 +7,6 @@ from flask import Flask, render_template, redirect, Response, url_for, request
 from screeninfo import get_monitors
 import webview
 from wakepy import keep
-import time
 import argparse
 
 
