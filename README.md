@@ -82,7 +82,7 @@ Activate the virtual environment
 ```
 Install aTrain
 ```
-pip install aTrain@git+https://github.com/JuergenFleiss/aTrain.git --extra-index-url https://download.pytorch.org/whl/cu118
+pip install aTrain@git+https://github.com/JuergenFleiss/aTrain.git --extra-index-url https://download.pytorch.org/whl/cu121
 ```
 Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
 Note: The user version in the Microsoft store has those assets already included. 
@@ -102,7 +102,7 @@ Clone and install aTrain in **editable mode**
 ```
 git clone https://github.com/JuergenFleiss/aTrain.git
 cd aTrain
-pip install -e . --extra-index-url https://download.pytorch.org/whl/cu118
+pip install -e . --extra-index-url https://download.pytorch.org/whl/cu121
 ```
 \
 Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
