@@ -2,7 +2,7 @@ from .utils import read_archive, delete_transcription, open_file_directory, open
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
-from aTrain_core.load_resources import remove_model, load_model_config_file
+from aTrain_core.load_resources import remove_model
 from flask import Flask, render_template, redirect, Response, url_for, request
 from screeninfo import get_monitors
 import webview
@@ -30,7 +30,8 @@ def set_globals():
 def home():
     default_model = read_downloaded_models()[0]
     languages = model_languages(default_model)
-    return render_template("pages/transcribe.html", settings=load_settings(), models=read_downloaded_models(), languages = languages)
+    return render_template("pages/transcribe.html", settings=load_settings(), models=read_downloaded_models(), languages=languages)
+
 
 @app.get("/archive")
 def archive():
@@ -40,6 +41,7 @@ def archive():
 @app.get("/faq")
 def faq():
     return render_template("pages/faq.html", faqs=load_faqs())
+
 
 @app.get("/about")
 def about():
@@ -101,11 +103,10 @@ def delete_model(model):
 @app.post('/get_languages')  # for transcription page
 def get_languages():
     model = request.form.get('model')
-    languages_dict = model_languages(model)  # Use a different variable name to store the result
+    # Use a different variable name to store the result
+    languages_dict = model_languages(model)
     print(languages_dict)
     return render_template("settings/languages.html", languages=languages_dict)
-
-
 
 
 # ----- Run App ------#

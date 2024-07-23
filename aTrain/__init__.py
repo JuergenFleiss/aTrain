@@ -1,1 +1,1 @@
-from .app import run_app, cli
+from .app import run_app

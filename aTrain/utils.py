@@ -1,4 +1,4 @@
-try: 
+try:
     from .globals import TRANSCRIPT_DIR, METADATA_FILENAME, MODELS_DIR
 except ImportError:
     from globals import TRANSCRIPT_DIR, METADATA_FILENAME, MODELS_DIR
@@ -8,7 +8,7 @@ import shutil
 from showinfm import show_in_file_manager
 import yaml
 from importlib.resources import files
-from aTrain_core.load_resources import download_all_resources, get_model, remove_model, load_model_config_file
+from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
 
 
 def read_archive():
@@ -63,73 +63,73 @@ def model_metadata():
         }
         all_models_metadata.append(model_info)
 
-    
-    all_models_metadata = sorted(all_models_metadata, key=lambda x: x["downloaded"], reverse=True)
-
+    all_models_metadata = sorted(
+        all_models_metadata, key=lambda x: x["downloaded"], reverse=True)
 
     return all_models_metadata
+
 
 def model_languages(model):
 
     languages = {
-    "auto-detect": "Detect automatically",
-    "af": "Afrikaans",
-    "ar": "Arabic",
-    "hy": "Armenian",
-    "az": "Azerbaijani",
-    "be": "Belarusian",
-    "bs": "Bosnian",
-    "bg": "Bulgarian",
-    "ca": "Catalan",
-    "zh": "Chinese",
-    "hr": "Croatian",
-    "cs": "Czech",
-    "da": "Danish",
-    "nl": "Dutch",
-    "en": "English",
-    "et": "Estonian",
-    "fi": "Finnish",
-    "fr": "French",
-    "gl": "Galician",
-    "de": "German",
-    "el": "Greek",
-    "he": "Hebrew",
-    "hi": "Hindi",
-    "hu": "Hungarian",
-    "is": "Icelandic",
-    "id": "Indonesian",
-    "it": "Italian",
-    "ja": "Japanese",
-    "kn": "Kannada",
-    "kk": "Kazakh",
-    "ko": "Korean",
-    "lv": "Latvian",
-    "lt": "Lithuanian",
-    "mk": "Macedonian",
-    "ms": "Malay",
-    "mr": "Marathi",
-    "mi": "Maori",
-    "ne": "Nepali",
-    "no": "Norwegian",
-    "fa": "Persian",
-    "pl": "Polish",
-    "pt": "Portuguese",
-    "ro": "Romanian",
-    "ru": "Russian",
-    "sr": "Serbian",
-    "sk": "Slovak",
-    "sl": "Slovenian",
-    "es": "Spanish",
-    "sw": "Swahili",
-    "sv": "Swedish",
-    "tl": "Tagalog",
-    "ta": "Tamil",
-    "th": "Thai",
-    "tr": "Turkish",
-    "uk": "Ukrainian",
-    "ur": "Urdu",
-    "vi": "Vietnamese",
-    "cy": "Welsh"}
+        "auto-detect": "Detect automatically",
+        "af": "Afrikaans",
+        "ar": "Arabic",
+        "hy": "Armenian",
+        "az": "Azerbaijani",
+        "be": "Belarusian",
+        "bs": "Bosnian",
+        "bg": "Bulgarian",
+        "ca": "Catalan",
+        "zh": "Chinese",
+        "hr": "Croatian",
+        "cs": "Czech",
+        "da": "Danish",
+        "nl": "Dutch",
+        "en": "English",
+        "et": "Estonian",
+        "fi": "Finnish",
+        "fr": "French",
+        "gl": "Galician",
+        "de": "German",
+        "el": "Greek",
+        "he": "Hebrew",
+        "hi": "Hindi",
+        "hu": "Hungarian",
+        "is": "Icelandic",
+        "id": "Indonesian",
+        "it": "Italian",
+        "ja": "Japanese",
+        "kn": "Kannada",
+        "kk": "Kazakh",
+        "ko": "Korean",
+        "lv": "Latvian",
+        "lt": "Lithuanian",
+        "mk": "Macedonian",
+        "ms": "Malay",
+        "mr": "Marathi",
+        "mi": "Maori",
+        "ne": "Nepali",
+        "no": "Norwegian",
+        "fa": "Persian",
+        "pl": "Polish",
+        "pt": "Portuguese",
+        "ro": "Romanian",
+        "ru": "Russian",
+        "sr": "Serbian",
+        "sk": "Slovak",
+        "sl": "Slovenian",
+        "es": "Spanish",
+        "sw": "Swahili",
+        "sv": "Swedish",
+        "tl": "Tagalog",
+        "ta": "Tamil",
+        "th": "Thai",
+        "tr": "Turkish",
+        "uk": "Ukrainian",
+        "ur": "Urdu",
+        "vi": "Vietnamese",
+        "cy": "Welsh"}
 
     models = load_model_config_file()
 
@@ -141,9 +141,6 @@ def model_languages(model):
         languages = {lang_from_config: languages[lang_from_config]}
 
     return languages
-
-
-
 
     #     metadata_file_path = os.path.join(MODELS_DIR,directory_name)
     #     if os.path.exists(metadata_file_path):
