@@ -23,11 +23,10 @@ def load_settings() -> Settings:
     try:
         with open(SETTINGS_FILE, "r", encoding='utf-8') as settings_file:
             settings_dict = yaml.safe_load(settings_file)
-        settings = Settings(**settings_dict)
-        return settings
+            settings = Settings(**settings_dict)
     except:
         settings = reset_settings()
-        return settings
+    return settings
 
 
 def reset_settings() -> Settings:
