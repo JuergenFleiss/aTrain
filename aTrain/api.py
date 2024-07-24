@@ -1,9 +1,9 @@
 from .archive import read_archive, delete_transcription, open_file_directory
-from .models import open_model_dir, download_mod, read_model_metadata, model_languages
+from .models import open_model_dir, start_model_download, read_model_metadata, model_languages
 from .transcription import EVENT_SENDER, stop_all_processes, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, render_template, redirect, Response, url_for, request
-
+import time
 
 api = Blueprint("api", __name__)
 
@@ -45,8 +45,20 @@ def open_model_directory(model):
 
 @api.get('/download_model/<model>')
 def download_model(model):
-    download_mod(model)
-    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
+    start_model_download(model)
+    return redirect(url_for('routes.model_manager'))
+
+
+@api.get('/stop_download/<model>')
+def stop_download(model):
+    stop_all_processes()
+    while True:
+        try:
+            remove_model(model)
+            break
+        except:
+            pass
+    return redirect(url_for('routes.model_manager'))
 
 
 @api.get('/delete_model/<model>')

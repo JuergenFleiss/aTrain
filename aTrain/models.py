@@ -1,7 +1,9 @@
+from .transcription import RUNNING_PROCESSES
 import os
 from showinfm import show_in_file_manager
 from aTrain_core.globals import ATRAIN_DIR
 from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
+from multiprocessing import Process
 
 
 MODELS_DIR = os.path.join(ATRAIN_DIR, "models")
@@ -134,7 +136,15 @@ def open_model_dir(model: str) -> None:
         show_in_file_manager(directory_name)
 
 
-def download_mod(model: str) -> None:
+def start_model_download(model: str) -> None:
+    model_download = Process(target=download_model,
+                             kwargs={"model": model}, daemon=True)
+    model_download.start()
+    RUNNING_PROCESSES.append(model_download)
+    model_download.join()
+
+
+def download_model(model: str) -> None:
     if model == "all":
         download_all_resources()
     else:
