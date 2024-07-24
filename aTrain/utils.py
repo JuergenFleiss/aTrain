@@ -1,14 +1,12 @@
-try:
-    from .globals import TRANSCRIPT_DIR, METADATA_FILENAME, MODELS_DIR
-except ImportError:
-    from globals import TRANSCRIPT_DIR, METADATA_FILENAME, MODELS_DIR
-
+from aTrain_core.globals import TRANSCRIPT_DIR, METADATA_FILENAME, ATRAIN_DIR
 import os
 import shutil
 from showinfm import show_in_file_manager
 import yaml
 from importlib.resources import files
 from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
+
+MODELS_DIR = os.path.join(ATRAIN_DIR, "models")
 
 
 def read_archive():

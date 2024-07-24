@@ -1,6 +1,8 @@
-from .globals import SETTINGS_FILE, ATRAIN_DIR
+from aTrain_core.globals import ATRAIN_DIR
 import os
 import yaml
+
+SETTINGS_FILE = os.path.join(ATRAIN_DIR, "settings.txt")
 
 
 class Settings:
