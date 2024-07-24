@@ -1,5 +1,5 @@
 <script type="text/hyperscript">
-    eventsource SSE from {{url_for("SSE")}}
+    eventsource SSE from {{url_for('SSE')}}
         on task as string
             put it into #currentTask
         end

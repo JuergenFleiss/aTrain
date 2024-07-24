@@ -59,7 +59,7 @@ def start_transcription():
 @app.route("/stop_transcription")
 def stop_transcription():
     stop_all_processes()
-    return redirect(url_for("home"))
+    return redirect(url_for('home'))
 
 
 @app.get("/SSE")
