@@ -23,7 +23,7 @@ def read_downloaded_models():
     return all_downloaded_models
 
 
-def model_metadata():
+def read_model_metadata():
     all_models = list(load_model_config_file().keys())
     downloaded_models = read_downloaded_models()
     all_models_metadata = []

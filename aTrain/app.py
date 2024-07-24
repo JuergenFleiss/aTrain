@@ -1,5 +1,5 @@
 from .archive import read_archive, delete_transcription, open_file_directory, load_faqs
-from .models import open_model_dir, read_downloaded_models, download_mod, model_metadata, model_languages
+from .models import open_model_dir, read_downloaded_models, download_mod, read_model_metadata, model_languages
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
@@ -45,7 +45,7 @@ def about():
 
 @app.get("/model_manager")
 def model_manager():
-    return render_template("pages/model_manager.html", models=model_metadata())
+    return render_template("pages/model_manager.html", models=read_model_metadata())
 
 
 @app.post("/start_transcription")
@@ -86,13 +86,13 @@ def open_model_directory(model):
 @app.route('/download_model/<model>')
 def download_model(model):
     download_mod(model)
-    return render_template("pages/model_manager.html", models=model_metadata(), only_content=True)
+    return render_template("pages/model_manager.html", models=read_model_metadata(), only_content=True)
 
 
 @app.route('/delete_model/<model>')
 def delete_model(model):
     remove_model(model)
-    return render_template("pages/model_manager.html", models=model_metadata(), only_content=True)
+    return render_template("pages/model_manager.html", models=read_model_metadata(), only_content=True)
 
 
 @app.post('/get_languages')  # for transcription page
