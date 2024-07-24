@@ -22,7 +22,7 @@ def read_directories() -> list:
     return directories
 
 
-def read_all_metadata(all_directories):
+def read_all_metadata(all_directories) -> list:
     """A function that returns all available metadata from past transcriptions"""
     all_metadata = []
     for directory in all_directories:
@@ -36,15 +36,15 @@ def read_all_metadata(all_directories):
     return all_metadata
 
 
-def read_metadata_file(metadata_file_path, directory):
+def read_metadata_file(metadata_file_path, directory) -> dict:
     """A function that reads the content of a metadata file for a given transcription."""
     with open(metadata_file_path, "r", encoding="utf-8") as metadata_file:
-        metadata = yaml.safe_load(metadata_file)
+        metadata: dict = yaml.safe_load(metadata_file)
         metadata["file_id"] = directory
     return metadata
 
 
-def metadata_from_dir_name(directory):
+def metadata_from_dir_name(directory) -> dict:
     """A function that extracts metadata from the directory name in the archive."""
     metadata = {
         "file_id": directory,
@@ -72,9 +72,9 @@ def open_file_directory(file_id) -> None:
         show_in_file_manager(directory)
 
 
-def load_faqs():
+def load_faqs() -> dict:
     """A function that reads the content of the faq file."""
     faq_path = str(files("aTrain.static").joinpath("faq.yaml"))
     with open(faq_path, "r", encoding='utf-8') as faq_file:
-        faqs = yaml.safe_load(faq_file)
+        faqs: dict = yaml.safe_load(faq_file)
     return faqs
