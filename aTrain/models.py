@@ -105,10 +105,7 @@ def model_languages(model):
 
     models = load_model_config_file()
 
-    if models[model]["type"] == "regular":
-        languages = languages
-
-    elif models[model]["type"] == "distil":
+    if models[model]["type"] == "distil":
         lang_from_config = models[model]["language"]
         languages = {lang_from_config: languages[lang_from_config]}
 
