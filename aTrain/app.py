@@ -20,7 +20,7 @@ def set_globals():
     return dict(version=__version__)
 
 
-# -----Routes------#
+# -----Pages------#
 @app.get("/")
 def home():
     default_model = read_downloaded_models()[0]
@@ -46,6 +46,8 @@ def about():
 @app.get("/model_manager")
 def model_manager():
     return render_template("pages/model_manager.html", models=read_model_metadata())
+
+# -----APIs------#
 
 
 @app.post("/start_transcription")
