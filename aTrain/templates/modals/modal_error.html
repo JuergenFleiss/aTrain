@@ -7,6 +7,6 @@
         <p id="errorCode" class="mb-4">{{error | default("Unknown Error")}}</p>
         <h4 class="mt-4 font-bold">Traceback:</h4>
         <p id="traceback" class="mb-4">{{traceback | default("No traceback avaliable") }}</p>
-        <a class="btn btn-primary" href="{{url_for('home')}}">back</a>
+        <a class="btn btn-primary" href="{{url_for('routes.home')}}">back</a>
     </form>
 </dialog>

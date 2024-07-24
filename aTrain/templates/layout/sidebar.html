@@ -3,12 +3,12 @@
 <div class="drawer-side h-full">
     <label for="drawer" class="drawer-overlay"></label> 
     <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content gap-3">
-        {{ nav_link(endpoint = "home", name = "Transcribe", symbol = "🎧")}}
-        {{ nav_link(endpoint = "archive", name = "Archive", symbol = "💾")}}
-        {{ nav_link(endpoint = "model_manager", name = "Model Manager", symbol = "🧮")}}
-        {{ nav_link(endpoint = "faq", name = "Faq", symbol = "📖")}}
+        {{ nav_link(endpoint = "routes.home", name = "Transcribe", symbol = "🎧")}}
+        {{ nav_link(endpoint = "routes.archive", name = "Archive", symbol = "💾")}}
+        {{ nav_link(endpoint = "routes.model_manager", name = "Model Manager", symbol = "🧮")}}
+        {{ nav_link(endpoint = "routes.faq", name = "Faq", symbol = "📖")}}
         <div class="divider my-0"></div>
         {{ nav_link(endpoint = "https://survey.uni-graz.at/index.php/381219", name = "Feedback", symbol = "🗣️", external = True)}}
-        {{ nav_link(endpoint = "about", name = "About", symbol = "💡")}}
+        {{ nav_link(endpoint = "routes.about", name = "About", symbol = "💡")}}
     </ul>
 </div>

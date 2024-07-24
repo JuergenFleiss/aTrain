@@ -7,7 +7,7 @@
         <div class="flex justify-between">
             <h2 class="card-title font-bold text-accent">Model Manager</h2>
             <div> 
-                <div hx-get="{{ url_for('open_model_directory', model='all') }}" hx-swap="none" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Show All</div>
+                <div hx-get="{{ url_for('api.open_model_directory', model='all') }}" hx-swap="none" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Show All</div>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -26,10 +26,10 @@
                         <td>{{ model_dict['model'] }}</td>
                         <td>
                             {% if model_dict['downloaded'] %}
-                                <div hx-get="{{ url_for('open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
-                                <div hx-get="{{ url_for('delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
+                                <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
+                                <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
                             {% else %}
-                                <div hx-get="{{ url_for('download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Download</div>
+                                <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Download</div>
                             {% endif %}
                         </td>
                     </tr>
