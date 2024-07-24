@@ -1,4 +1,5 @@
-from .utils import read_archive, delete_transcription, open_file_directory, open_model_dir, load_faqs, read_downloaded_models, download_mod, model_metadata, model_languages
+from .archive import read_archive, delete_transcription, open_file_directory, load_faqs
+from .models import open_model_dir, read_downloaded_models, download_mod, model_metadata, model_languages
 from .version import __version__
 from .settings import load_settings
 from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
