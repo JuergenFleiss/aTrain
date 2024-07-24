@@ -42,15 +42,20 @@ def resolve_boolean_inputs(settings: dict) -> dict:
 def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
     """A function that calls aTrain_core and handles errors if they happen."""
     try:
-        check_inputs_transcribe(
-            file=file_name, model=settings["model"], language=settings["language"], device=settings["device"])
-        timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-        file_id = create_file_id(file_name, timestamp)
-        transcribe(BytesIO(file_content), file_id, settings["model"], settings["language"], settings["speaker_detection"],
-                   settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
+        start_transcription(settings, file_name, file_content,  event_sender)
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
+
+
+def start_transcription(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
+    """A function that checks the inputs for the transcription and then transcribes the audio file."""
+    check_inputs_transcribe(
+        file=file_name, model=settings["model"], language=settings["language"], device=settings["device"])
+    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
+    file_id = create_file_id(file_name, timestamp)
+    transcribe(BytesIO(file_content), file_id, settings["model"], settings["language"], settings["speaker_detection"],
+               settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
 
 
 def stop_all_processes() -> None:
