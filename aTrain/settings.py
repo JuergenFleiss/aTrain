@@ -6,6 +6,8 @@ SETTINGS_FILE = os.path.join(ATRAIN_DIR, "settings.txt")
 
 
 class Settings:
+    """A class that contains the settings to be used in a transcription"""
+
     def __init__(self, cuda_available: bool):
         self.cuda_available = cuda_available
 
@@ -17,6 +19,7 @@ class Settings:
 
 
 def load_settings() -> Settings:
+    """A function that loads the settings from a settings file and returns an instance of the Settings class."""
     settings_exist = os.path.exists(SETTINGS_FILE)
     settings_correct = True  # We assume the settings are correct
 
@@ -39,6 +42,7 @@ def load_settings() -> Settings:
 
 
 def write_settings(settings: Settings):
+    """A function that saves the current settings to a settings file."""
     os.makedirs(ATRAIN_DIR, exist_ok=True)
     with open(SETTINGS_FILE, "w", encoding='utf-8') as settings_file:
         yaml.safe_dump(settings.to_dict(), settings_file)
