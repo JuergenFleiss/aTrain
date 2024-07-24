@@ -1,13 +1,21 @@
 <dialog class="modal" id="modalModelDownload" _="on started add .modal-open to me">
-    <form method="dialog" class="modal-box overflow-visible">
-        <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
-        <p>The system is downloading the model right now, be patient!</p>
-        <img class="modal-image my-2 mx-auto w-full h-full hidden" src="static/images/cat_download.gif" alt="Progress spinner">
-        <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/download.gif" alt="Progress spinner">
-        <p class="text-sm font-bold">Current Task: <span class="text-sm font-normal" id="currentTask">Loading file</span></p> 
-        <progress id="progressBar" class="progress progress-primary	w-100" value="0" max="1000"></progress>
-        <div class="card-actions justify-between items-center">
-          <a href="{{ url_for('api.stop_transcription')}}" class="mt-3 btn btn-primary">stop</a>
+  <form method="dialog" class="modal-box overflow-visible">
+      <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
+      <p>The system is downloading the model right now, be patient!</p>
+      <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/download.gif" alt="Progress spinner">
+      <progress id="progressBar" class="progress progress-primary	w-100"></progress>
+      <div class="card-actions justify-between items-center">
+        <div>
+            <div class="text-sm">Download time:</div>
+            <div>
+              <span id="timerModelDownload" class="text-sm" _="on started repeat until finished wait 1s then increment $duration then send update to <span/> in me">
+                  <span _="on update set my innerHTML to String(Math.floor($duration / 3600)).padStart(2,'0')">00</span>h
+                  <span _="on update set my innerHTML to String(Math.floor(($duration mod 3600)/60)).padStart(2,'0')">00</span>m
+                  <span _="on update set my innerHTML to String($duration mod 60).padStart(2,'0')">00</span>s
+              </span>
+            </div>
         </div>
-      </form>
-  </dialog>
+        <a id="stopButton" href="." class="mt-3 btn btn-primary">stop</a>
+      </div>
+  </form>
+</dialog>
