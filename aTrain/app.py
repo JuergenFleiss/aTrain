@@ -2,7 +2,7 @@ from .archive import read_archive, delete_transcription, open_file_directory, lo
 from .models import open_model_dir, read_downloaded_models, download_mod, read_model_metadata, model_languages
 from .version import __version__
 from .settings import load_settings
-from .process import EVENT_SENDER, stop_all_processes, teardown, start_process
+from .transcription import EVENT_SENDER, stop_all_processes, teardown, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Flask, render_template, redirect, Response, url_for, request
 from screeninfo import get_monitors
