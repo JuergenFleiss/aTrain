@@ -106,6 +106,7 @@ def get_languages():
 
 # ----- Run App ------#
 def run_app():
+    """A function that creates creates the application window and runs the app."""
     app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
     app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
     window = webview.create_window(
@@ -116,6 +117,7 @@ def run_app():
 
 
 def cli():
+    """A function that parses the CLI arguments and runs the application accordingly."""
     parser = argparse.ArgumentParser(
         prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
     parser.add_argument("command", choices=[
