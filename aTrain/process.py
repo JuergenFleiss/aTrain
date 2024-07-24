@@ -1,5 +1,6 @@
 from multiprocessing import Process
 from flask import Request
+from werkzeug.datastructures import FileStorage
 from io import BytesIO
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.check_inputs import check_inputs_transcribe
@@ -22,7 +23,7 @@ def start_process(request: Request) -> None:
     RUNNING_PROCESSES.append(transciption)
 
 
-def get_inputs(request: Request):
+def get_inputs(request: Request) -> tuple[dict, FileStorage]:
     """This function extracts the file and form data from the flask request and returns them."""
     file = request.files["file"]
     settings = dict(request.form)
