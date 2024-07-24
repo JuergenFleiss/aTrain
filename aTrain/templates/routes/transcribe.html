@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-{% include "utils/eventsource.html" %}
 <div class="card w-full bg-base-100">
   <div class="card-body">
     <form hx-encoding="multipart/form-data" hx-post="{{url_for('api.start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit send started to #modalProcess and #timer">

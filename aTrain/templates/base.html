@@ -11,6 +11,7 @@
     <script src="static/JS/eventsource.js"></script>
 </head>
 <body class="flex flex-col min-h-screen justify-between bg-base-200" x-data="{duration: 0}">
+    {% include "utils/eventsource.html" %}
     <div>
         {% include 'layout/navbar.html' with context %}   
         <div class="drawer lg:drawer-open">
