@@ -14,7 +14,7 @@
             call htmx.process(#downloadButton)
             send finished to #timer and #finalTime
             remove .modal-open from .modal
-            add .modal-open to #modalDownload
+            add .modal-open to #modalFinished
         end
 
         on error as json
