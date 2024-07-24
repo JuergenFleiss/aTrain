@@ -7,7 +7,7 @@ from aTrain_core.load_resources import download_all_resources, get_model, load_m
 MODELS_DIR = os.path.join(ATRAIN_DIR, "models")
 
 
-def read_downloaded_models():
+def read_downloaded_models() -> list:
     os.makedirs(MODELS_DIR, exist_ok=True)
     all_file_directories = [directory.name for directory in os.scandir(
         MODELS_DIR) if directory.is_dir()]
@@ -23,7 +23,7 @@ def read_downloaded_models():
     return all_downloaded_models
 
 
-def read_model_metadata():
+def read_model_metadata() -> list:
     all_models = list(load_model_config_file().keys())
     downloaded_models = read_downloaded_models()
     all_models_metadata = []
@@ -41,7 +41,7 @@ def read_model_metadata():
     return all_models_metadata
 
 
-def model_languages(model):
+def model_languages(model: str) -> dict:
 
     languages = {
         "auto-detect": "Detect automatically",
@@ -127,14 +127,14 @@ def model_languages(model):
     # return all_metadata
 
 
-def open_model_dir(model):
+def open_model_dir(model: str) -> None:
     model = "" if model == "all" else model
     directory_name = os.path.join(MODELS_DIR, model)
     if os.path.exists(directory_name):
         show_in_file_manager(directory_name)
 
 
-def download_mod(model):
+def download_mod(model: str) -> None:
     if model == "all":
         download_all_resources()
     else:
