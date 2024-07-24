@@ -13,7 +13,7 @@ RUNNING_PROCESSES = []
 EVENT_SENDER = EventSender()
 
 
-def start_process(request: Request):
+def start_process(request: Request) -> None:
     """This function executes the transcription in a seperate process."""
     settings, file = get_inputs(request=request)
     transciption = Process(target=try_to_transcribe,
@@ -30,7 +30,7 @@ def get_inputs(request: Request):
     return settings, file
 
 
-def resolve_boolean_inputs(settings: dict):
+def resolve_boolean_inputs(settings: dict) -> dict:
     """This function checks if boolean inputs are present and replaces them with their respective values."""
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
     settings["device"] = "GPU" if 'GPU' in settings else "CPU"
@@ -38,7 +38,7 @@ def resolve_boolean_inputs(settings: dict):
     return settings
 
 
-def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender):
+def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
     """A function that calls aTrain_core and handles errors if they happen."""
     try:
         check_inputs_transcribe(
@@ -52,7 +52,7 @@ def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  even
         event_sender.error_info(str(error), traceback_str)
 
 
-def stop_all_processes():
+def stop_all_processes() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_PROCESSES:
@@ -60,7 +60,7 @@ def stop_all_processes():
     RUNNING_PROCESSES.clear()
 
 
-def teardown():
+def teardown() -> None:
     """A function that is invoked when the application window closes and which terminates all processes that are still running."""
     EVENT_SENDER.end_stream()
     stop_all_processes()
