@@ -20,24 +20,22 @@ class Settings:
 
 def load_settings() -> Settings:
     """A function that loads the settings from a settings file and returns an instance of the Settings class."""
-    settings_exist = os.path.exists(SETTINGS_FILE)
-    settings_correct = True  # We assume the settings are correct
-
-    if (settings_exist and settings_correct):
+    try:
         with open(SETTINGS_FILE, "r", encoding='utf-8') as settings_file:
             settings_dict = yaml.safe_load(settings_file)
-        try:
-            settings = Settings(**settings_dict)
-        except:
-            settings_correct = False
+        settings = Settings(**settings_dict)
+        return settings
+    except:
+        settings = reset_settings()
+        return settings
 
-    if not (settings_exist and settings_correct):
-        # check if cuda is available
-        from torch import cuda
-        cuda_available = cuda.is_available()
-        settings = Settings(cuda_available=cuda_available)
-        write_settings(settings)
 
+def reset_settings() -> Settings:
+    """A function that resets the settings to defaults and checks for cuda availablity."""
+    from torch import cuda
+    cuda_available = cuda.is_available()
+    settings = Settings(cuda_available=cuda_available)
+    write_settings(settings)
     return settings
 
 
