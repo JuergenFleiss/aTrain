@@ -31,7 +31,7 @@ def read_all_metadata(all_directories) -> list:
         if os.path.exists(metadata_file_path):
             metadata = read_metadata_file(metadata_file_path, directory)
         else:
-            metadata = metadata_from_dir_name(directory)
+            metadata = read_metadata_from_dir_name(directory)
         all_metadata.append(metadata)
     return all_metadata
 
@@ -44,7 +44,7 @@ def read_metadata_file(metadata_file_path, directory) -> dict:
     return metadata
 
 
-def metadata_from_dir_name(directory) -> dict:
+def read_metadata_from_dir_name(directory) -> dict:
     """A function that extracts metadata from the directory name in the archive."""
     metadata = {
         "file_id": directory,
