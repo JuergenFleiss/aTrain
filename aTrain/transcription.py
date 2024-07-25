@@ -1,3 +1,4 @@
+from .models import stop_all_downloads
 from multiprocessing import Process
 from flask import Request
 from werkzeug.datastructures import FileStorage
@@ -70,3 +71,4 @@ def teardown() -> None:
     """A function that is invoked when the application window closes and which terminates all processes that are still running."""
     EVENT_SENDER.end_stream()
     stop_all_transcriptions()
+    stop_all_downloads()
