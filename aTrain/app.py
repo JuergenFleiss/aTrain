@@ -1,11 +1,14 @@
-from .transcription import teardown
 from .routes import routes
 from .api import api
+from .models import stop_all_downloads
+from .transcription import stop_all_transcriptions
+from .globals import EVENT_SENDER
 from flask import Flask
 from screeninfo import get_monitors
 import webview
 from wakepy import keep
 import argparse
+
 
 app = Flask(__name__)
 app.register_blueprint(routes)
@@ -21,6 +24,13 @@ def run_app() -> None:
     window.events.closed += teardown
     with keep.running():
         webview.start()
+
+
+def teardown() -> None:
+    """A function that is invoked when the application window closes and which terminates all processes that are still running."""
+    EVENT_SENDER.end_stream()
+    stop_all_transcriptions()
+    stop_all_downloads()
 
 
 def cli() -> None:

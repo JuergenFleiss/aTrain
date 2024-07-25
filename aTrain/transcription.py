@@ -1,4 +1,4 @@
-from .models import stop_all_downloads
+from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
 from multiprocessing import Process
 from flask import Request
 from werkzeug.datastructures import FileStorage
@@ -10,9 +10,6 @@ from aTrain_core.transcribe import transcribe
 from aTrain_core.outputs import create_file_id
 from datetime import datetime
 import traceback
-
-RUNNING_TRANSCRIPTIONS = []
-EVENT_SENDER = EventSender()
 
 
 def start_process(request: Request) -> None:
@@ -65,10 +62,3 @@ def stop_all_transcriptions() -> None:
     for process in RUNNING_TRANSCRIPTIONS:
         process.terminate()
     RUNNING_TRANSCRIPTIONS.clear()
-
-
-def teardown() -> None:
-    """A function that is invoked when the application window closes and which terminates all processes that are still running."""
-    EVENT_SENDER.end_stream()
-    stop_all_transcriptions()
-    stop_all_downloads()
