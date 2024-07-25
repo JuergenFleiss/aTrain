@@ -112,21 +112,6 @@ def model_languages(model: str) -> dict:
 
     return languages
 
-    #     metadata_file_path = os.path.join(MODELS_DIR,directory_name)
-    #     if os.path.exists(metadata_file_path):
-    #         with open(metadata_file_path, "r", encoding="utf-8") as metadata_file:
-    #             metadata = yaml.safe_load(metadata_file)
-    #             metadata["file_id"] = directory_name
-    #         all_metadata.append(metadata)
-    #     else:
-    #         metadata = {
-    #             "file_id" : directory_name,
-    #             "filename" : directory_name[20:] if len(directory_name)>20 else "-",
-    #             "timestamp" : directory_name[:20] if len(directory_name)>=20 else "-"
-    #         }
-    #         all_metadata.append(metadata)
-    # return all_metadata
-
 
 def open_model_dir(model: str) -> None:
     """A function that opens the directory where a given model is stored."""
