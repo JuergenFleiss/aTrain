@@ -153,7 +153,7 @@ def download_model(model: str) -> None:
     if model == "all":
         download_all_resources()
     else:
-        _ = get_model(model)
+        get_model(model)
     print("Model download completed")
 
 
