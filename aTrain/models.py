@@ -1,4 +1,4 @@
-from .transcription import RUNNING_PROCESSES
+from .transcription import RUNNING_TRANSCRIPTIONS
 import os
 from showinfm import show_in_file_manager
 from aTrain_core.globals import ATRAIN_DIR
@@ -140,7 +140,7 @@ def start_model_download(model: str) -> None:
     model_download = Process(target=download_model,
                              kwargs={"model": model}, daemon=True)
     model_download.start()
-    RUNNING_PROCESSES.append(model_download)
+    RUNNING_TRANSCRIPTIONS.append(model_download)
     model_download.join()
 
 

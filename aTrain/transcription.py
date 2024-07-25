@@ -10,7 +10,7 @@ from aTrain_core.outputs import create_file_id
 from datetime import datetime
 import traceback
 
-RUNNING_PROCESSES = []
+RUNNING_TRANSCRIPTIONS = []
 EVENT_SENDER = EventSender()
 
 
@@ -20,7 +20,7 @@ def start_process(request: Request) -> None:
     transciption = Process(target=try_to_transcribe,
                            args=(settings, file.filename, file.stream.read(), EVENT_SENDER), daemon=True)
     transciption.start()
-    RUNNING_PROCESSES.append(transciption)
+    RUNNING_TRANSCRIPTIONS.append(transciption)
 
 
 def get_inputs(request: Request) -> tuple[dict, FileStorage]:
@@ -61,9 +61,9 @@ def start_transcription(settings: dict, file_name: str, file_content: bytes,  ev
 def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
-    for process in RUNNING_PROCESSES:
+    for process in RUNNING_TRANSCRIPTIONS:
         process.terminate()
-    RUNNING_PROCESSES.clear()
+    RUNNING_TRANSCRIPTIONS.clear()
 
 
 def teardown() -> None:
