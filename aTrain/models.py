@@ -141,6 +141,7 @@ def try_to_download_model(model: str, event_sender: EventSender) -> None:
         event_sender.error_info(str(error), traceback_str)
         remove_model(model)
 
+
 def stop_all_downloads() -> None:
     """A function that terminates all running download processes."""
     download: Process
