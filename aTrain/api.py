@@ -3,7 +3,6 @@ from .models import open_model_dir, start_model_download, read_model_metadata, m
 from .transcription import EVENT_SENDER, stop_all_transcriptions, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, render_template, redirect, Response, url_for, request
-import time
 
 api = Blueprint("api", __name__)
 
