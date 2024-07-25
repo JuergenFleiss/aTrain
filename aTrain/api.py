@@ -1,6 +1,6 @@
 from .archive import read_archive, delete_transcription, open_file_directory
 from .models import open_model_dir, start_model_download, read_model_metadata, model_languages
-from .transcription import EVENT_SENDER, stop_all_processes, start_process
+from .transcription import EVENT_SENDER, stop_all_transcriptions, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, render_template, redirect, Response, url_for, request
 import time
@@ -16,7 +16,7 @@ def start_transcription():
 
 @api.get("/stop_transcription")
 def stop_transcription():
-    stop_all_processes()
+    stop_all_transcriptions()
     return redirect(url_for('routes.home'))
 
 
@@ -51,7 +51,7 @@ def download_model(model):
 
 @api.get('/stop_download/<model>')
 def stop_download(model):
-    stop_all_processes()
+    stop_all_transcriptions()
     while True:
         try:
             remove_model(model)

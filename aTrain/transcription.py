@@ -58,7 +58,7 @@ def start_transcription(settings: dict, file_name: str, file_content: bytes,  ev
                settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
 
 
-def stop_all_processes() -> None:
+def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_PROCESSES:
@@ -69,4 +69,4 @@ def stop_all_processes() -> None:
 def teardown() -> None:
     """A function that is invoked when the application window closes and which terminates all processes that are still running."""
     EVENT_SENDER.end_stream()
-    stop_all_processes()
+    stop_all_transcriptions()
