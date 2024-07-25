@@ -1,13 +1,11 @@
-import os
+from .globals import EVENT_SENDER, MODELS_DIR, RUNNING_DOWNLOADS
 from showinfm import show_in_file_manager
-from aTrain_core.globals import ATRAIN_DIR
 from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
+from aTrain_core.GUI_integration import EventSender
 from multiprocessing import Process
 from aTrain_core.load_resources import remove_model
-
-
-MODELS_DIR = os.path.join(ATRAIN_DIR, "models")
-RUNNING_DOWNLOADS = []
+import os
+import traceback
 
 
 def read_downloaded_models() -> list:
@@ -140,15 +138,26 @@ def open_model_dir(model: str) -> None:
 
 def start_model_download(model: str) -> None:
     """A function that starts the download of a model in a separate process."""
-    model_download = Process(target=download_model,
-                             kwargs={"model": model}, daemon=True)
+    model_download = Process(target=try_to_download_model,
+                             kwargs={"model": model, "event_sender": EVENT_SENDER}, daemon=True)
     model_download.start()
     RUNNING_DOWNLOADS.append((model_download, model))
     model_download.join()
     RUNNING_DOWNLOADS.remove((model_download, model))
+    EVENT_SENDER.finished_info(model)
 
 
-def download_model(model: str) -> None:
+def try_to_download_model(model: str, event_sender: EventSender) -> None:
+    """A function that tries to download the specified model and sends any occuring errors to the frontend."""
+    try:
+        download_model(model, event_sender)
+    except Exception as error:
+        traceback_str = traceback.format_exc()
+        event_sender.error_info(str(error), traceback_str)
+        remove_model(model)
+
+
+def download_model(model: str, event_sender: EventSender) -> None:
     """A function that downloads a specified model."""
     if model == "all":
         download_all_resources()
