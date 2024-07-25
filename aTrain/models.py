@@ -1,6 +1,6 @@
 from .globals import EVENT_SENDER, MODELS_DIR, RUNNING_DOWNLOADS
 from showinfm import show_in_file_manager
-from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
+from aTrain_core.load_resources import get_model, load_model_config_file
 from aTrain_core.GUI_integration import EventSender
 from multiprocessing import Process
 from aTrain_core.load_resources import remove_model
@@ -150,21 +150,11 @@ def start_model_download(model: str) -> None:
 def try_to_download_model(model: str, event_sender: EventSender) -> None:
     """A function that tries to download the specified model and sends any occuring errors to the frontend."""
     try:
-        download_model(model, event_sender)
+        get_model(model)
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
         remove_model(model)
-
-
-def download_model(model: str, event_sender: EventSender) -> None:
-    """A function that downloads a specified model."""
-    if model == "all":
-        download_all_resources()
-    else:
-        get_model(model)
-    print("Model download completed")
-
 
 def stop_all_downloads() -> None:
     """A function that terminates all running download processes."""
