@@ -131,6 +131,7 @@ def model_languages(model: str) -> dict:
 
 
 def open_model_dir(model: str) -> None:
+    """A function that opens the directory where a given model is stored."""
     model = "" if model == "all" else model
     directory_name = os.path.join(MODELS_DIR, model)
     if os.path.exists(directory_name):
@@ -148,6 +149,7 @@ def start_model_download(model: str) -> None:
 
 
 def download_model(model: str) -> None:
+    """A function that downloads a specified model."""
     if model == "all":
         download_all_resources()
     else:
