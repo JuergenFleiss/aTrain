@@ -1,5 +1,5 @@
 from .archive import read_archive, delete_transcription, open_file_directory
-from .models import open_model_dir, start_model_download, read_model_metadata, model_languages
+from .models import open_model_dir, start_model_download, read_model_metadata, model_languages, stop_all_downloads
 from .transcription import EVENT_SENDER, stop_all_transcriptions, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, render_template, redirect, Response, url_for, request
@@ -48,15 +48,9 @@ def download_model(model):
     return redirect(url_for('routes.model_manager'))
 
 
-@api.get('/stop_download/<model>')
-def stop_download(model):
-    stop_all_transcriptions()
-    while True:
-        try:
-            remove_model(model)
-            break
-        except:
-            pass
+@api.get('/stop_download')
+def stop_download():
+    stop_all_downloads()
     return redirect(url_for('routes.model_manager'))
 
 

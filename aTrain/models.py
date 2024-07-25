@@ -1,12 +1,13 @@
-from .transcription import RUNNING_TRANSCRIPTIONS
 import os
 from showinfm import show_in_file_manager
 from aTrain_core.globals import ATRAIN_DIR
 from aTrain_core.load_resources import download_all_resources, get_model, load_model_config_file
 from multiprocessing import Process
+from aTrain_core.load_resources import remove_model
 
 
 MODELS_DIR = os.path.join(ATRAIN_DIR, "models")
+RUNNING_DOWNLOADS = []
 
 
 def read_downloaded_models() -> list:
@@ -137,11 +138,13 @@ def open_model_dir(model: str) -> None:
 
 
 def start_model_download(model: str) -> None:
+    """A function that starts the download of a model in a separate process."""
     model_download = Process(target=download_model,
                              kwargs={"model": model}, daemon=True)
     model_download.start()
-    RUNNING_TRANSCRIPTIONS.append(model_download)
+    RUNNING_DOWNLOADS.append((model_download, model))
     model_download.join()
+    RUNNING_DOWNLOADS.remove((model_download, model))
 
 
 def download_model(model: str) -> None:
@@ -150,3 +153,13 @@ def download_model(model: str) -> None:
     else:
         _ = get_model(model)
     print("Model download completed")
+
+
+def stop_all_downloads() -> None:
+    """A function that terminates all running download processes."""
+    download: Process
+    for download, model in RUNNING_DOWNLOADS:
+        download.terminate()
+        download.join()
+        remove_model(model)
+    RUNNING_DOWNLOADS.clear()
