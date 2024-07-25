@@ -1,4 +1,4 @@
-from .archive import read_archive, delete_transcription, open_file_directory
+from .archive import read_archive, delete_transcription, open_file_directory, read_directories
 from .models import open_model_dir, start_model_download, read_model_metadata, model_languages, stop_all_downloads
 from .transcription import EVENT_SENDER, stop_all_transcriptions, start_process
 from aTrain_core.load_resources import remove_model
@@ -27,6 +27,13 @@ def SSE():
 @api.get('/open_directory/<file_id>')
 def open_directory(file_id):
     open_file_directory(file_id)
+    return ""
+
+
+@api.get('/open_latest_transcription')
+def open_latest_transcription():
+    latest_transcription = read_directories()[0]
+    open_file_directory(latest_transcription)
     return ""
 
 
