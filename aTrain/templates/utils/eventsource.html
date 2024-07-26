@@ -10,9 +10,14 @@
         end
 
         on finished as string
-            send finished to #timer and #finalTime
+            send finished to #timer 
+            if #finalTime
+                send finished to #finalTime
+            end
             remove .modal-open from .modal
-            add .modal-open to #modalFinished
+            if #modalFinished
+                add .modal-open to #modalFinished
+            end
         end
 
         on error as json
