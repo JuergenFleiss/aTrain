@@ -4,9 +4,14 @@
         <img class="modal-image my-2 mx-auto w-full h-full hidden" src="static/images/cat_warning.gif"  alt="Error Image">     
         <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/warning.gif"  alt="Error Image">    
         <h4 class="mt-4 font-bold">The following error occured:</h4>
-        <p id="errorCode" class="mb-4">{{error | default("Unknown Error")}}</p>
-        <h4 class="mt-4 font-bold">Traceback:</h4>
-        <p id="traceback" class="mb-4">{{traceback | default("No traceback avaliable") }}</p>
+        <p id="errorCode" class="mb-4"></p>
+        <div class="collapse collapse-arrow border mb-4 bg-base-200">
+            <input type="checkbox" />
+            <div class="collapse-title text-sm font-medium content-center">Show Traceback</div>
+            <div class="collapse-content overflow-scroll">
+              <p id="traceback" class="text-sm"></p>
+            </div>
+          </div>
         <a class="btn btn-primary" href="{{ url_for(request.endpoint) }}">back</a>
     </form>
 </dialog>
