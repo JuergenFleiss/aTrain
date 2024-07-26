@@ -41,6 +41,7 @@ def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  even
     """A function that calls aTrain_core and handles errors if they happen."""
     try:
         start_transcription(settings, file_name, file_content,  event_sender)
+        event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
