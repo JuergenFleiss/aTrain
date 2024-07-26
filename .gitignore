@@ -4,3 +4,4 @@ dist
 build
 aTrain.egg-info
 installer.iss
+test.py
