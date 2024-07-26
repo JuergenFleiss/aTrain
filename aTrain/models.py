@@ -4,6 +4,8 @@ from aTrain_core.load_resources import get_model, load_model_config_file
 from aTrain_core.GUI_integration import EventSender
 from multiprocessing import Process
 from aTrain_core.load_resources import remove_model
+import urllib.error
+import urllib.request
 import os
 import traceback
 
@@ -134,6 +136,7 @@ def start_model_download(model: str) -> None:
 def try_to_download_model(model: str, event_sender: EventSender) -> None:
     """A function that tries to download the specified model and sends any occuring errors to the frontend."""
     try:
+        check_internet()
         get_model(model)
         event_sender.finished_info()
     except Exception as error:
@@ -141,6 +144,12 @@ def try_to_download_model(model: str, event_sender: EventSender) -> None:
         event_sender.error_info(str(error), traceback_str)
         remove_model(model)
 
+def check_internet():
+    """A function to check whether the user is connected to the internet."""
+    try:
+        urllib.request.urlopen('https://www.google.com', timeout=1)
+    except urllib.error.URLError as error:
+        raise ConnectionError("It seems like you are not connected to the internet.")
 
 def stop_all_downloads() -> None:
     """A function that terminates all running download processes."""
