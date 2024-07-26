@@ -1,4 +1,4 @@
-<dialog class="modal" id="modalModelDownload" _="on started add .modal-open to me">
+<dialog class="modal" id="modalModelDownload" _="on started set $duration to 0 then send update to <span/> in #timer then add .modal-open to me">
   <form method="dialog" class="modal-box overflow-visible">
       <h3 class="font-bold text-lg">Hello, we are working on it! ⚙️⚒️</h3>
       <p>The system is downloading the model right now, be patient!</p>
@@ -7,15 +7,9 @@
       <div class="card-actions justify-between items-center">
         <div>
             <div class="text-sm">Download time:</div>
-            <div>
-              <span id="timerModelDownload" class="text-sm" _="on started repeat until finished wait 1s then increment $duration then send update to <span/> in me">
-                  <span _="on update set my innerHTML to String(Math.floor($duration / 3600)).padStart(2,'0')">00</span>h
-                  <span _="on update set my innerHTML to String(Math.floor(($duration mod 3600)/60)).padStart(2,'0')">00</span>m
-                  <span _="on update set my innerHTML to String($duration mod 60).padStart(2,'0')">00</span>s
-              </span>
-            </div>
+            {% include 'modals/timer.html'%}
         </div>
-        <a id="stopButton" href="{{ url_for('api.stop_download')}}" class="mt-3 btn btn-primary">stop</a>
+        <div hx-get="{{ url_for('api.stop_download')}}" hx-swap="none" class="mt-3 btn btn-primary">stop</div>
       </div>
   </form>
 </dialog>

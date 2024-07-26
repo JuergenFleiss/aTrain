@@ -52,13 +52,13 @@ def open_model_directory(model):
 @api.get('/download_model/<model>')
 def download_model(model):
     start_model_download(model)
-    return redirect(url_for('routes.model_manager'))
+    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
 
 
 @api.get('/stop_download')
 def stop_download():
     stop_all_downloads()
-    return redirect(url_for('routes.model_manager'))
+    return ""
 
 
 @api.get('/delete_model/<model>')

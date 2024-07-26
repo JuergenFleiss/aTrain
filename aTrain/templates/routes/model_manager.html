@@ -29,7 +29,8 @@
                                 <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
                                 <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
                             {% else %}
-                                <a href="{{ url_for('api.download_model', model=model_dict['model']) }}" class="btn btn-neutral mr-2 btn-xs md:btn-sm" _="on click send started to #modalModelDownload and #timerModelDownload">Download</a>
+                                <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm" 
+                                _="on click send started to #modalModelDownload and #timer">Download</div>
                             {% endif %}
                         </td>
                     </tr>
@@ -38,7 +39,9 @@
             </table>
         </div>
     </div>
+</div>
+{% if not only_content %}
     {% include 'modals/modal_model_download.html' with context %}
     {% include 'modals/modal_error.html' with context %}
-</div>
+{% endif %}
 {% endblock %}
