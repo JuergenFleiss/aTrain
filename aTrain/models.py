@@ -129,13 +129,13 @@ def start_model_download(model: str) -> None:
     RUNNING_DOWNLOADS.append((model_download, model))
     model_download.join()
     RUNNING_DOWNLOADS.remove((model_download, model))
-    EVENT_SENDER.finished_info()
 
 
 def try_to_download_model(model: str, event_sender: EventSender) -> None:
     """A function that tries to download the specified model and sends any occuring errors to the frontend."""
     try:
         get_model(model)
+        event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
@@ -150,3 +150,4 @@ def stop_all_downloads() -> None:
         download.join()
         remove_model(model)
     RUNNING_DOWNLOADS.clear()
+    EVENT_SENDER.finished_info()
