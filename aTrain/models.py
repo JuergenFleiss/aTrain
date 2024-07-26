@@ -129,7 +129,7 @@ def start_model_download(model: str) -> None:
     RUNNING_DOWNLOADS.append((model_download, model))
     model_download.join()
     RUNNING_DOWNLOADS.remove((model_download, model))
-    EVENT_SENDER.finished_info(model)
+    EVENT_SENDER.finished_info()
 
 
 def try_to_download_model(model: str, event_sender: EventSender) -> None:
