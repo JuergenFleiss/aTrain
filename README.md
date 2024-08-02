@@ -9,6 +9,8 @@ Windows (10 and 11) users can install aTrain via the Microsoft app store ([Link]
 
 For Linux, follow the [instructions](https://github.com/JuergenFleiss/aTrain/wiki/Linux-Support-(in-progress)) in our Wiki.
 
+An installation and demo video can be found [here](https://youtu.be/2JdGPE-z4bg).
+
 aTrain offers the following benefits:
 \
 \
