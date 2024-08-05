@@ -137,7 +137,7 @@ def try_to_download_model(model: str, event_sender: EventSender) -> None:
     """A function that tries to download the specified model and sends any occuring errors to the frontend."""
     try:
         check_internet()
-        get_model(model)
+        get_model(model, event_sender)
         event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()
