@@ -48,11 +48,15 @@ aTrain can either run on the CPU or an NVIDIA GPU (CUDA toolkit installation req
 | ![Screenshot1](docs/images/screenshot_1.webp) | ![Screenshot2](docs/images/screenshot_2.webp) |
 
 ## Benchmarks
-For testing the processing time of aTrain we transcribed an audiobook ("[The Snow Queen](https://ia802608.us.archive.org/33/items/andersens_fairytales_librivox/fairytales_06_andersen.mp3)" from Hans Christian Andersen with a duration of 1 hour, 13 minutes, and 38 seconds) with three different computers (see table 1). The figure below shows the processing time of each transcription relative to the length of the speech recording. In this relative processing time (RPT), a transcription is considered ’real time’ when the recording length and the processing time are equal. Subsequently, faster transcriptions lead to an RPT below 1 and slower transcriptions to an RPT time above 1.
+For testing the processing time of aTrain-core we transcribe a [conversation between Christine Lagarde and Andrea Enria at the Fifth ECB Forum on Banking Supervision 2023](https://www.youtube.com/watch?v=kd7e3OXkajY) published on YouTube by the European Central Bank under a Creative Commons license , downloaded as 320p MP4 video file. The file has a duration of exactly 22 minutes and was transcribed on different computing devices with speaker detection enabled. The figure below shows the processing time of each transcription.
 
-| Benchmark results | Used hardware |
-| --- | --- |
-| ![Benchmark](docs/images/benchmark.webp) | ![Hardware](docs/images/hardware.webp) |
+Transcription Time for 00:22:00 File:
+| Computing Device       |  large-v3   | Distil large-v3   |
+| ---                    | ---         | ---               |
+| CPU: Ryzen 6850U       | 00:33:02    | 00:13:30          |
+| CPU: Apple M1          | 00:33:15    | 00:21:40          |
+| CPU: Intel i9-10940X   | 00:10:25    | 00:04:36          |
+| GPU: RTX 2080 Ti       | 00:01:44    | 00:01:06          |
 
 ## System requirements
 Windows is fully supported. 
