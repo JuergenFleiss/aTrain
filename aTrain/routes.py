@@ -3,6 +3,7 @@ from .models import read_downloaded_models,  read_model_metadata, model_language
 from .settings import load_settings
 from .version import __version__
 from flask import Blueprint, render_template
+from .globals import REQUIRED_MODELS
 
 routes = Blueprint("routes", __name__)
 
@@ -36,4 +37,4 @@ def about():
 
 @routes.get("/model_manager")
 def model_manager():
-    return render_template("routes/model_manager.html", models=read_model_metadata())
+    return render_template("routes/model_manager.html", models=read_model_metadata(), REQUIRED_MODELS=REQUIRED_MODELS)

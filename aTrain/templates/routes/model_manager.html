@@ -21,19 +21,21 @@
                 </thead>
                 <tbody>
                     {% for model_dict in models %}
-                    <tr class="hover">
-                        <th>{{ loop.index }}</th>
-                        <td>{{ model_dict['model'] }}</td>
-                        <td>
-                            {% if model_dict['downloaded'] %}
-                                <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
-                                <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
-                            {% else %}
-                                <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm" 
-                                _="on click send started to #modalModelDownload and #timer">Download</div>
-                            {% endif %}
-                        </td>
-                    </tr>
+                        {% if model_dict['model'] not in REQUIRED_MODELS %}
+                            <tr class="hover">
+                                <th>{{ loop.index }}</th>
+                                <td>{{ model_dict['model'] }}</td>
+                                <td>
+                                    {% if model_dict['downloaded'] %}
+                                        <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
+                                        <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
+                                    {% else %}
+                                        <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm" 
+                                        _="on click send started to #modalModelDownload and #timer">Download</div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

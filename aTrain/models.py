@@ -11,18 +11,22 @@ import traceback
 
 
 def read_downloaded_models() -> list:
-    os.makedirs(MODELS_DIR, exist_ok=True)
-    all_file_directories = [directory.name for directory in os.scandir(
-        MODELS_DIR) if directory.is_dir()]
-    all_file_directories.sort(reverse=True)
+    directories_to_search = [MODELS_DIR, REQUIRED_MODELS_DIR]
     all_downloaded_models = []
-    for directory_name in all_file_directories:
-        directory_path = os.path.join(MODELS_DIR, directory_name)
-        for file in os.listdir(directory_path):
-            # model only with .bin file available
-            if file.endswith('.bin'):
-                all_downloaded_models.append(directory_name)
-                break
+
+    for directory in directories_to_search:
+        os.makedirs(directory, exist_ok=True)
+        all_file_directories = [dir_entry.name for dir_entry in os.scandir(directory) if dir_entry.is_dir()]
+        all_file_directories.sort(reverse=True)
+
+        for directory_name in all_file_directories:
+            directory_path = os.path.join(directory, directory_name)
+            for file in os.listdir(directory_path):
+                # model only with .bin file available
+                if file.endswith('.bin'):
+                    all_downloaded_models.append(directory_name)
+                    break
+
     return all_downloaded_models
 
 
