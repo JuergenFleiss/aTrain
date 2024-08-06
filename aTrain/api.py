@@ -67,7 +67,7 @@ def delete_model(model):
     return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
 
 
-@api.get('/get_languages')  # for transcription page
+@api.route('/get_languages', methods=['GET', 'POST']) # for transcription page
 def get_languages():
     model = request.form.get('model')
     # Use a different variable name to store the result
