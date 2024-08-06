@@ -5,3 +5,4 @@ build
 aTrain.egg-info
 installer.iss
 test.py
+aTrain/required_models/*

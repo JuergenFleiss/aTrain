@@ -1,4 +1,4 @@
-from .globals import EVENT_SENDER, MODELS_DIR, RUNNING_DOWNLOADS
+from .globals import EVENT_SENDER, MODELS_DIR, RUNNING_DOWNLOADS, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from showinfm import show_in_file_manager
 from aTrain_core.load_resources import get_model, load_model_config_file
 from aTrain_core.GUI_integration import EventSender
@@ -159,29 +159,33 @@ def model_languages(model: str) -> dict:
     return languages
 
 
-def open_model_dir(model: str) -> None:
+def open_model_dir(model: str, models_dir = MODELS_DIR) -> None:
     """A function that opens the directory where a given model is stored."""
     model = "" if model == "all" else model
-    directory_name = os.path.join(MODELS_DIR, model)
+    directory_name = os.path.join(models_dir, model)
     if os.path.exists(directory_name):
         show_in_file_manager(directory_name)
 
 
-def start_model_download(model: str) -> None:
+def start_model_download(model: str, models_dir = MODELS_DIR) -> None:
     """A function that starts the download of a model in a separate process."""
+    if model in REQUIRED_MODELS:
+        models_dir = REQUIRED_MODELS_DIR
+    else:
+        models_dir = MODELS_DIR
     model_download = Process(target=try_to_download_model,
-                             kwargs={"model": model, "event_sender": EVENT_SENDER}, daemon=True)
+                             kwargs={"model": model, "event_sender": EVENT_SENDER, "models_dir": models_dir}, daemon=True)
     model_download.start()
     RUNNING_DOWNLOADS.append((model_download, model))
     model_download.join()
     RUNNING_DOWNLOADS.remove((model_download, model))
 
 
-def try_to_download_model(model: str, event_sender: EventSender) -> None:
+def try_to_download_model(model: str, event_sender: EventSender, models_dir = MODELS_DIR) -> None:
     """A function that tries to download the specified model and sends any occuring errors to the frontend."""
     try:
         check_internet()
-        get_model(model, event_sender)
+        get_model(model, event_sender, models_dir)
         event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()

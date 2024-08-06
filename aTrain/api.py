@@ -3,7 +3,7 @@ from .models import open_model_dir, start_model_download, read_model_metadata, m
 from .transcription import EVENT_SENDER, stop_all_transcriptions, start_process
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, render_template, redirect, Response, url_for, request
-
+from .globals import MODELS_DIR, REQUIRED_MODELS_DIR, REQUIRED_MODELS
 api = Blueprint("api", __name__)
 
 
@@ -45,13 +45,21 @@ def delete_directory(file_id):
 
 @api.get('/open_model_directory/<model>')
 def open_model_directory(model):
-    open_model_dir(model)
+    if model in REQUIRED_MODELS:
+        models_dir = REQUIRED_MODELS_DIR
+    else:
+        models_dir = MODELS_DIR
+    open_model_dir(model, models_dir)
     return ""
 
 
 @api.get('/download_model/<model>')
 def download_model(model):
-    start_model_download(model)
+    if model in REQUIRED_MODELS:
+        models_dir = REQUIRED_MODELS_DIR
+    else:
+        models_dir = MODELS_DIR
+    start_model_download(model, models_dir)
     return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
 
 

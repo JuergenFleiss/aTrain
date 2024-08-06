@@ -1,6 +1,6 @@
 from .routes import routes
 from .api import api
-from .models import stop_all_downloads
+from .models import stop_all_downloads, start_model_download
 from .transcription import stop_all_transcriptions
 from .globals import EVENT_SENDER
 from flask import Flask
@@ -8,6 +8,8 @@ from screeninfo import get_monitors
 import webview
 from wakepy import keep
 import argparse
+from aTrain_core.load_resources import get_model
+from .globals import REQUIRED_MODELS_DIR
 
 
 app = Flask(__name__)
@@ -38,8 +40,14 @@ def cli() -> None:
     parser = argparse.ArgumentParser(
         prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
     parser.add_argument("command", choices=[
-                        'start', 'dev'], help="Command for aTrain to perform.")
+                        'init', 'start', 'dev'], help="Command for aTrain to perform.")
     args = parser.parse_args()
+
+    if args.command == "init":
+        start_model_download(model= "diarize", models_dir= REQUIRED_MODELS_DIR)
+        start_model_download(model= "large-v3", models_dir= REQUIRED_MODELS_DIR)
+        
+
 
     if args.command == "start":
         print("Running aTrain")
