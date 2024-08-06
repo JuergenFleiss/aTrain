@@ -7,9 +7,11 @@ from aTrain_core.GUI_integration import EventSender
 from aTrain_core.check_inputs import check_inputs_transcribe
 from aTrain_core.globals import TIMESTAMP_FORMAT
 from aTrain_core.transcribe import transcribe
-from aTrain_core.outputs import create_file_id
+from aTrain_core.outputs import create_file_id, create_directory, write_logfile
 from datetime import datetime
 import traceback
+import os
+from werkzeug.utils import secure_filename
 
 
 def start_process(request: Request) -> None:
@@ -49,10 +51,27 @@ def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  even
 
 def start_transcription(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
     """A function that checks the inputs for the transcription and then transcribes the audio file."""
-    check_inputs_transcribe(
-        file=file_name, model=settings["model"], language=settings["language"], device=settings["device"])
+
+
     timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    file_id = create_file_id(file_name, timestamp)
+    
+    dir_name = os.path.dirname(file_name)
+    file_base_name = os.path.basename(file_name)
+
+    # Secure the base name (remove unsafe characters)
+    secure_file_base_name = secure_filename(file_base_name)
+
+    # Join the directory path with the secure base name to get the full path
+    file_name_secure = os.path.join(dir_name, secure_file_base_name)
+
+    file_id = create_file_id(file_name_secure, timestamp)
+    create_directory(file_id)
+    write_logfile(f"Original file name: {file_name}", file_id)
+    write_logfile(f"File ID: {file_id}", file_id)
+
+    check_inputs_transcribe(
+        file=file_name_secure, model=settings["model"], language=settings["language"], device=settings["device"])
+
     transcribe(BytesIO(file_content), file_id, settings["model"], settings["language"], settings["speaker_detection"],
                settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
 
