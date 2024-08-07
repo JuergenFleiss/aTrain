@@ -14,7 +14,6 @@
             <table class="table table-xs sm:table-sm md:table-md">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Model</th>
                         <th>Download Size</th>
                         <th>Actions</th>
@@ -24,7 +23,6 @@
                     {% for model_dict in models %}
                         {% if model_dict['model'] not in REQUIRED_MODELS %}
                             <tr class="hover">
-                                <th>{{ loop.index }}</th>
                                 <td>{{ model_dict['model'] }}</td>
                                 <td>{{ model_dict['size'] }}</td>
                                 <td>
