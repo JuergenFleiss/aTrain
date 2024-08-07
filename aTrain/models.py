@@ -31,13 +31,15 @@ def read_downloaded_models() -> list:
 
 
 def read_model_metadata() -> list:
-    all_models = list(load_model_config_file().keys())
+    model_metadata = load_model_config_file()
+    all_models = list(model_metadata.keys())
     downloaded_models = read_downloaded_models()
     all_models_metadata = []
 
     for model in all_models:
         model_info = {
             "model": model,
+            "size" : model_metadata[model]["model_bin_size_human"],
             "downloaded": model in downloaded_models
         }
         all_models_metadata.append(model_info)

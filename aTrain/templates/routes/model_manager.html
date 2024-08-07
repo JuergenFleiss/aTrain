@@ -16,6 +16,7 @@
                     <tr>
                         <th></th>
                         <th>Model</th>
+                        <th>Download Size</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -25,6 +26,7 @@
                             <tr class="hover">
                                 <th>{{ loop.index }}</th>
                                 <td>{{ model_dict['model'] }}</td>
+                                <td>{{ model_dict['size'] }}</td>
                                 <td>
                                     {% if model_dict['downloaded'] %}
                                         <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
