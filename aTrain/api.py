@@ -60,7 +60,7 @@ def download_model(model):
     else:
         models_dir = MODELS_DIR
     start_model_download(model, models_dir)
-    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
+    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True, REQUIRED_MODELS=REQUIRED_MODELS)
 
 
 @api.get('/stop_download')
@@ -72,7 +72,7 @@ def stop_download():
 @api.get('/delete_model/<model>')
 def delete_model(model):
     remove_model(model)
-    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True)
+    return render_template("routes/model_manager.html", models=read_model_metadata(), only_content=True, REQUIRED_MODELS=REQUIRED_MODELS)
 
 
 @api.route('/get_languages', methods=['GET', 'POST']) # for transcription page

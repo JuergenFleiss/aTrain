@@ -13,12 +13,52 @@ def set_globals():
     return dict(version=__version__)
 
 
+# @routes.get("/")
+# def home():
+#     models = read_downloaded_models()
+#     default_model = "large-v3" if "large-v3" in models else None  # Set to None if "large-v3" is not available
+#     languages = model_languages(default_model) if default_model else {}  # Use an empty dict if no default model
+#     return render_template(
+#         "routes/transcribe.html", 
+#         settings=load_settings(), 
+#         models=models, 
+#         languages=languages, 
+#         default_model=default_model
+#     )
+
 @routes.get("/")
 def home():
-    default_model = read_downloaded_models()[0]
-    languages = model_languages(default_model)
-    return render_template("routes/transcribe.html", settings=load_settings(), models=read_downloaded_models(), languages=languages)
-
+    models = read_downloaded_models()  # Get the list of downloaded models
+    
+    try:
+        if "large-v3" in models:
+            default_model = "large-v3"
+        elif models:
+            default_model = models[0]  # Fall back to the first model if any models are available
+        
+        languages = model_languages(default_model)
+        print("There appear to be no models downloaded")
+        return render_template(
+        "routes/transcribe.html", 
+        settings=load_settings(), 
+        models=models, 
+        languages=languages, 
+        default_model=default_model  # Pass the default model to the template
+    )
+    
+    except KeyError:
+        default_model = None  # No models available
+        languages = {}
+        return render_template(
+        "routes/transcribe.html", 
+        settings=load_settings(), 
+        models=models, 
+        languages=languages, 
+        default_model=default_model  # Pass the default model to the template
+    )
+    
+    
+    
 
 @routes.get("/archive")
 def archive():

@@ -2,14 +2,17 @@
   <h2 class="font-bold text-primary">Select Model</h2>
   <div class="divider my-0"></div>
   <select name="model" id="model" class="select select-bordered select-sm w-full my-2 max-w-xs"
-    hx-post = '/get_languages' hx-trigger = 'change' hx-target = '#languageSection' hx-swap ='outerHTML'>
-    {% for model in models%}
-      {% if model != "diarize" %}
-        <option value="{{model}}">{{model}}</option>
+      hx-post='/get_languages' hx-trigger='change' hx-target='#languageSection' hx-swap='outerHTML'>
+      {% if default_model %}
+        {% for model in models %}
+          {% if model != "diarize" %}
+            <option value="{{ model }}" {% if model == default_model %} selected {% endif %}>{{ model }}</option>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <option value="" disabled selected hidden>Select Model</option>
       {% endif %}
-    {% endfor %}
-  </select>
-     
-  <p class="text-sm">Select a whisper model to be used for transcription.</p>
+    </select>
+    <p class="text-sm">Select a Whisper model to be used for transcription.</p>
   <div class="text-sm">🧮 <a href="{{url_for('routes.model_manager')}}" class="link ml-1">Download additional models</a> </div>
 </div>

@@ -1,10 +1,14 @@
 <div id="languageSection">
     <h2 class="font-bold text-primary">Select Language</h2>
     <div class="divider my-0"></div>
-    <select name="language" id="language" class="select select-bordered	 select-sm my-2 w-full max-w-xs">
-      {% for code, name in languages.items()%}
-        <option value="{{code}}">{{name}}</option>
-      {% endfor %}
+    <select name="language" id="language" class="select select-bordered select-sm my-2 w-full max-w-xs">
+      {% if languages %}
+        {% for code, name in languages.items() %}
+          <option value="{{ code }}">{{ name }}</option>
+        {% endfor %}
+      {% else %}
+        <option value="" selected>Select Language</option>
+      {% endif %}
     </select>
     <p class="text-sm">Select a language to be used for transcription.</p>
 </div>

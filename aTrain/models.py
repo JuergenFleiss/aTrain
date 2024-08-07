@@ -23,7 +23,7 @@ def read_downloaded_models() -> list:
             directory_path = os.path.join(directory, directory_name)
             for file in os.listdir(directory_path):
                 # model only with .bin file available
-                if file.endswith('.bin'):
+                if file.endswith('.bin') and directory_name in list(load_model_config_file().keys()):
                     all_downloaded_models.append(directory_name)
                     break
 
