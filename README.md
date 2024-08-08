@@ -100,7 +100,10 @@ aTrain start
 
 ## Roadmap and Upcoming Features
 
+Planned in the near future.
 - Batch Processing, allowing to have files queued for transcription
+- More distilled-whisper models for German and other languages
+- Stable Debian and MacOS installers
 
 
 ## How to build a standalone executable 📦
