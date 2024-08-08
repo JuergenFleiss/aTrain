@@ -98,6 +98,11 @@ Run the app with the console script
 aTrain start
 ```
 
+## Roadmap and Upcoming Features
+
+- Batch Processing, allowing to have files queued for transcription
+
+
 ## How to build a standalone executable 📦
 We use pyinstaller to freeze the code of aTrain and create a standalone executable.  
 **If you want to create your own code package follow these steps:**  
