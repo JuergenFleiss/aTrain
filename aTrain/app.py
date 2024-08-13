@@ -19,10 +19,9 @@ app.register_blueprint(api)
 
 def run_app() -> None:
     """A function that creates creates the application window and runs the app."""
-    app_height = int(min([monitor.height for monitor in get_monitors()])*0.8)
-    app_width = int(min([monitor.width for monitor in get_monitors()])*0.8)
-    window = webview.create_window(
-        "aTrain", app, height=app_height, width=app_width)
+    app_height = int(min([monitor.height for monitor in get_monitors()]) * 0.8)
+    app_width = int(min([monitor.width for monitor in get_monitors()]) * 0.8)
+    window = webview.create_window("aTrain", app, height=app_height, width=app_width)
     window.events.closed += teardown
     with keep.running():
         webview.start()
@@ -38,16 +37,18 @@ def teardown() -> None:
 def cli() -> None:
     """A function that parses the CLI arguments and runs the application accordingly."""
     parser = argparse.ArgumentParser(
-        prog='aTrain', description='A GUI tool to transcribe audio with Whisper')
-    parser.add_argument("command", choices=[
-                        'init', 'start', 'dev'], help="Command for aTrain to perform.")
+        prog="aTrain", description="A GUI tool to transcribe audio with Whisper"
+    )
+    parser.add_argument(
+        "command",
+        choices=["init", "start", "dev"],
+        help="Command for aTrain to perform.",
+    )
     args = parser.parse_args()
 
     if args.command == "init":
-        start_model_download(model= "diarize", models_dir= REQUIRED_MODELS_DIR)
-        start_model_download(model= "large-v3", models_dir= REQUIRED_MODELS_DIR)
-        
-
+        start_model_download(model="diarize", models_dir=REQUIRED_MODELS_DIR)
+        start_model_download(model="large-v3", models_dir=REQUIRED_MODELS_DIR)
 
     if args.command == "start":
         print("Running aTrain")
