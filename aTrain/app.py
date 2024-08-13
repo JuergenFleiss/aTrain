@@ -1,16 +1,16 @@
-from .routes import routes
-from .api import api
-from .models import stop_all_downloads, start_model_download
-from .transcription import stop_all_transcriptions
-from .globals import EVENT_SENDER
+import argparse
+
+import webview
+from aTrain_core.load_resources import get_model
 from flask import Flask
 from screeninfo import get_monitors
-import webview
 from wakepy import keep
-import argparse
-from aTrain_core.load_resources import get_model
-from .globals import REQUIRED_MODELS_DIR
 
+from .api import api
+from .globals import EVENT_SENDER, REQUIRED_MODELS_DIR
+from .models import start_model_download, stop_all_downloads
+from .routes import routes
+from .transcription import stop_all_transcriptions
 
 app = Flask(__name__)
 app.register_blueprint(routes)
