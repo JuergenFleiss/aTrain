@@ -1,7 +1,6 @@
 import argparse
 
 import webview
-from aTrain_core.load_resources import get_model
 from flask import Flask
 from screeninfo import get_monitors
 from wakepy import keep
