@@ -219,7 +219,7 @@ def check_internet():
     """A function to check whether the user is connected to the internet."""
     try:
         urllib.request.urlopen("https://www.google.com", timeout=1)
-    except urllib.error.URLError as error:
+    except urllib.error.URLError:
         raise ConnectionError("It seems like you are not connected to the internet.")
 
 
