@@ -1,24 +1,29 @@
-from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
-from multiprocessing import Process
-from flask import Request
-from werkzeug.datastructures import FileStorage
+import os
+import traceback
+from datetime import datetime
 from io import BytesIO
-from aTrain_core.GUI_integration import EventSender
+from multiprocessing import Process
+
 from aTrain_core.check_inputs import check_inputs_transcribe
 from aTrain_core.globals import TIMESTAMP_FORMAT
+from aTrain_core.GUI_integration import EventSender
+from aTrain_core.outputs import create_directory, create_file_id, write_logfile
 from aTrain_core.transcribe import transcribe
-from aTrain_core.outputs import create_file_id, create_directory, write_logfile
-from datetime import datetime
-import traceback
-import os
+from flask import Request
+from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
+
+from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
 
 
 def start_process(request: Request) -> None:
     """This function executes the transcription in a seperate process."""
     settings, file = get_inputs(request=request)
-    transciption = Process(target=try_to_transcribe,
-                           args=(settings, file.filename, file.stream.read(), EVENT_SENDER), daemon=True)
+    transciption = Process(
+        target=try_to_transcribe,
+        args=(settings, file.filename, file.stream.read(), EVENT_SENDER),
+        daemon=True,
+    )
     transciption.start()
     RUNNING_TRANSCRIPTIONS.append(transciption)
 
@@ -34,27 +39,30 @@ def get_inputs(request: Request) -> tuple[dict, FileStorage]:
 def resolve_boolean_inputs(settings: dict) -> dict:
     """This function checks if boolean inputs are present and replaces them with their respective values."""
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
-    settings["device"] = "GPU" if 'GPU' in settings else "CPU"
-    settings["compute_type"] = "float16" if 'float16' in settings else "int8"
+    settings["device"] = "GPU" if "GPU" in settings else "CPU"
+    settings["compute_type"] = "float16" if "float16" in settings else "int8"
     return settings
 
 
-def try_to_transcribe(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
+def try_to_transcribe(
+    settings: dict, file_name: str, file_content: bytes, event_sender: EventSender
+) -> None:
     """A function that calls aTrain_core and handles errors if they happen."""
     try:
-        start_transcription(settings, file_name, file_content,  event_sender)
+        start_transcription(settings, file_name, file_content, event_sender)
         event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()
         event_sender.error_info(str(error), traceback_str)
 
 
-def start_transcription(settings: dict, file_name: str, file_content: bytes,  event_sender: EventSender) -> None:
+def start_transcription(
+    settings: dict, file_name: str, file_content: bytes, event_sender: EventSender
+) -> None:
     """A function that checks the inputs for the transcription and then transcribes the audio file."""
 
-
     timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    
+
     dir_name = os.path.dirname(file_name)
     file_base_name = os.path.basename(file_name)
 
@@ -70,10 +78,24 @@ def start_transcription(settings: dict, file_name: str, file_content: bytes,  ev
     write_logfile(f"File ID: {file_id}", file_id)
 
     check_inputs_transcribe(
-        file=file_name_secure, model=settings["model"], language=settings["language"], device=settings["device"])
+        file=file_name_secure,
+        model=settings["model"],
+        language=settings["language"],
+        device=settings["device"],
+    )
 
-    transcribe(BytesIO(file_content), file_id, settings["model"], settings["language"], settings["speaker_detection"],
-               settings["num_speakers"], settings["device"], settings["compute_type"], timestamp, event_sender)
+    transcribe(
+        BytesIO(file_content),
+        file_id,
+        settings["model"],
+        settings["language"],
+        settings["speaker_detection"],
+        settings["num_speakers"],
+        settings["device"],
+        settings["compute_type"],
+        timestamp,
+        event_sender,
+    )
 
 
 def stop_all_transcriptions() -> None:

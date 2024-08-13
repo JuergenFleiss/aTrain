@@ -1,9 +1,10 @@
 import os
 import shutil
-import yaml
-from showinfm import show_in_file_manager
 from importlib.resources import files
-from aTrain_core.globals import TRANSCRIPT_DIR, METADATA_FILENAME
+
+import yaml
+from aTrain_core.globals import METADATA_FILENAME, TRANSCRIPT_DIR
+from showinfm import show_in_file_manager
 
 
 def read_archive() -> list:
@@ -16,8 +17,9 @@ def read_archive() -> list:
 def read_directories() -> list:
     """A function that returns a list of all directories in the archive folder"""
     os.makedirs(TRANSCRIPT_DIR, exist_ok=True)
-    directories = [directory.name for directory in os.scandir(
-        TRANSCRIPT_DIR) if directory.is_dir()]
+    directories = [
+        directory.name for directory in os.scandir(TRANSCRIPT_DIR) if directory.is_dir()
+    ]
     directories.sort(reverse=True)
     return directories
 
@@ -26,8 +28,7 @@ def read_all_metadata(all_directories) -> list:
     """A function that returns all available metadata from past transcriptions"""
     all_metadata = []
     for directory in all_directories:
-        metadata_file_path = os.path.join(
-            TRANSCRIPT_DIR, directory, METADATA_FILENAME)
+        metadata_file_path = os.path.join(TRANSCRIPT_DIR, directory, METADATA_FILENAME)
         if os.path.exists(metadata_file_path):
             metadata = read_metadata_file(metadata_file_path, directory)
         else:
@@ -49,7 +50,7 @@ def read_metadata_from_dir_name(directory) -> dict:
     metadata = {
         "file_id": directory,
         "filename": directory[20:] if len(directory) > 20 else "-",
-        "timestamp": directory[:20] if len(directory) >= 20 else "-"
+        "timestamp": directory[:20] if len(directory) >= 20 else "-",
     }
     return metadata
 
@@ -75,6 +76,6 @@ def open_file_directory(file_id) -> None:
 def load_faqs() -> dict:
     """A function that reads the content of the faq file."""
     faq_path = str(files("aTrain.static").joinpath("faq.yaml"))
-    with open(faq_path, "r", encoding='utf-8') as faq_file:
+    with open(faq_path, "r", encoding="utf-8") as faq_file:
         faqs: dict = yaml.safe_load(faq_file)
     return faqs
