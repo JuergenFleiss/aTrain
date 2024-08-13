@@ -2,21 +2,15 @@ import os
 
 import yaml
 from aTrain_core.globals import ATRAIN_DIR
+from pydantic import BaseModel, ValidationError
 
 SETTINGS_FILE = os.path.join(ATRAIN_DIR, "settings.txt")
 
 
-class Settings:
-    """A class that contains the settings to be used in a transcription"""
+class Settings(BaseModel):
+    """A type schema for the settings to be used in a transcription"""
 
-    def __init__(self, cuda_available: bool):
-        self.cuda_available = cuda_available
-
-    def __str__(self):
-        return str(vars(self))
-
-    def to_dict(self):
-        return vars(self)
+    cuda_available: bool
 
 
 def load_settings() -> Settings:
@@ -25,7 +19,7 @@ def load_settings() -> Settings:
         with open(SETTINGS_FILE, "r", encoding="utf-8") as settings_file:
             settings_dict = yaml.safe_load(settings_file)
             settings = Settings(**settings_dict)
-    except:
+    except (ValidationError, FileNotFoundError, TypeError):
         settings = reset_settings()
     return settings
 
@@ -44,4 +38,9 @@ def write_settings(settings: Settings):
     """A function that saves the current settings to a settings file."""
     os.makedirs(ATRAIN_DIR, exist_ok=True)
     with open(SETTINGS_FILE, "w", encoding="utf-8") as settings_file:
-        yaml.safe_dump(settings.to_dict(), settings_file)
+        yaml.safe_dump(settings.model_dump(), settings_file)
+
+
+if __name__ == "__main__":
+    s = load_settings()
+    print(s)
