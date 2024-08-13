@@ -24,7 +24,8 @@ dependencies = [
     "pywebview==4.2.2",
     "screeninfo==0.8.1",
     "wakepy==0.7.2",
-    "show-in-file-manager==1.1.4"
+    "show-in-file-manager==1.1.4",
+    "pydantic"
 ]
 
 [tool.setuptools.packages.find]
