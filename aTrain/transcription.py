@@ -74,8 +74,7 @@ def start_transcription(
 
     file_id = create_file_id(file_name_secure, timestamp)
     create_directory(file_id)
-    write_logfile(f"Original file name: {file_name}", file_id)
-    write_logfile(f"File ID: {file_id}", file_id)
+    write_logfile(f"File ID created: {file_id}", file_id)
 
     check_inputs_transcribe(
         file=file_name_secure,
@@ -94,6 +93,7 @@ def start_transcription(
         settings["device"],
         settings["compute_type"],
         timestamp,
+        file_name,  # original file path
         event_sender,
     )
 
