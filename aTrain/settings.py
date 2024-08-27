@@ -1,7 +1,7 @@
 import os
 
 import yaml
-from aTrain_core.globals import ATRAIN_DIR
+from aTrain_core.globals import ATRAIN_DIR, DOCUMENTS_DIR
 from pydantic import BaseModel, ValidationError
 
 SETTINGS_FILE = os.path.join(ATRAIN_DIR, "settings.txt")
@@ -39,3 +39,27 @@ def write_settings(settings: Settings):
     os.makedirs(ATRAIN_DIR, exist_ok=True)
     with open(SETTINGS_FILE, "w", encoding="utf-8") as settings_file:
         yaml.safe_dump(settings.model_dump(), settings_file)
+
+
+def check_access(path: str) -> bool:
+    """Check if the application has access to the given path."""
+    try:
+        # Check if the directory exists and is readable
+        if os.path.isdir(path):
+            return len(os.listdir(path)) >= 0
+        else:
+            with open(path, "r") as f:
+                f.read()
+        return True
+    except PermissionError:
+        return False
+    except FileNotFoundError:
+        return False
+
+
+def show_permission_instructions():
+    """Show a message box with instructions for granting permissions."""
+    print(
+        "Access Required",
+        "This application needs access to the Documents folder. Please grant this access in System Preferences > Security & Privacy > Privacy > Files and Folders.",
+    )
