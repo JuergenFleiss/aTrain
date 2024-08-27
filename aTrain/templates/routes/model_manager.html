@@ -1,13 +1,14 @@
 {% if not only_content %}
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 {% endif %}
 {% block content %}
 <div id="model_manager" class="card w-full bg-base-100">
     <div class="card-body">
         <div class="flex justify-between">
             <h2 class="card-title font-bold text-accent">Model Manager</h2>
-            <div> 
-                <div hx-get="{{ url_for('api.open_model_directory', model='all') }}" hx-swap="none" class="btn btn-neutral mr-2 btn-xs md:btn-sm">Show All</div>
+            <div>
+                <div hx-get="{{ url_for('api.open_model_directory', model='all') }}" hx-swap="none"
+                    class="btn btn-neutral mr-2 btn-xs md:btn-sm">Show All</div>
             </div>
         </div>
         <div class="overflow-x-auto">
@@ -21,21 +22,25 @@
                 </thead>
                 <tbody>
                     {% for model_dict in models %}
-                        {% if model_dict['model'] not in REQUIRED_MODELS %}
-                            <tr class="hover">
-                                <td>{{ model_dict['model'] }}</td>
-                                <td>{{ model_dict['size'] }}</td>
-                                <td>
-                                    {% if model_dict['downloaded'] %}
-                                        <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}" hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
-                                        <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
-                                    {% else %}
-                                        <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}" hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-neutral mr-2 btn-xs md:btn-sm" 
-                                        _="on click send started to #modalModelDownload and #timer">Download</div>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endif %}
+                    {% if model_dict['model'] not in REQUIRED_MODELS %}
+                    <tr class="hover">
+                        <td>{{ model_dict['model'] }}</td>
+                        <td>{{ model_dict['size'] }}</td>
+                        <td>
+                            {% if model_dict['downloaded'] %}
+                            <div hx-get="{{ url_for('api.open_model_directory', model=model_dict['model']) }}"
+                                hx-swap="none" class="btn btn-primary md:btn-sm">Open</div>
+                            <div hx-get="{{ url_for('api.delete_model', model=model_dict['model']) }}"
+                                hx-target="#model_manager" hx-swap="outerHTML" class="btn btn-xs md:btn-sm">Delete</div>
+                            {% else %}
+                            <div hx-get="{{ url_for('api.download_model', model=model_dict['model']) }}"
+                                hx-target="#model_manager" hx-swap="outerHTML"
+                                class="btn btn-neutral mr-2 btn-xs md:btn-sm"
+                                _="on click send started to #modalModelDownload and #timer">Download</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
@@ -43,7 +48,7 @@
     </div>
 </div>
 {% if not only_content %}
-    {% include 'modals/modal_model_download.html' with context %}
-    {% include 'modals/modal_error.html' with context %}
+{% include 'modals/modal_model_download.html' with context %}
+{% include 'modals/modal_error.html' with context %}
 {% endif %}
 {% endblock %}
