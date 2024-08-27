@@ -56,85 +56,12 @@ Transcription Time for 00:22:00 File:
 | CPU: Intel i9-10940X   | 00:10:25    | 00:04:36          |
 | GPU: RTX 2080 Ti       | 00:01:44    | 00:01:06          |
 
-## System requirements
-Windows is fully supported. 
-
-Debian support (currently considered beta) via deb package ([download here](https://business-analytics.uni-graz.at/en/research/atrain/download/)). 
-
-Currently no MacOS support.
-
-If you want to use Windows Server, ensure that WebView2 is installed:  
-https://developer.microsoft.com/en-us/microsoft-edge/webview2/#download 
-
-## Installation for users 😎
-Simply access the installer from the Microsoft app store  
-https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2
-
-## Installation for developers ⚙️
-
-**You need to have python >=3.10**  
-If you need help with installing that, look at these resources:  
-https://www.python.org/downloads/release/python-31011/
-
-Setup a virtual environment
-```
-python -m venv venv
-```
-Activate the virtual environment
-```
-.\venv\Scripts\activate
-```
-Install aTrain
-```
-pip install aTrain@git+https://github.com/JuergenFleiss/aTrain.git --extra-index-url https://download.pytorch.org/whl/cu121
-```
-Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
-Note: The user version in the Microsoft store has those assets already included. 
-```
-aTrain init
-```
-Run the app with the console script
-```
-aTrain start
-```
-
 ## Roadmap and Upcoming Features
 
 Planned in the near future.
 - Batch Processing, allowing to have files queued for transcription
 - More distilled-whisper models for German and other languages
 - Stable Debian and MacOS installers
-
-
-## How to build a standalone executable 📦
-We use pyinstaller to freeze the code of aTrain and create a standalone executable.  
-**If you want to create your own code package follow these steps:**  
-\
-Clone and install aTrain in **editable mode** 
-```
-git clone https://github.com/JuergenFleiss/aTrain.git
-cd aTrain
-pip install -e . --extra-index-url https://download.pytorch.org/whl/cu121
-```
-\
-Download ffmpeg and all required models from Whisper and pyannote.audio with a console script
-```
-aTrain init
-```
-Install pyinstaller
-```
-pip install pyinstaller
-```
-Build the executable using the provided instruction in the file "build.spec"
-```
-pyinstaller build.spec
-```
-Congratulations! You just built a standalone executable for aTrain.  
-\
-To open this version of aTrain just go to the output folder (./dist/aTrain) and open the executable (e.g. aTrain.exe for Windows).  
-\
-If you want to go a step further and create an MSIX-installer for aTrain you can use [Advanced Installer Express](https://www.advancedinstaller.com/express-edition.html).  
-For information on how to use Advanced Installer Express refer to their [documentation](https://www.advancedinstaller.com/user-guide/introduction.html).
 
 ## Attribution
 The GIFs and Icons in aTrain are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/). 
