@@ -59,7 +59,7 @@ Transcription Time for 00:22:00 File:
 ## System requirements
 Windows is fully supported. 
 
-Debian support with manual installation [Wiki instructions](https://github.com/JuergenFleiss/aTrain/wiki/Linux-Support-(in-progress)) 
+Debian support (currently considered beta) via deb package ([download here](https://business-analytics.uni-graz.at/en/research/atrain/download/)). 
 
 Currently no MacOS support.
 
