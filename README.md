@@ -60,8 +60,12 @@ Transcription Time for 00:22:00 File:
 
 Planned in the near future.
 - Batch Processing, allowing to have files queued for transcription
-- More distilled-whisper models for German and other languages
+- Make more distilled-whisper models for German and other languages available
 - Stable Debian and MacOS installers
+- Somehow getting that snap package to work
+- Customization of output naming
+- Allowing users to setting the output directory
+- Allow for saving settings and defaults (currently resets after each transcription)
 
 ## Attribution
 The GIFs and Icons in aTrain are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/). 
