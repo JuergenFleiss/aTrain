@@ -218,9 +218,11 @@ def try_to_download_model(
 def check_internet():
     """A function to check whether the user is connected to the internet."""
     try:
-        urllib.request.urlopen("https://www.google.com", timeout=1)
+        urllib.request.urlopen("https://huggingface.co", timeout=1)
     except urllib.error.URLError:
-        raise ConnectionError("It seems like you are not connected to the internet.")
+        raise ConnectionError(
+            "We cannot reach Hugging Face. Most likely you are not connected to the internet."
+        )
 
 
 def stop_all_downloads() -> None:
