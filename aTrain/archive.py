@@ -79,3 +79,27 @@ def load_faqs() -> dict:
     with open(faq_path, "r", encoding="utf-8") as faq_file:
         faqs: dict = yaml.safe_load(faq_file)
     return faqs
+
+
+def check_access(path: str) -> bool:
+    """Check if the application has access to the given path."""
+    try:
+        # Check if the directory exists and is readable
+        if os.path.isdir(path):
+            return len(os.listdir(path)) >= 0
+        else:
+            with open(path, "r") as f:
+                f.read()
+        return True
+    except PermissionError:
+        return False
+    except FileNotFoundError:
+        return False
+
+
+def show_permission_instructions() -> None:
+    """Show a message box with instructions for granting permissions."""
+    print(
+        "Access Required",
+        "This application needs access to the Documents folder. Please grant this access in System Preferences > Security & Privacy > Privacy > Files and Folders.",
+    )
