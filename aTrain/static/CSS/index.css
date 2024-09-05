@@ -3165,6 +3165,10 @@ html:has(.drawer-toggle:checked) {
   align-content: center;
 }
 
+.items-end {
+  align-items: flex-end;
+}
+
 .items-center {
   align-items: center;
 }
@@ -3279,6 +3283,10 @@ html:has(.drawer-toggle:checked) {
 .text-primary {
   --tw-text-opacity: 1;
   color: var(--fallback-p,oklch(var(--p)/var(--tw-text-opacity)));
+}
+
+.underline {
+  text-decoration-line: underline;
 }
 
 .opacity-20 {
