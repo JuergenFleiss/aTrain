@@ -1,11 +1,11 @@
+from aTrain_core.globals import DOCUMENTS_DIR
 from flask import Blueprint, render_template
+from torch import cuda
 
-from .archive import load_faqs, read_archive
+from .archive import load_faqs, read_archive, check_access, show_permission_instructions
 from .globals import REQUIRED_MODELS
 from .models import model_languages, read_downloaded_models, read_model_metadata
-from .settings import load_settings, check_access, show_permission_instructions
 from .version import __version__
-from aTrain_core.globals import DOCUMENTS_DIR
 
 routes = Blueprint("routes", __name__)
 
@@ -32,7 +32,7 @@ def home():
             print("There appear to be no models downloaded")
             return render_template(
                 "routes/transcribe.html",
-                settings=load_settings(),
+                cuda=cuda.is_available(),
                 models=models,
                 languages=languages,
                 default_model=default_model,  # Pass the default model to the template
@@ -43,7 +43,7 @@ def home():
             languages = {}
             return render_template(
                 "routes/transcribe.html",
-                settings=load_settings(),
+                cuda=cuda.is_available(),
                 models=models,
                 languages=languages,
                 default_model=default_model,  # Pass the default model to the template
