@@ -15,20 +15,6 @@ def set_globals():
     return dict(version=__version__)
 
 
-# @routes.get("/")
-# def home():
-#     models = read_downloaded_models()
-#     default_model = "large-v3" if "large-v3" in models else None  # Set to None if "large-v3" is not available
-#     languages = model_languages(default_model) if default_model else {}  # Use an empty dict if no default model
-#     return render_template(
-#         "routes/transcribe.html",
-#         settings=load_settings(),
-#         models=models,
-#         languages=languages,
-#         default_model=default_model
-#     )
-
-
 @routes.get("/")
 def home():
     if check_access(DOCUMENTS_DIR):
