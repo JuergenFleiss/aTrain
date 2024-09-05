@@ -1,7 +1,7 @@
 import os
 
 import yaml
-from aTrain_core.globals import ATRAIN_DIR, DOCUMENTS_DIR
+from aTrain_core.globals import ATRAIN_DIR
 from pydantic import BaseModel, ValidationError
 
 SETTINGS_FILE = os.path.join(ATRAIN_DIR, "settings.txt")
