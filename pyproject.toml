@@ -25,7 +25,13 @@ dependencies = [
     "screeninfo==0.8.1",
     "wakepy==0.7.2",
     "show-in-file-manager==1.1.4",
-    "pydantic"
+    "pydantic",
+    "pyqt5; sys_platform == 'linux'",
+    "pyqtwebengine; sys_platform == 'linux'",
+    "pywebview; sys_platform == 'linux'",
+    "pywebview[qt]; sys_platform == 'linux'",
+    "pycairo; sys_platform == 'linux'",
+    "PyGObject; sys_platform == 'linux'"
 ]
 
 [tool.setuptools.packages.find]
