@@ -95,11 +95,3 @@ def check_access(path: str) -> bool:
         return False
     except FileNotFoundError:
         return False
-
-
-def show_permission_instructions() -> None:
-    """Show a message box with instructions for granting permissions."""
-    print(
-        "Access Required",
-        "This application needs access to the Documents folder. Please grant this access in System Preferences > Security & Privacy > Privacy > Files and Folders.",
-    )

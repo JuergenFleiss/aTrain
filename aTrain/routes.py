@@ -2,7 +2,7 @@ from aTrain_core.globals import DOCUMENTS_DIR
 from flask import Blueprint, render_template
 from torch import cuda
 
-from .archive import load_faqs, read_archive, check_access, show_permission_instructions
+from .archive import load_faqs, read_archive, check_access
 from .globals import REQUIRED_MODELS
 from .models import model_languages, read_downloaded_models, read_model_metadata
 from .version import __version__
@@ -49,8 +49,7 @@ def home():
                 default_model=default_model,  # Pass the default model to the template
             )
     else:
-        show_permission_instructions()
-        return render_template("routes/faq.html", faqs=load_faqs())
+        return render_template("routes/access_required.html")
 
 
 @routes.get("/archive")
