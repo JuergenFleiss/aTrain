@@ -188,8 +188,7 @@ def start_model_download(model: str, models_dir=MODELS_DIR) -> None:
     """A function that starts the download of a model in a separate process."""
     if model in REQUIRED_MODELS:
         models_dir = REQUIRED_MODELS_DIR
-    else:
-        models_dir = MODELS_DIR
+
     model_download = Process(
         target=try_to_download_model,
         kwargs={"model": model, "event_sender": EVENT_SENDER, "models_dir": models_dir},
@@ -202,12 +201,15 @@ def start_model_download(model: str, models_dir=MODELS_DIR) -> None:
 
 
 def try_to_download_model(
-    model: str, event_sender: EventSender, models_dir=MODELS_DIR
+    model: str, event_sender: EventSender, models_dir=None
 ) -> None:
-    """A function that tries to download the specified model and sends any occuring errors to the frontend."""
+    """A function that tries to download the specified model and sends any occurring errors to the frontend."""
+
+    if models_dir is None:
+        models_dir = MODELS_DIR
     try:
         check_internet()
-        get_model(model, event_sender, models_dir)
+        get_model(model, event_sender, models_dir, REQUIRED_MODELS_DIR)
         event_sender.finished_info()
     except Exception as error:
         traceback_str = traceback.format_exc()
