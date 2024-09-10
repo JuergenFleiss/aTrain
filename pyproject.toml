@@ -30,6 +30,9 @@ dependencies = [
     "pywebview; sys_platform == 'linux'",
     "pywebview[qt]; sys_platform == 'linux'",
     "pycairo; sys_platform == 'linux'",
+    "sox; sys_platform == 'linux'",
+    "flair; sys_platform == 'linux'",
+    "spacy; sys_platform == 'linux'",
     "PyGObject; sys_platform == 'linux'"
 ]
 
