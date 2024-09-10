@@ -25,7 +25,6 @@ dependencies = [
     "screeninfo==0.8.1",
     "wakepy==0.7.2",
     "show-in-file-manager==1.1.4",
-    "pydantic",
     "pyqt5; sys_platform == 'linux'",
     "pyqtwebengine; sys_platform == 'linux'",
     "pywebview; sys_platform == 'linux'",
