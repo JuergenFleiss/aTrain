@@ -29,7 +29,6 @@ def home():
                 ]  # Fall back to the first model if any models are available
 
             languages = model_languages(default_model)
-            print("There appear to be no models downloaded")
             return render_template(
                 "routes/transcribe.html",
                 cuda=cuda.is_available(),
