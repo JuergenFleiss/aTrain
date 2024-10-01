@@ -1,7 +1,15 @@
 <script type="text/hyperscript">
     eventsource SSE from {{url_for('api.SSE')}}
         on task as string
-            put it into #currentTask
+            if it is 'Transcribe'
+                add .step-primary to .step-transcribe
+            end
+            if it is 'Detect Speakers'
+                add .step-primary to .step-detect
+            end
+            if it is 'Finish'
+                add .step-primary to .step-finish
+            end
         end
 
         on progress as json
