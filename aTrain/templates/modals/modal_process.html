@@ -4,8 +4,23 @@
       <p>The system is transcribing your file right now, be patient!</p>
       <img class="modal-image my-2 mx-auto w-full h-full hidden" src="static/images/cat_process.gif" alt="Progress spinner">
       <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/process.gif" alt="Progress spinner">
-      <p class="text-sm font-bold">Current Task: <span class="text-sm font-normal" id="currentTask">Loading file</span></p> 
-      <progress id="progressBar" class="progress progress-primary	w-100" value="0" max="1000"></progress>
+      
+      <div class="flex justify-center">
+        <ul class="steps mb-5 w-100">
+          <li class="step step-neutral" data-content="⚙️">Prepare</li>
+          <li class="step step-transcribe" data-content="📝">Transcribe</li>
+          <li class="step step-finish" data-content="🏁">Finish</li>
+        </ul>
+        
+        <ul class="steps mb-5 w-100 hidden">
+          <li class="step step-neutral" data-content="⚙️" >Prepare</li>
+          <li class="step step-transcribe" data-content="📝">Transcribe</li>
+          <li class="step step-detect" data-content="💬">Detect Speakers</li>
+          <li class="step step-finish" data-content="🏁">Finish</li>
+        </ul>
+      </div>
+
+      <progress id="progressBar" class="progress progress-neutral my-2" value="0" max="1000"></progress>
       <div class="card-actions justify-between items-center">
         <div>
             <div class="text-sm">Running on <span id="device">CPU</span></div>
