@@ -2,13 +2,13 @@
     eventsource SSE from {{url_for('api.SSE')}}
         on task as string
             if it is 'Transcribe'
-                add .step-primary to .step-transcribe
+                add .step-neutral to .step-transcribe
             end
             if it is 'Detect Speakers'
-                add .step-primary to .step-detect
+                add .step-neutral to .step-detect
             end
             if it is 'Finish'
-                add .step-primary to .step-finish
+                add .step-neutral to .step-finish
             end
         end
 
