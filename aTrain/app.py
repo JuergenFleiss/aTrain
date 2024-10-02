@@ -6,7 +6,7 @@ from screeninfo import get_monitors
 from wakepy import keep
 
 from .api import api
-from .globals import EVENT_SENDER, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, REQUIRED_MODELS_DIR, REQUIRED_MODELS
 from .models import start_model_download, stop_all_downloads
 from .routes import routes
 from .transcription import stop_all_transcriptions
@@ -46,8 +46,8 @@ def cli() -> None:
     args = parser.parse_args()
 
     if args.command == "init":
-        start_model_download(model="diarize", models_dir=REQUIRED_MODELS_DIR)
-        start_model_download(model="large-v3", models_dir=REQUIRED_MODELS_DIR)
+        for model in REQUIRED_MODELS:
+            start_model_download(model=model, models_dir=REQUIRED_MODELS_DIR)
 
     if args.command == "start":
         print("Running aTrain")

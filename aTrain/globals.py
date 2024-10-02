@@ -8,4 +8,4 @@ RUNNING_DOWNLOADS = []
 RUNNING_TRANSCRIPTIONS = []
 EVENT_SENDER = EventSender()
 REQUIRED_MODELS_DIR = files("aTrain") / "required_models"
-REQUIRED_MODELS = ["diarize", "large-v3"]
+REQUIRED_MODELS = ["diarize", "large-v3-turbo"]

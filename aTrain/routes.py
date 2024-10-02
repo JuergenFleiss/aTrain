@@ -21,8 +21,8 @@ def home():
         models = read_downloaded_models()  # Get the list of downloaded models
 
         try:
-            if "large-v3" in models:
-                default_model = "large-v3"
+            if REQUIRED_MODELS[1] in models:
+                default_model = REQUIRED_MODELS[1]
             elif models:
                 default_model = models[
                     0
