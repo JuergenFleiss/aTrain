@@ -10,7 +10,6 @@ from .archive import (
 from .globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from .models import (
     model_languages,
-    open_model_dir,
     read_model_metadata,
     start_model_download,
     stop_all_downloads,
@@ -56,16 +55,6 @@ def delete_directory(file_id):
     return render_template(
         "routes/archive.html", archive_data=read_archive(), only_content=True
     )
-
-
-@api.get("/open_model_directory/<model>")
-def open_model_directory(model):
-    if model in REQUIRED_MODELS:
-        models_dir = REQUIRED_MODELS_DIR
-    else:
-        models_dir = MODELS_DIR
-    open_model_dir(model, models_dir)
-    return ""
 
 
 @api.get("/download_model/<model>")
