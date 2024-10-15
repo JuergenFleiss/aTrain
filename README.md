@@ -54,7 +54,7 @@ Transcription Time (incl. speaker detection) for 00:22:00 File:
 
 | Computing Device       |  large-v3   | Distil large-v3   | large-v3-turbo |
 | ---                    | ---         | ---               | ---            |
-| CPU: Ryzen 6850U       | 00:33:02    | 00:13:30          | 00:18:30       |
+| CPU: Ryzen 6850U       | 00:26:12    | 00:13:30          | 00:18:30       |
 | CPU: Apple M1          | 00:33:15    | 00:21:40          | 00:??:??       |
 | CPU: Intel i9-10940X   | 00:10:25    | 00:04:36          | 00:??:??       |
 | CPU: Intel i7-8750H    | 00:??:??    | 00:??:??          | 00:??:??       |
