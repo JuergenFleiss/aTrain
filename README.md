@@ -59,7 +59,7 @@ Transcription Time (incl. speaker detection) for 00:22:00 File:
 | CPU: Intel i9-10940X   | 00:10:25    | 00:04:36          | 00:??:??       |
 | CPU: Intel i7-8750H    | 00:??:??    | 00:??:??          | 00:??:??       |
 | GPU: RTX 2080 Ti       | 00:01:44    | 00:01:06          | 00:??:??       |
-| GPU: RTX 2070 Max-Q    | 00:??:??    | 00:??:??          | 00:??:??       |
+| GPU: RTX 2070 Max-Q    | 00:05:59    | 00:??:??          | 00:04:37       |
 
 
 ## Roadmap and Upcoming Features
