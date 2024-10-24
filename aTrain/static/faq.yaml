@@ -38,5 +38,8 @@
   answer: "Generally aTrain does not send anything to the internet since all models run offline. Atrain has some models pre-installed and users can download additional models
   from Hugging Face in the included model manager."
 
+- question: "Where does aTrain store my transcriptions and downloaded models?"
+  answer: "aTrain saves your past transcriptions and downloaded models in the 'aTrain' folder, located within your system's Documents directory."
+
 - question: "How can I get additional support?"
   answer: "If you need additional support you can contact the developers. Armin Haberl (armin.haberl@uni-graz.at), Jürgen Fleiß (juergen.fleiss@uni-graz.at)"
