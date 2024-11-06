@@ -1,5 +1,5 @@
 from aTrain_core.globals import DOCUMENTS_DIR
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from torch import cuda
 
 from .archive import load_faqs, read_archive, check_access
@@ -73,3 +73,10 @@ def model_manager():
         models=read_model_metadata(),
         REQUIRED_MODELS=REQUIRED_MODELS,
     )
+
+
+@routes.post("/toggle_speaker_count")
+def toggle_speaker_count():
+    # Check if the speaker detection checkbox is checked from the request
+    is_checked = request.form.get("speaker_detection") == "on"
+    return render_template("settings/num_speakers.html", visible=is_checked)

@@ -2,7 +2,9 @@
 {% block content %}
 <div class="card w-full bg-base-100">
   <div class="card-body">
-    <form hx-encoding="multipart/form-data" hx-post="{{url_for('api.start_transcription')}}" hx-include="#advancedSettings" hx-swap="none" _="on submit send started to #modalProcess and #timer">
+    <form hx-encoding="multipart/form-data" hx-post="{{url_for('api.start_transcription')}}"
+      hx-include="#advancedSettings, #num_speakers" hx-swap="none"
+      _="on submit send started to #modalProcess and #timer">
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% include 'settings/file_input.html' with context %}
@@ -16,10 +18,12 @@
 
       <div class="card-actions justify-between items-center">
         <div>
-          <div class="text-sm mb-2">⚙️ <span _="on click toggle .modal-open on #advancedSettings" class="link ml-1">Advanced Settings</span> </div>
+          <div class="text-sm mb-2">⚙️ <span _="on click toggle .modal-open on #advancedSettings"
+              class="link ml-1">Advanced Settings</span> </div>
           <div class="text-sm">📖 <a href="{{url_for('routes.faq')}}" class="link ml-1">Help needed?</a> </div>
         </div>
-        <img _="on click toggle .hidden on .modal-image then toggle .opacity-20 on me" class="opacity-20" src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
+        <img _="on click toggle .hidden on .modal-image then toggle .opacity-20 on me" class="opacity-20"
+          src="static/images/cat_icon.png" alt="Catmode-Switch" height="30" width="30">
         <input id="startButton" class="btn btn-primary" type="submit" value="Start">
       </div>
 
