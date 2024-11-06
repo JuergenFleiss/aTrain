@@ -87,12 +87,3 @@ def delete_model(model):
         only_content=True,
         REQUIRED_MODELS=REQUIRED_MODELS,
     )
-
-
-@api.route("/get_languages", methods=["GET", "POST"])  # for transcription page
-def get_languages():
-    model = request.form.get("model")
-    # Use a different variable name to store the result
-    languages_dict = model_languages(model)
-    print(languages_dict)
-    return render_template("settings/languages.html", languages=languages_dict)

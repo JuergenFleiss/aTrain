@@ -5,7 +5,7 @@
   <div class="flex items-center justify-between">
     <span class="label-text font-medium">Multispeaker</span>
     <input name="speaker_detection" id="speaker_detection" type="checkbox" class="toggle toggle-sm my-2"
-      hx-post="{{ url_for('routes.toggle_speaker_count') }}" hx-trigger="change from:body"
+      hx-post="{{ url_for('routes.get_num_speakers_on_toggle') }}" hx-trigger="change from:body"
       hx-target="#numSpeakersContainer" hx-swap="outerHTML" />
   </div>
   <p class="text-sm mt-2">Select whether you want to detect speakers.</p>

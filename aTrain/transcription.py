@@ -33,6 +33,7 @@ def get_inputs(request: Request) -> tuple[dict, FileStorage]:
     file = request.files["file"]
     settings = dict(request.form)
     settings = resolve_boolean_inputs(settings)
+    print(settings)
     return settings, file
 
 
