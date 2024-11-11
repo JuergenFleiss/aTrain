@@ -93,6 +93,7 @@ def start_transcription(
         settings["num_speakers"],
         settings["device"],
         settings["compute_type"],
+        settings['initial_prompt'],
         timestamp,
         file_name,  # original file path
         event_sender,
