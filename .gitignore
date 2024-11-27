@@ -1,12 +1,10 @@
 venv
+.venv
 __pycache__
 dist
 build
-aTrain/models/*/
-tailwind*
-node_modules
-package*
-ffmpeg*
 aTrain.egg-info
 installer.iss
-prepare_msix.py
+test.py
+aTrain/required_models/*
+.DS_Store

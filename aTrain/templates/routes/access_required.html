@@ -1,0 +1,18 @@
+{% extends 'base_access_required.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h3 class="font-bold text-lg">Access Required to Documents Folder 📁</h3>
+    <img class="modal-image my-2 mx-auto w-1/2 h-1/2" src="static/images/warning.gif" alt="Warning Image">
+
+    <h4 class="mt-4 font-bold">It appears that aTrain has no access to the Documents folder.</h4>
+    <p class="mb-4">To create an output directory, please grant aTrain access to your Documents folder:</p>
+    <ul class="list-disc ml-6 mb-4">
+        <li>Open the <strong>Apple menu</strong> &gt; <strong>System Settings</strong></li>
+        <li>Go to <strong>Privacy & Security</strong> &gt; <strong>Files and Folders</strong></li>
+        <li>Ensure that <strong>aTrain</strong> has access to the <strong>Documents</strong> folder. After giving
+            access,
+            please restart the application.</li>
+    </ul>
+</div>
+{% endblock %}

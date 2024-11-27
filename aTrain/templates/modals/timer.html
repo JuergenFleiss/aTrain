@@ -1,0 +1,7 @@
+<div>
+    <span id="timer" class="text-sm" _="on started repeat until finished wait 1s then increment $duration then send update to <span/> in me">
+        <span _="on update set my innerHTML to String(Math.floor($duration / 3600)).padStart(2,'0')">00</span>h
+        <span _="on update set my innerHTML to String(Math.floor(($duration mod 3600)/60)).padStart(2,'0')">00</span>m
+        <span _="on update set my innerHTML to String($duration mod 60).padStart(2,'0')">00</span>s
+    </span>
+</div>

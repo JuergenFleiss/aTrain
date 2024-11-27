@@ -1,0 +1,13 @@
+<div>
+    <div class="font-bold text-primary text-sm text-center">Compute Type</div>
+    <div class="divider my-0"></div>
+    <div class="flex justify-between items-center px-4">
+        <span class="text-sm font-medium">int8</span> 
+        {% if cuda %}
+            <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2"/>
+        {% else %}
+            <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2" disabled/>
+        {% endif %}
+        <span class="text-sm font-medium">float16</span> 
+    </div>
+</div>

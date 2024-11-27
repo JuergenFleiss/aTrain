@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <title>aTrain</title>
+    <link href="static/CSS/index.css" rel="stylesheet" type="text/css" />
+    <script src="static/JS/htmx.js" defer></script>
+    <script src="static/JS/_hyperscript.min.js"></script>
+    <script src="static/JS/eventsource.js"></script>
+</head>
+<body class="flex flex-col min-h-screen justify-between bg-base-200" x-data="{duration: 0}">
+    {% include "utils/eventsource.html" %}
+    <div>
+        {% include 'layout/navbar.html' with context %}   
+        <div class="drawer lg:drawer-open">
+            <input id="drawer" type="checkbox" class="drawer-toggle"/>
+            <div class="drawer-content flex flex-col bg-base-200">
+                <div id="content" class="p-4">
+                    
+                    {% block content %}
+                    <!-- page content goes here -->         
+                    {% endblock %}
+
+                </div>             
+            </div> 
+            {% include 'layout/sidebar.html' %}
+        </div>
+    </div>
+    {% include 'layout/footer.html' %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+<div id="numSpeakersContainer" class="{% if not visible %}hidden{% endif %}">
+  <h2 class="font-bold text-primary">Number of speakers</h2>
+  <div class="divider my-0"></div>
+  <select name="num_speakers" id="num_speakers" class="select select-bordered select-sm my-2 w-full max-w-xs">
+    <option value="auto-detect" {% if selected_speaker_count=='auto-detect' %}selected{% endif %}>Detect automatically
+    </option>
+    {% for i in range(1, 11) %}
+    <option value="{{ i }}" {% if selected_speaker_count==i|string %}selected{% endif %}>{{ i }}</option>
+    {% endfor %}
+  </select>
+  <p class="text-sm">Specifying speaker count improves results.</p>
+</div>

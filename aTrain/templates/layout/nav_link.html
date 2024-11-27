@@ -1,0 +1,9 @@
+{% macro nav_link(endpoint, name, symbol, external = False) %}
+    {% if request.endpoint.endswith(endpoint) and not external %}
+        <li><a href="{{url_for(endpoint)}}" class="bg-base-300 text-base font-medium">{{symbol}} <span class=" ml-2">{{name}}</span> </a></li>
+    {% elif not external %}
+        <li><a href="{{url_for(endpoint)}}" class="bg-base-100 text-base font-medium">{{symbol}} <span class=" ml-2">{{name}}</span> </a></li>
+    {% elif external %}
+        <li><a href="{{endpoint}}" target="_blank" class="bg-base-100 text-base font-medium">{{symbol}} <span class=" ml-2">{{name}}</span> </a></li>
+    {% endif %}
+{% endmacro %}

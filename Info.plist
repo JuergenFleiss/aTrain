@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Basic application information -->
+    <key>CFBundleName</key>
+    <string>aTrain</string>
+    <key>CFBundleIdentifier</key>
+    <string>at.atrain.bandas</string>
+    <key>CFBundleVersion</key>
+    <string>1.2.0</string>
+    <key>CFBundleExecutable</key>
+    <string>aTrain</string>
+
+    <!-- Application description and permissions -->
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>aTrain requires access to your Documents folder to save and manage files.</string>
+    <key>NSFileAccessUsageDescription</key>
+    <string>aTrain needs access to specific folders for its functionality. Please grant this access in System Preferences > Security & Privacy > Privacy > Files and Folders.</string>
+
+    <!-- Application UI style (for macOS menu bar applications) -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- Application category -->
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.productivity</string>
+
+    <!-- Specify supported macOS versions -->
+    <key>LSMinimumSystemVersion</key>
+    <string>10.14</string>
+</dict>
+</plist>

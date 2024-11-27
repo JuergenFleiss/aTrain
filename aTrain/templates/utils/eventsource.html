@@ -1,0 +1,38 @@
+<script type="text/hyperscript">
+    eventsource SSE from {{url_for('api.SSE')}}
+        on task as string
+            if it is 'Transcribe'
+                add .step-neutral to .step-transcribe
+            end
+            if it is 'Detect Speakers'
+                add .step-neutral to .step-detect
+            end
+            if it is 'Finish'
+                add .step-neutral to .step-finish
+            end
+        end
+
+        on progress as json
+            set #progressBar@max to it.total
+            set #progressBar@value to it.current
+        end
+
+        on finished as string
+            send finished to #timer 
+            if #finalTime
+                send finished to #finalTime
+            end
+            remove .modal-open from .modal
+            if #modalFinished
+                add .modal-open to #modalFinished
+            end
+        end
+
+        on error as json
+            put it.error into #errorCode 
+            put it.traceback into #traceback
+            remove .modal-open from .modal
+            add .modal-open to #modalError
+        end  
+    end
+</script>
