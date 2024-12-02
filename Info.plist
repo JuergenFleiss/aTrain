@@ -8,7 +8,7 @@
     <key>CFBundleIdentifier</key>
     <string>at.atrain.bandas</string>
     <key>CFBundleVersion</key>
-    <string>1.2.0</string>
+    <string>1.2.1</string>
     <key>CFBundleExecutable</key>
     <string>aTrain</string>
 
