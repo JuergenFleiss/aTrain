@@ -65,7 +65,8 @@ def download_model(model):
     elif (
         model in REQUIRED_MODELS
         and platform.system() == "Windows"
-        or platform.system() == "Darwin"
+        or model in REQUIRED_MODELS
+        and platform.system() == "Darwin"
     ):
         models_dir = REQUIRED_MODELS_DIR
     else:
