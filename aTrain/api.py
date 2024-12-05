@@ -1,5 +1,6 @@
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, Response, redirect, render_template, request, url_for
+import platform
 
 from .archive import (
     delete_transcription,
@@ -59,7 +60,13 @@ def delete_directory(file_id):
 
 @api.get("/download_model/<model>")
 def download_model(model):
-    if model in REQUIRED_MODELS:
+    if model in REQUIRED_MODELS and platform.system() == "Linux":
+        models_dir = MODELS_DIR
+    elif (
+        model in REQUIRED_MODELS
+        and platform.system() == "Windows"
+        or platform.system() == "Darwin"
+    ):
         models_dir = REQUIRED_MODELS_DIR
     else:
         models_dir = MODELS_DIR
