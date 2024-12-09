@@ -43,6 +43,7 @@ def resolve_boolean_inputs(settings: dict) -> dict:
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
     settings["device"] = "GPU" if "GPU" in settings else "CPU"
     settings["compute_type"] = "float16" if "float16" in settings else "int8"
+    settings['initial_prompt'] = settings['initial_prompt'] if len(settings["initial_prompt"].strip()) > 0 else None
     return settings
 
 
@@ -96,6 +97,7 @@ def start_transcription(
         settings["compute_type"],
         timestamp,
         file_name,  # original file path
+        settings['initial_prompt'],
         event_sender,
         REQUIRED_MODELS_DIR,
     )
