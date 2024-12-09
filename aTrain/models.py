@@ -9,7 +9,7 @@ from aTrain_core.load_resources import get_model, load_model_config_file, remove
 from showinfm import show_in_file_manager
 
 from .globals import EVENT_SENDER, RUNNING_DOWNLOADS
-from .stoppable_thread import StoppableThread
+from .transcription import StoppableThread
 
 
 def read_downloaded_models() -> list:
