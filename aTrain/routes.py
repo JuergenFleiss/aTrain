@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, request
 from torch import cuda
 
 from .archive import load_faqs, read_archive, check_access
-from .globals import REQUIRED_MODELS
+from aTrain_core.globals import REQUIRED_MODELS
 from .models import model_languages, read_downloaded_models, read_model_metadata
 from .version import __version__
 
