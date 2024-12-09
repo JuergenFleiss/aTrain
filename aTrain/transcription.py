@@ -13,7 +13,8 @@ from flask import Request
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
+from aTrain_core.globals import REQUIRED_MODELS_DIR
 
 
 def start_process(request: Request) -> None:

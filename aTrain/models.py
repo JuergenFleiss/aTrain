@@ -10,11 +10,9 @@ from showinfm import show_in_file_manager
 
 from .globals import (
     EVENT_SENDER,
-    MODELS_DIR,
-    REQUIRED_MODELS,
-    REQUIRED_MODELS_DIR,
     RUNNING_DOWNLOADS,
 )
+from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 
 
 def read_downloaded_models() -> list:
