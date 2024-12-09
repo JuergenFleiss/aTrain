@@ -110,7 +110,6 @@ def stop_all_transcriptions() -> None:
     thread: StoppableThread
     for thread in RUNNING_TRANSCRIPTIONS:
         thread.stop()
-        thread.join()
     RUNNING_TRANSCRIPTIONS.clear()
 
 
