@@ -10,19 +10,18 @@ from .archive import (
 )
 from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from .models import (
-    model_languages,
     read_model_metadata,
     start_model_download,
     stop_all_downloads,
 )
-from .transcription import EVENT_SENDER, start_process, stop_all_transcriptions
+from .transcription import EVENT_SENDER, create_thread, stop_all_transcriptions
 
 api = Blueprint("api", __name__)
 
 
 @api.post("/start_transcription")
 def start_transcription():
-    start_process(request)
+    create_thread(request)
     return ""
 
 
