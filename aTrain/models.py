@@ -227,6 +227,7 @@ def stop_all_downloads() -> None:
     download: StoppableThread
     for download, model in RUNNING_DOWNLOADS:
         download.stop()
+        download.join()
         remove_model(model)
     RUNNING_DOWNLOADS.clear()
     EVENT_SENDER.finished_info()
