@@ -2,17 +2,14 @@ import os
 import traceback
 import urllib.error
 import urllib.request
-from multiprocessing import Process
 
+from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.load_resources import get_model, load_model_config_file, remove_model
 from showinfm import show_in_file_manager
 
-from .globals import (
-    EVENT_SENDER,
-    RUNNING_DOWNLOADS,
-)
-from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, RUNNING_DOWNLOADS
+from .stoppable_thread import StoppableThread
 
 
 def read_downloaded_models() -> list:
@@ -187,7 +184,7 @@ def start_model_download(model: str, models_dir=MODELS_DIR) -> None:
     if model in REQUIRED_MODELS:
         models_dir = REQUIRED_MODELS_DIR
 
-    model_download = Process(
+    model_download = StoppableThread(
         target=try_to_download_model,
         kwargs={"model": model, "event_sender": EVENT_SENDER, "models_dir": models_dir},
         daemon=True,
@@ -227,9 +224,9 @@ def check_internet():
 
 def stop_all_downloads() -> None:
     """A function that terminates all running download processes."""
-    download: Process
+    download: StoppableThread
     for download, model in RUNNING_DOWNLOADS:
-        download.terminate()
+        download.stop()
         download.join()
         remove_model(model)
     RUNNING_DOWNLOADS.clear()

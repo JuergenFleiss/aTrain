@@ -2,10 +2,9 @@ import os
 import traceback
 from datetime import datetime
 from io import BytesIO
-from multiprocessing import Process
 
 from aTrain_core.check_inputs import check_inputs_transcribe
-from aTrain_core.globals import TIMESTAMP_FORMAT
+from aTrain_core.globals import REQUIRED_MODELS_DIR, TIMESTAMP_FORMAT
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.outputs import create_directory, create_file_id, write_logfile
 from aTrain_core.transcribe import transcribe
@@ -14,13 +13,13 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
 from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
-from aTrain_core.globals import REQUIRED_MODELS_DIR
+from .stoppable_thread import StoppableThread
 
 
 def start_process(request: Request) -> None:
     """This function executes the transcription in a seperate process."""
     settings, file = get_inputs(request=request)
-    transciption = Process(
+    transciption = StoppableThread(
         target=try_to_transcribe,
         args=(settings, file.filename, file.stream.read(), EVENT_SENDER),
         daemon=True,
@@ -115,7 +114,8 @@ def start_transcription(
 
 def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
-    process: Process
-    for process in RUNNING_TRANSCRIPTIONS:
-        process.terminate()
+    thread: StoppableThread
+    for thread in RUNNING_TRANSCRIPTIONS:
+        thread.stop()
+        thread.join()
     RUNNING_TRANSCRIPTIONS.clear()
