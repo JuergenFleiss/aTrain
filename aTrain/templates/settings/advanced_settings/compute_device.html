@@ -2,12 +2,13 @@
     <div class="font-bold text-primary text-sm text-center">Compute Device</div>
     <div class="divider my-0"></div>
     <div class="flex justify-between items-center px-4">
-        <span class="text-sm font-medium">CPU</span> 
+        <span class="text-sm font-medium">CPU</span>
         {% if cuda %}
-            <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" _="on change set checked of #float16 to false then toggle @disabled on #float16" checked/>
+        <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" _="on change if checked then remove @disabled from #float16 then remove @disabled from #float32 
+                else add @disabled to #float16 then add @disabled to #float32" />
         {% else %}
-            <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" disabled/>
+        <input name="GPU" id="GPU" type="checkbox" class="toggle toggle-sm my-2" disabled />
         {% endif %}
-        <span class="text-sm font-medium">GPU</span> 
+        <span class="text-sm font-medium">GPU</span>
     </div>
 </div>
