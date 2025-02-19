@@ -96,18 +96,19 @@ def start_transcription(
     )
 
     transcribe(
-        BytesIO(file_content),
-        file_id,
-        settings["model"],
-        settings["language"],
-        settings["speaker_detection"],
-        settings["num_speakers"],
-        settings["device"],
-        settings["compute_type"],
-        timestamp,
-        file_name,  # original file path
-        event_sender,
-        REQUIRED_MODELS_DIR,
+        audio_file=BytesIO(file_content),
+        file_id=file_id,
+        model=settings["model"],
+        language=settings["language"],
+        speaker_detection=settings["speaker_detection"],
+        num_speakers=settings["num_speakers"],
+        device=settings["device"],
+        compute_type=settings["compute_type"],
+        timestamp=timestamp,
+        original_audio_filename=file_name,
+        initial_prompt=settings["initial_prompt"],
+        GUI=event_sender,
+        required_models_dir=REQUIRED_MODELS_DIR,
     )
 
 
