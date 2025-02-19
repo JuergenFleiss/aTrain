@@ -6,13 +6,12 @@ from multiprocessing import Process
 
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.load_resources import get_model, load_model_config_file, remove_model
+from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from showinfm import show_in_file_manager
 
 from .globals import (
     EVENT_SENDER,
     MODELS_DIR,
-    REQUIRED_MODELS,
-    REQUIRED_MODELS_DIR,
     RUNNING_DOWNLOADS,
 )
 

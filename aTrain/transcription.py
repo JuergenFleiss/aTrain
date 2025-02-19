@@ -5,7 +5,7 @@ from io import BytesIO
 from multiprocessing import Process
 
 from aTrain_core.check_inputs import check_inputs_transcribe
-from aTrain_core.globals import TIMESTAMP_FORMAT
+from aTrain_core.globals import TIMESTAMP_FORMAT, REQUIRED_MODELS_DIR
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.outputs import create_directory, create_file_id, write_logfile
 from aTrain_core.transcribe import transcribe
@@ -13,7 +13,7 @@ from flask import Request
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
 
 
 def start_process(request: Request) -> None:
