@@ -220,7 +220,7 @@ def try_to_download_model(
 def check_internet():
     """A function to check whether the user is connected to the internet."""
     try:
-        urllib.request.urlopen("https://huggingface.co", timeout=1)
+        urllib.request.urlopen("https://huggingface.co", timeout=10)
     except urllib.error.URLError:
         raise ConnectionError(
             "We cannot reach Hugging Face. Most likely you are not connected to the internet."
