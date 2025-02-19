@@ -41,7 +41,18 @@ def resolve_boolean_inputs(settings: dict) -> dict:
     """This function checks if boolean inputs are present and replaces them with their respective values."""
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
     settings["device"] = "GPU" if "GPU" in settings else "CPU"
-    settings["compute_type"] = "float16" if "float16" in settings else "int8"
+    settings["compute_type"] = (
+        "float16"
+        if "float16" in settings
+        else "float32"
+        if "float32" in settings
+        else "int8"
+    )
+    settings["initial_prompt"] = (
+        settings["initial_prompt"]
+        if len(settings["initial_prompt"].strip()) > 0
+        else None
+    )
     return settings
 
 
