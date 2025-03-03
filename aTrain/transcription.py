@@ -14,26 +14,42 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
 from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
+from urllib.parse import unquote
 
 
 def start_process(request: Request) -> None:
-    """This function executes the transcription in a seperate process."""
+    """This function executes the transcription in a separate process."""
     settings, file = get_inputs(request=request)
-    transciption = Process(
+
+    print(file.filename)
+    decoded_filename = unquote(
+        file.filename
+    )  # This replaces %20 with spaces (on MacOS)
+    secure_file_name = secure_filename(
+        decoded_filename
+    )  # This replaces spaces with underscores
+
+    content = file.stream.read()
+    print(f"File size: {len(content)} bytes")
+
+    file.stream.seek(0)
+
+    transcription = Process(
         target=try_to_transcribe,
-        args=(settings, file.filename, file.stream.read(), EVENT_SENDER),
+        args=(settings, secure_file_name, file.stream.read(), EVENT_SENDER),
         daemon=True,
     )
-    transciption.start()
-    RUNNING_TRANSCRIPTIONS.append(transciption)
+    transcription.start()
+    RUNNING_TRANSCRIPTIONS.append(transcription)
 
 
 def get_inputs(request: Request) -> tuple[dict, FileStorage]:
-    """This function extracts the file and form data from the flask request and returns them."""
+    """Extracts the file and form data from the Flask request and returns them."""
     file = request.files["file"]
     settings = dict(request.form)
     settings = resolve_boolean_inputs(settings)
-    print(settings)
+
+    print(f"Raw filename: {repr(file.filename)}")  # Print raw filename representation
     return settings, file
 
 
@@ -83,6 +99,9 @@ def start_transcription(
 
     # Join the directory path with the secure base name to get the full path
     file_name_secure = os.path.join(dir_name, secure_file_base_name)
+
+    file_extension = os.path.splitext(file_name_secure)[-1]
+    print(file_extension)
 
     file_id = create_file_id(file_name_secure, timestamp)
     create_directory(file_id)
