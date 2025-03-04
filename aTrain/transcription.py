@@ -20,19 +20,12 @@ from urllib.parse import unquote
 def start_process(request: Request) -> None:
     """This function executes the transcription in a separate process."""
     settings, file = get_inputs(request=request)
-
-    print(file.filename)
     decoded_filename = unquote(
         file.filename
     )  # This replaces %20 with spaces (on MacOS)
     secure_file_name = secure_filename(
         decoded_filename
     )  # This replaces spaces with underscores
-
-    content = file.stream.read()
-    print(f"File size: {len(content)} bytes")
-
-    file.stream.seek(0)
 
     transcription = Process(
         target=try_to_transcribe,
@@ -48,8 +41,6 @@ def get_inputs(request: Request) -> tuple[dict, FileStorage]:
     file = request.files["file"]
     settings = dict(request.form)
     settings = resolve_boolean_inputs(settings)
-
-    print(f"Raw filename: {repr(file.filename)}")  # Print raw filename representation
     return settings, file
 
 
@@ -99,9 +90,6 @@ def start_transcription(
 
     # Join the directory path with the secure base name to get the full path
     file_name_secure = os.path.join(dir_name, secure_file_base_name)
-
-    file_extension = os.path.splitext(file_name_secure)[-1]
-    print(file_extension)
 
     file_id = create_file_id(file_name_secure, timestamp)
     create_directory(file_id)
