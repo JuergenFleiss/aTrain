@@ -74,18 +74,6 @@ def model_manager():
     )
 
 
-@routes.post("/get_num_speakers_on_toggle")
-def get_num_speakers_on_toggle():
-    is_checked = request.form.get("speaker_detection") == "on"
-    selected_speaker_count = request.form.get("num_speakers", "auto-detect")
-
-    return render_template(
-        "settings/num_speakers.html",
-        visible=is_checked,
-        selected_speaker_count=selected_speaker_count,
-    )
-
-
 @routes.route("/get_languages", methods=["GET", "POST"])
 def get_languages():
     model = request.form.get("model")
