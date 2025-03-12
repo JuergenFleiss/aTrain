@@ -4,22 +4,18 @@
     <div class="flex justify-between items-center px-4">
         <span class="text-sm font-medium">CPU</span>
         {% if cuda %}
-        <input
-            name="GPU"
-            id="GPU"
-            type="checkbox"
-            class="toggle toggle-sm my-2"
-            _="on change toggle @selected on #float16 then toggle @selected on #int8 then toggle @disabled on #compute_type"
-            checked
-        />
+            <input name="GPU"
+                   id="GPU"
+                   type="checkbox"
+                   class="toggle toggle-sm my-2"
+                   _="on change toggle @selected on #float16 then toggle @selected on #int8 then toggle @disabled on #compute_type"
+                   checked />
         {% else %}
-        <input
-            name="GPU"
-            id="GPU"
-            type="checkbox"
-            class="toggle toggle-sm my-2"
-            disabled
-        />
+            <input name="GPU"
+                   id="GPU"
+                   type="checkbox"
+                   class="toggle toggle-sm my-2"
+                   disabled />
         {% endif %}
         <span class="text-sm font-medium">GPU</span>
     </div>
