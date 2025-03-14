@@ -3,9 +3,11 @@ import traceback
 from datetime import datetime
 from io import BytesIO
 from multiprocessing import Process
+from urllib.parse import unquote
 
+import psutil
 from aTrain_core.check_inputs import check_inputs_transcribe
-from aTrain_core.globals import TIMESTAMP_FORMAT, REQUIRED_MODELS_DIR
+from aTrain_core.globals import REQUIRED_MODELS_DIR, TIMESTAMP_FORMAT
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.outputs import create_directory, create_file_id, write_logfile
 from aTrain_core.transcribe import transcribe
@@ -14,7 +16,6 @@ from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
 from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
-from urllib.parse import unquote
 
 
 def start_process(request: Request) -> None:
@@ -115,5 +116,9 @@ def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_TRANSCRIPTIONS:
+        parent_process = psutil.Process(process.pid)
+        for child_process in parent_process.children(recursive=True):
+            child_process.terminate()
         process.terminate()
+        process.join()
     RUNNING_TRANSCRIPTIONS.clear()
