@@ -30,7 +30,6 @@ def start_process(request: Request) -> None:
     transcription = Process(
         target=try_to_transcribe,
         args=(settings, secure_file_name, file.stream.read(), EVENT_SENDER),
-        daemon=True,
     )
     transcription.start()
     RUNNING_TRANSCRIPTIONS.append(transcription)
