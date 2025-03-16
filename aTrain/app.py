@@ -2,7 +2,6 @@ import argparse
 
 import webview
 from flask import Flask
-from screeninfo import get_monitors
 from wakepy import keep
 
 from .api import api
@@ -19,9 +18,7 @@ app.register_blueprint(api)
 
 def run_app() -> None:
     """A function that creates creates the application window and runs the app."""
-    app_height = int(min([monitor.height for monitor in get_monitors()]) * 0.8)
-    app_width = int(min([monitor.width for monitor in get_monitors()]) * 0.8)
-    window = webview.create_window("aTrain", app, height=app_height, width=app_width)
+    window = webview.create_window("aTrain", app, maximized=True)
     window.events.closed += teardown
     with keep.running():
         webview.start()
