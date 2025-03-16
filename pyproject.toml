@@ -22,7 +22,6 @@ dependencies = [
   "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@v1.2.4",
   "Flask==2.3.2",
   "pywebview==5.4",
-  "screeninfo==0.8.1",
   "wakepy==0.7.2",
   "show-in-file-manager==1.1.4",
   "psutil==7.0.0",
