@@ -116,9 +116,10 @@ def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_TRANSCRIPTIONS:
-        parent_process = psutil.Process(process.pid)
-        for child_process in parent_process.children(recursive=True):
-            child_process.terminate()
-        process.terminate()
+        if process.is_alive():
+            parent_process = psutil.Process(process.pid)
+            for child_process in parent_process.children(recursive=True):
+                child_process.terminate()
+            process.terminate()
         process.join()
     RUNNING_TRANSCRIPTIONS.clear()
