@@ -1,6 +1,9 @@
 <script type="text/hyperscript">
     eventsource SSE from {{url_for('api.SSE')}}
         on task as string
+            if it is 'Prepare'
+                remove .invisible from #stopButton
+            end
             if it is 'Transcribe'
                 add .step-neutral to .step-transcribe
             end
