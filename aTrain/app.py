@@ -1,12 +1,13 @@
 import argparse
+import os
 
 import webview
+from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from flask import Flask
 from wakepy import keep
 
 from .api import api
 from .globals import EVENT_SENDER
-from aTrain_core.globals import REQUIRED_MODELS_DIR, REQUIRED_MODELS
 from .models import start_model_download, stop_all_downloads
 from .routes import routes
 from .transcription import stop_all_transcriptions
@@ -22,6 +23,8 @@ def run_app() -> None:
     window.events.closed += teardown
     with keep.running():
         webview.start()
+    # We need to hard exit here, since certain download threads will never stop for some reason.
+    os._exit(0)
 
 
 def teardown() -> None:
