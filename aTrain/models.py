@@ -3,13 +3,12 @@ import sys
 import traceback
 import urllib.error
 import urllib.request
-from multiprocessing import Process
 from threading import Thread
 
+from aTrain_core.check_inputs import load_languages
 from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.load_resources import get_model, load_model_config_file, remove_model
-from aTrain_core.check_inputs import load_languages
 from showinfm import show_in_file_manager
 
 from .globals import (
