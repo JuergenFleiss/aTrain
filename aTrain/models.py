@@ -51,7 +51,7 @@ def read_model_metadata() -> list:
     for model in all_models:
         model_info = {
             "model": model,
-            "size": model_metadata[model]["model_bin_size_human"],
+            "size": model_metadata[model]["repo_size_human"],
             "downloaded": model in downloaded_models,
         }
         all_models_metadata.append(model_info)
