@@ -88,7 +88,7 @@ def start_model_download(model: str, models_dir=MODELS_DIR) -> None:
     if model in REQUIRED_MODELS:
         models_dir = REQUIRED_MODELS_DIR
 
-    model_download = Process(
+    model_download = StoppableThread(
         target=try_to_download_model,
         kwargs={"model": model, "event_sender": EVENT_SENDER, "models_dir": models_dir},
         daemon=True,
@@ -128,10 +128,41 @@ def check_internet() -> None:
 
 def stop_all_downloads() -> None:
     """A function that terminates all running download processes."""
-    download: Process
+    download: StoppableThread
     for download, model in RUNNING_DOWNLOADS:
-        download.terminate()
+        download.stop()
         download.join()
         remove_model(model)
     RUNNING_DOWNLOADS.clear()
     EVENT_SENDER.finished_info()
+
+
+class StoppableThread(Thread):
+    def __init__(self, target=None, args=(), kwargs=None, daemon: bool | None = None):
+        super().__init__(target=target, args=args, kwargs=kwargs, daemon=daemon)
+        self.killed = False
+
+    def start(self):
+        self.__run_backup = self.run
+        self.run = self.__run
+        super().start()
+
+    def __run(self):
+        sys.settrace(self.globaltrace)
+        self.__run_backup()
+        self.run = self.__run_backup
+
+    def globaltrace(self, frame, event, arg):
+        if event == "call":
+            return self.localtrace
+        else:
+            return None
+
+    def localtrace(self, frame, event, arg):
+        if self.killed:
+            if event == "line":
+                raise SystemExit()
+        return self.localtrace
+
+    def stop(self):
+        self.killed = True
