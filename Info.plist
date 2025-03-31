@@ -8,7 +8,9 @@
     <key>CFBundleIdentifier</key>
     <string>at.atrain.bandas</string>
     <key>CFBundleVersion</key>
-    <string>1.2.1</string>
+    <string>1.2.4</string>
+    <key>CFBundleShortVersionStringn</key>
+    <string>1.2.4</string>
     <key>CFBundleExecutable</key>
     <string>aTrain</string>
 
@@ -29,5 +31,9 @@
     <!-- Specify supported macOS versions -->
     <key>LSMinimumSystemVersion</key>
     <string>10.14</string>
+
+    <key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+    
 </dict>
 </plist>

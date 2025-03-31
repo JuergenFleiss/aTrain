@@ -1,9 +1,8 @@
-from aTrain_core.globals import DOCUMENTS_DIR
+from aTrain_core.globals import DOCUMENTS_DIR, REQUIRED_MODELS
 from flask import Blueprint, render_template, request
 from torch import cuda
 
 from .archive import load_faqs, read_archive, check_access
-from aTrain_core.globals import REQUIRED_MODELS
 from .models import model_languages, read_downloaded_models, read_model_metadata
 from .version import __version__
 
@@ -72,18 +71,6 @@ def model_manager():
         "routes/model_manager.html",
         models=read_model_metadata(),
         REQUIRED_MODELS=REQUIRED_MODELS,
-    )
-
-
-@routes.post("/get_num_speakers_on_toggle")
-def get_num_speakers_on_toggle():
-    is_checked = request.form.get("speaker_detection") == "on"
-    selected_speaker_count = request.form.get("num_speakers", "auto-detect")
-
-    return render_template(
-        "settings/num_speakers.html",
-        visible=is_checked,
-        selected_speaker_count=selected_speaker_count,
     )
 
 

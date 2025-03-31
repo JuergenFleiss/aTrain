@@ -1,15 +1,21 @@
 import os
+import sys
 import traceback
 import urllib.error
 import urllib.request
+from threading import Thread
 
-from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
+from aTrain_core.check_inputs import load_languages
+from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.load_resources import get_model, load_model_config_file, remove_model
 from showinfm import show_in_file_manager
 
-from .globals import EVENT_SENDER, RUNNING_DOWNLOADS
-from .transcription import StoppableThread
+from .globals import (
+    EVENT_SENDER,
+    MODELS_DIR,
+    RUNNING_DOWNLOADS,
+)
 
 
 def read_downloaded_models() -> list:
@@ -45,7 +51,7 @@ def read_model_metadata() -> list:
     for model in all_models:
         model_info = {
             "model": model,
-            "size": model_metadata[model]["model_bin_size_human"],
+            "size": model_metadata[model]["repo_size_human"],
             "downloaded": model in downloaded_models,
         }
         all_models_metadata.append(model_info)
@@ -58,110 +64,7 @@ def read_model_metadata() -> list:
 
 
 def model_languages(model: str) -> dict:
-    languages = {
-        "auto-detect": "Detect automatically",
-        "en": "english",
-        "zh": "chinese",
-        "de": "german",
-        "es": "spanish",
-        "ru": "russian",
-        "ko": "korean",
-        "fr": "french",
-        "ja": "japanese",
-        "pt": "portuguese",
-        "tr": "turkish",
-        "pl": "polish",
-        "ca": "catalan",
-        "nl": "dutch",
-        "ar": "arabic",
-        "sv": "swedish",
-        "it": "italian",
-        "id": "indonesian",
-        "hi": "hindi",
-        "fi": "finnish",
-        "vi": "vietnamese",
-        "he": "hebrew",
-        "uk": "ukrainian",
-        "el": "greek",
-        "ms": "malay",
-        "cs": "czech",
-        "ro": "romanian",
-        "da": "danish",
-        "hu": "hungarian",
-        "ta": "tamil",
-        "no": "norwegian",
-        "th": "thai",
-        "ur": "urdu",
-        "hr": "croatian",
-        "bg": "bulgarian",
-        "lt": "lithuanian",
-        "la": "latin",
-        "mi": "maori",
-        "ml": "malayalam",
-        "cy": "welsh",
-        "sk": "slovak",
-        "te": "telugu",
-        "fa": "persian",
-        "lv": "latvian",
-        "bn": "bengali",
-        "sr": "serbian",
-        "az": "azerbaijani",
-        "sl": "slovenian",
-        "kn": "kannada",
-        "et": "estonian",
-        "mk": "macedonian",
-        "br": "breton",
-        "eu": "basque",
-        "is": "icelandic",
-        "hy": "armenian",
-        "ne": "nepali",
-        "mn": "mongolian",
-        "bs": "bosnian",
-        "kk": "kazakh",
-        "sq": "albanian",
-        "sw": "swahili",
-        "gl": "galician",
-        "mr": "marathi",
-        "pa": "punjabi",
-        "si": "sinhala",
-        "km": "khmer",
-        "sn": "shona",
-        "yo": "yoruba",
-        "so": "somali",
-        "af": "afrikaans",
-        "oc": "occitan",
-        "ka": "georgian",
-        "be": "belarusian",
-        "tg": "tajik",
-        "sd": "sindhi",
-        "gu": "gujarati",
-        "am": "amharic",
-        "yi": "yiddish",
-        "lo": "lao",
-        "uz": "uzbek",
-        "fo": "faroese",
-        "ht": "haitian creole",
-        "ps": "pashto",
-        "tk": "turkmen",
-        "nn": "nynorsk",
-        "mt": "maltese",
-        "sa": "sanskrit",
-        "lb": "luxembourgish",
-        "my": "myanmar",
-        "bo": "tibetan",
-        "tl": "tagalog",
-        "mg": "malagasy",
-        "as": "assamese",
-        "tt": "tatar",
-        "haw": "hawaiian",
-        "ln": "lingala",
-        "ha": "hausa",
-        "ba": "bashkir",
-        "jw": "javanese",
-        "su": "sundanese",
-        "yue": "cantonese",
-    }
-
+    languages = load_languages()
     models = load_model_config_file()
 
     if models[model]["type"] == "distil":
@@ -212,10 +115,10 @@ def try_to_download_model(
         remove_model(model)
 
 
-def check_internet():
+def check_internet() -> None:
     """A function to check whether the user is connected to the internet."""
     try:
-        urllib.request.urlopen("https://huggingface.co", timeout=1)
+        urllib.request.urlopen("https://huggingface.co", timeout=10)
     except urllib.error.URLError:
         raise ConnectionError(
             "We cannot reach Hugging Face. Most likely you are not connected to the internet."
@@ -231,3 +134,34 @@ def stop_all_downloads() -> None:
         remove_model(model)
     RUNNING_DOWNLOADS.clear()
     EVENT_SENDER.finished_info()
+
+
+class StoppableThread(Thread):
+    def __init__(self, target=None, args=(), kwargs=None, daemon: bool | None = None):
+        super().__init__(target=target, args=args, kwargs=kwargs, daemon=daemon)
+        self.killed = False
+
+    def start(self):
+        self.__run_backup = self.run
+        self.run = self.__run
+        super().start()
+
+    def __run(self):
+        sys.settrace(self.globaltrace)
+        self.__run_backup()
+        self.run = self.__run_backup
+
+    def globaltrace(self, frame, event, arg):
+        if event == "call":
+            return self.localtrace
+        else:
+            return None
+
+    def localtrace(self, frame, event, arg):
+        if self.killed:
+            if event == "line":
+                raise SystemExit()
+        return self.localtrace
+
+    def stop(self):
+        self.killed = True

@@ -1,6 +1,5 @@
 from aTrain_core.load_resources import remove_model
 from flask import Blueprint, Response, redirect, render_template, request, url_for
-import platform
 
 from .archive import (
     delete_transcription,
@@ -10,18 +9,19 @@ from .archive import (
 )
 from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from .models import (
+    model_languages,
     read_model_metadata,
     start_model_download,
     stop_all_downloads,
 )
-from .transcription import EVENT_SENDER, create_thread, stop_all_transcriptions
+from .transcription import EVENT_SENDER, start_process, stop_all_transcriptions
 
 api = Blueprint("api", __name__)
 
 
 @api.post("/start_transcription")
 def start_transcription():
-    create_thread(request)
+    start_process(request)
     return ""
 
 
@@ -59,14 +59,7 @@ def delete_directory(file_id):
 
 @api.get("/download_model/<model>")
 def download_model(model):
-    if model in REQUIRED_MODELS and platform.system() == "Linux":
-        models_dir = MODELS_DIR
-    elif (
-        model in REQUIRED_MODELS
-        and platform.system() == "Windows"
-        or model in REQUIRED_MODELS
-        and platform.system() == "Darwin"
-    ):
+    if model in REQUIRED_MODELS:
         models_dir = REQUIRED_MODELS_DIR
     else:
         models_dir = MODELS_DIR

@@ -5,9 +5,16 @@ aTrain is a tool for automatically transcribing speech recordings utilizing stat
 
 **Windows (10 and 11)** users can install aTrain via the Microsoft app store ([Link](https://apps.microsoft.com/store/detail/atrain/9N15Q44SZNS2)) or by downloading the installer from the BANDAS-Center Website ([Link](https://business-analytics.uni-graz.at/de/forschen/atrain/download/)).
 
-**Ubuntu (tested 24.04 LTS)** Deb file for beta 1.2.1 [here](https://business-analytics.uni-graz.at/de/forschen/atrain/download/). Manual installation [instructions](https://github.com/JuergenFleiss/aTrain/wiki/Linux-Support).
+Beta Versions available for **MacOS (Apple Silicon)** and **Debian** [here](https://business-analytics.uni-graz.at/en/research/atrain/download/). 
+
 
 Cite the published paper if you used aTrain for your research: [Take the aTrain. Introducing an Interface for the Accessible Transcription of Interviews.](https://www.sciencedirect.com/science/article/pii/S2214635024000066)
+
+## Becoming a developer
+Please refer to [Developer wiki page](https://github.com/JuergenFleiss/aTrain/wiki/Development:-Branching,-contributing-and-releases) for the details on how to contribute to the project and other useful information for developers.
+
+
+## About aTrain
 
 aTrain offers the following benefits:
 \
@@ -24,7 +31,7 @@ aTrain has a speaker detection mode based on [pyannote.audio](https://github.com
 \
 **Privacy Preservation and GDPR compliance 🔒**
 \
-aTrain processes the provided speech recordings completely offline on your own device and does not send recordings or transcriptions to the internet. This helps researchers to maintain data privacy requirements arising from ethical guidelines or to comply with legal requirements such as the GDPR.
+aTrain processes the provided speech recordings completely offline on your own device and does not send recordings or transcriptions to the internet. This helps researchers to maintain data privacy requirements arising from ethical guidelines or to comply with legal requirements such as the GDRP.
 \
 \
 **Multi-language support 🌍**

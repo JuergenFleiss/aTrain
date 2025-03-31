@@ -7,10 +7,10 @@ name = "aTrain"
 description = "aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data."
 
 authors = [
-  {name = "Armin Haberl", email = "armin.haberl@uni-graz.at"},
-  {name = "Jürgen Fleiß", email = "juergen.fleiss@uni-graz.at"},
-  {name = "Dominik Kowald", email = "dkowald@know-center.at"},
-  {name = "Stefan Thalmann", email = "stefan.thalmann@uni-graz.at"}
+  { name = "Armin Haberl", email = "armin.haberl@uni-graz.at" },
+  { name = "Jürgen Fleiß", email = "juergen.fleiss@uni-graz.at" },
+  { name = "Dominik Kowald", email = "dkowald@know-center.at" },
+  { name = "Stefan Thalmann", email = "stefan.thalmann@uni-graz.at" },
 ]
 
 dynamic = ["version"]
@@ -19,25 +19,23 @@ license = { file = "LICENSE" }
 requires-python = ">=3.10"
 
 dependencies = [
-    "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git",
-    "Flask==2.3.2",
-    "pywebview==5.3.2",
-    "screeninfo==0.8.1",
-    "wakepy==0.7.2",
-    "show-in-file-manager==1.1.4",
-    "pyqt5; sys_platform == 'linux'",
-    "pyqtwebengine; sys_platform == 'linux'",
-    "pywebview; sys_platform == 'linux'",
-    "pywebview[qt]; sys_platform == 'linux'",
-    "pycairo; sys_platform == 'linux'",
-    "sox; sys_platform == 'linux'",
-    "flair; sys_platform == 'linux'",
-    "spacy; sys_platform == 'linux'",
-    "PyGObject; sys_platform == 'linux'",
-    "scikit-learn == 1.5.2; sys_platform == 'linux'",
-    "scipy == 1.14.1; sys_platform == 'linux'",
-    "matplotlib == 3.9.3; sys_platform == 'linux'"
+  "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@v1.3.0",
+  "Flask==2.3.2",
+  "pywebview==5.4",
+  "wakepy==0.7.2",
+  "show-in-file-manager==1.1.4",
+  "psutil==7.0.0",
+  "pyqt5; sys_platform == 'linux'",
+  "pyqtwebengine; sys_platform == 'linux'",
+  "pywebview; sys_platform == 'linux'",
+  "pywebview[qt]; sys_platform == 'linux'",
+  "pycairo; sys_platform == 'linux'",
+  "sox; sys_platform == 'linux'",
+  "flair; sys_platform == 'linux'",
+  "spacy; sys_platform == 'linux'",
+  "PyGObject; sys_platform == 'linux'",
 ]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["aTrain*"]
@@ -46,4 +44,4 @@ include = ["aTrain*"]
 aTrain = "aTrain:cli"
 
 [tool.setuptools.dynamic]
-version = {attr = "aTrain.version.__version__"}
+version = { attr = "aTrain.version.__version__" }
