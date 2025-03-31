@@ -19,7 +19,7 @@ license = { file = "LICENSE" }
 requires-python = ">=3.10"
 
 dependencies = [
-    "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git",
+    "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@v.1.2.1",
     "Flask==2.3.2",
     "pywebview==5.3.2",
     "screeninfo==0.8.1",
