@@ -40,7 +40,3 @@
 
 - question: "Where does aTrain store my transcriptions and downloaded models?"
   answer: "aTrain saves your past transcriptions and downloaded models in the 'aTrain' folder, located within your system's Documents directory."
-
-- question: "What can I do if aTrain keeps crashing without displaying any error messages?"
-  answer: "There are several potential issues with the software that could cause this problem. Some users have reported that deleting the 'aTrain' folder in your system's Documents 
-    directory may resolve the issue in certain cases. If the problem continues, please don't hesitate to reach out to us through the contact button in the 'About' section of the app."

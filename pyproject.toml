@@ -19,9 +19,9 @@ license = { file = "LICENSE" }
 requires-python = ">=3.10"
 
 dependencies = [
-    "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@v.1.2.1",
+    "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git",
     "Flask==2.3.2",
-    "pywebview==5.3.2",
+    "pywebview==4.2.2",
     "screeninfo==0.8.1",
     "wakepy==0.7.2",
     "show-in-file-manager==1.1.4",
@@ -33,11 +33,9 @@ dependencies = [
     "sox; sys_platform == 'linux'",
     "flair; sys_platform == 'linux'",
     "spacy; sys_platform == 'linux'",
-    "PyGObject; sys_platform == 'linux'",
-    "scikit-learn == 1.5.2; sys_platform == 'linux'",
-    "scipy == 1.14.1; sys_platform == 'linux'",
-    "matplotlib == 3.9.3; sys_platform == 'linux'"
+    "PyGObject; sys_platform == 'linux'"
 ]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["aTrain*"]

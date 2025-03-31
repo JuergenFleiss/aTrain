@@ -1,17 +1,13 @@
 <div>
     <div class="font-bold text-primary text-sm text-center">Compute Type</div>
     <div class="divider my-0"></div>
-    <div class="px-4">
-        <select name="compute_type" id="compute_type" class="select select-bordered select-sm my-2 w-full max-w-xs">
-            {% if cuda %}
-            <option value="int8">int8</option>
-            <option value="float16">float16</option>
-            <option value="float32">float32</option>
-            {% else %}
-            <option value="int8" selected>int8</option>
-            <option value="float16" disabled>float16 (Unavailable)</option>
-            <option value="float32" disabled>float32 (Unavailable)</option>
-            {% endif %}
-        </select>
+    <div class="flex justify-between items-center px-4">
+        <span class="text-sm font-medium">int8</span> 
+        {% if cuda %}
+            <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2"/>
+        {% else %}
+            <input name="float16" id="float16" type="checkbox" class="toggle toggle-sm my-2" disabled/>
+        {% endif %}
+        <span class="text-sm font-medium">float16</span> 
     </div>
 </div>

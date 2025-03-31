@@ -6,8 +6,7 @@ from screeninfo import get_monitors
 from wakepy import keep
 
 from .api import api
-from .globals import EVENT_SENDER
-from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, REQUIRED_MODELS_DIR, REQUIRED_MODELS
 from .models import start_model_download, stop_all_downloads
 from .routes import routes
 from .transcription import stop_all_transcriptions
