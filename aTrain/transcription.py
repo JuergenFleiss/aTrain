@@ -3,9 +3,11 @@ import traceback
 from datetime import datetime
 from io import BytesIO
 from multiprocessing import Process
+from urllib.parse import unquote
 
+import psutil
 from aTrain_core.check_inputs import check_inputs_transcribe
-from aTrain_core.globals import TIMESTAMP_FORMAT
+from aTrain_core.globals import REQUIRED_MODELS_DIR, TIMESTAMP_FORMAT
 from aTrain_core.GUI_integration import EventSender
 from aTrain_core.outputs import create_directory, create_file_id, write_logfile
 from aTrain_core.transcribe import transcribe
@@ -13,27 +15,32 @@ from flask import Request
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
-from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS, REQUIRED_MODELS_DIR
+from .globals import EVENT_SENDER, RUNNING_TRANSCRIPTIONS
 
 
 def start_process(request: Request) -> None:
-    """This function executes the transcription in a seperate process."""
+    """This function executes the transcription in a separate process."""
     settings, file = get_inputs(request=request)
-    transciption = Process(
+    decoded_filename = unquote(
+        file.filename
+    )  # This replaces %20 with spaces (on MacOS)
+    secure_file_name = secure_filename(
+        decoded_filename
+    )  # This replaces spaces with underscores
+
+    transcription = Process(
         target=try_to_transcribe,
-        args=(settings, file.filename, file.stream.read(), EVENT_SENDER),
-        daemon=True,
+        args=(settings, secure_file_name, file.stream.read(), EVENT_SENDER),
     )
-    transciption.start()
-    RUNNING_TRANSCRIPTIONS.append(transciption)
+    transcription.start()
+    RUNNING_TRANSCRIPTIONS.append(transcription)
 
 
 def get_inputs(request: Request) -> tuple[dict, FileStorage]:
-    """This function extracts the file and form data from the flask request and returns them."""
+    """Extracts the file and form data from the Flask request and returns them."""
     file = request.files["file"]
     settings = dict(request.form)
     settings = resolve_boolean_inputs(settings)
-    print(settings)
     return settings, file
 
 
@@ -41,7 +48,11 @@ def resolve_boolean_inputs(settings: dict) -> dict:
     """This function checks if boolean inputs are present and replaces them with their respective values."""
     settings["speaker_detection"] = True if "speaker_detection" in settings else False
     settings["device"] = "GPU" if "GPU" in settings else "CPU"
-    settings["compute_type"] = "float16" if "float16" in settings else "int8"
+    settings["initial_prompt"] = (
+        settings["initial_prompt"]
+        if len(settings["initial_prompt"].strip()) > 0
+        else None
+    )
     return settings
 
 
@@ -85,18 +96,19 @@ def start_transcription(
     )
 
     transcribe(
-        BytesIO(file_content),
-        file_id,
-        settings["model"],
-        settings["language"],
-        settings["speaker_detection"],
-        settings["num_speakers"],
-        settings["device"],
-        settings["compute_type"],
-        timestamp,
-        file_name,  # original file path
-        event_sender,
-        REQUIRED_MODELS_DIR,
+        audio_file=BytesIO(file_content),
+        file_id=file_id,
+        model=settings["model"],
+        language=settings["language"],
+        speaker_detection=settings["speaker_detection"],
+        num_speakers=settings["num_speakers"],
+        device=settings["device"],
+        compute_type=settings["compute_type"],
+        timestamp=timestamp,
+        original_audio_filename=file_name,
+        initial_prompt=settings["initial_prompt"],
+        GUI=event_sender,
+        required_models_dir=REQUIRED_MODELS_DIR,
     )
 
 
@@ -104,5 +116,10 @@ def stop_all_transcriptions() -> None:
     """A function that terminates all running transcription processes."""
     process: Process
     for process in RUNNING_TRANSCRIPTIONS:
-        process.terminate()
+        if process.is_alive():
+            parent_process = psutil.Process(process.pid)
+            for child_process in parent_process.children(recursive=True):
+                child_process.terminate()
+            process.terminate()
+        process.join()
     RUNNING_TRANSCRIPTIONS.clear()

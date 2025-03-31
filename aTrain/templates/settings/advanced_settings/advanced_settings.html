@@ -4,10 +4,18 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
             {% include 'settings/advanced_settings/compute_device.html' with context %}
             {% include 'settings/advanced_settings/compute_type.html' with context %}
+            {% include 'settings/advanced_settings/initial_prompt.html' with context %}
         </div>
-        <p class="text-sm">These options are only available if you have a CUDA-enabled NVIDIA GPU.</p>
-        <div class="modal-action">
-            <button _="on click toggle .modal-open on #advancedSettings" class="btn btn-primary btn-sm">ok</button>
-        </div>
-    </form>
-</dialog>
+        <p class="text-sm">
+            <strong>Compute Device</strong> and <strong>Compute Type</strong> options are only available if you have a
+            CUDA-enabled NVIDIA GPU.
+            <a href="https://platform.openai.com/docs/guides/speech-to-text#prompting"
+               class="link"><strong>Initial
+                Prompt</strong></a> is available for all users.
+            </p>
+            <div class="modal-action">
+                <button _="on click toggle .modal-open on #advancedSettings"
+                        class="btn btn-primary btn-sm">ok</button>
+            </div>
+        </form>
+    </dialog>

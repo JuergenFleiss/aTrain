@@ -1,12 +1,13 @@
 import argparse
+import os
 
 import webview
+from aTrain_core.globals import REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from flask import Flask
-from screeninfo import get_monitors
 from wakepy import keep
 
 from .api import api
-from .globals import EVENT_SENDER, REQUIRED_MODELS_DIR, REQUIRED_MODELS
+from .globals import EVENT_SENDER
 from .models import start_model_download, stop_all_downloads
 from .routes import routes
 from .transcription import stop_all_transcriptions
@@ -18,12 +19,12 @@ app.register_blueprint(api)
 
 def run_app() -> None:
     """A function that creates creates the application window and runs the app."""
-    app_height = int(min([monitor.height for monitor in get_monitors()]) * 0.8)
-    app_width = int(min([monitor.width for monitor in get_monitors()]) * 0.8)
-    window = webview.create_window("aTrain", app, height=app_height, width=app_width)
+    window = webview.create_window("aTrain", app, maximized=True)
     window.events.closed += teardown
     with keep.running():
         webview.start()
+    # We need to hard exit here, since certain download threads will never stop for some reason.
+    os._exit(0)
 
 
 def teardown() -> None:

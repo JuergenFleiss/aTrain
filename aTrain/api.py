@@ -7,7 +7,7 @@ from .archive import (
     read_archive,
     read_directories,
 )
-from .globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
+from aTrain_core.globals import MODELS_DIR, REQUIRED_MODELS, REQUIRED_MODELS_DIR
 from .models import (
     model_languages,
     read_model_metadata,
