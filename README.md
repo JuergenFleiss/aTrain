@@ -30,7 +30,7 @@ aTrain has a speaker detection mode based on [pyannote.audio](https://github.com
 \
 **Privacy Preservation and GDPR compliance 🔒**
 \
-aTrain processes the provided speech recordings completely offline on your own device and does not send recordings or transcriptions to the internet. This helps researchers to maintain data privacy requirements arising from ethical guidelines or to comply with legal requirements such as the GDPR.
+aTrain processes the provided speech recordings completely offline on your own device and does not send recordings or transcriptions to the internet. This helps researchers to maintain data privacy requirements arising from ethical guidelines or to comply with legal requirements such as the GDRP.
 \
 \
 **Multi-language support 🌍**
