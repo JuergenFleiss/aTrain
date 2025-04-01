@@ -47,7 +47,7 @@ def home():
                 default_model=default_model,  # Pass the default model to the template
             )
     else:
-        return render_template("routes/access_required.html")
+        return render_template("routes/transcribe.html") ##changed from access_required.html for snap debugging
 
 
 @routes.get("/archive")
