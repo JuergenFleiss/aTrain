@@ -1,0 +1,78 @@
+name: atrain
+summary: aTrain summary
+description: |
+    A GUI tool for offline transcription of speech recordings, including speaker diarization, utilizing state-of-the-art machine learning models.
+version: test
+base: core24
+confinement: devmode
+
+parts:
+  atrain:
+    plugin: python
+    source: .
+    python-packages:
+      - pyqt5
+      - pyqtwebengine
+      - pywebview
+      - pywebview[qt]
+      - pycairo
+      - PyGObject == 3.50.0
+      - lightning-utilities
+      - numpy == 1.26.4
+      - packaging
+    build-environment:
+      - PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cu121
+    build-packages:
+      - git
+      - build-essential
+      - libgl1-mesa-dev
+      - libcairo2
+      - libcairo2-dev
+      - libgirepository1.0-dev
+      - libglu1-mesa
+      - libwebkit2gtk-4.1-dev
+    stage-packages:
+      - libgl1
+      - libglx0
+      - libglvnd0
+      - libxau6
+      - libxdmcp6
+      - libx11-6
+      - libavfilter-dev
+      - libxcb-randr0-dev 
+      - libxcb-xtest0-dev 
+      - libxcb-xinerama0-dev 
+      - libxcb-shape0-dev 
+      - libxcb-xkb-dev
+      - libavcodec-dev
+      - libavcodec-extra
+      - libavutil-dev
+      - libavfilter-dev
+      - libavformat-dev
+      - libxcb-xinput0
+      - qtcreator 
+      - qtbase5-dev
+      - qt5-qmake 
+      - cmake
+
+apps:
+  atrain:
+    command: bin/aTrain start
+    plugs:
+      - desktop
+      - desktop-legacy
+      - opengl
+      - x11
+      - wayland
+      - network
+      - network-bind
+      - network-status
+      - browser-support
+    extensions: [gnome]
+    environment:
+       LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/webkit2gtk-4.1/:$LD_LIBRARY_PATH
+   #   "PYTHONPATH":  "$NAP/usr/lib/python3/dist-packages/"
+
+hooks:
+    install:
+      plugs: [network]

@@ -8,3 +8,4 @@ installer.iss
 test.py
 aTrain/required_models/*
 .DS_Store
+atrain_test_amd64.snap
