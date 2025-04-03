@@ -68,6 +68,7 @@ apps:
       - network-bind
       - network-status
       - browser-support
+      - home
     extensions: [gnome]
     environment:
        LD_LIBRARY_PATH: $SNAP/usr/lib/x86_64-linux-gnu/webkit2gtk-4.1/:$LD_LIBRARY_PATH
