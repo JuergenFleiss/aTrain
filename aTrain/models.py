@@ -64,14 +64,13 @@ def read_model_metadata() -> list:
 
 
 def model_languages(model: str) -> dict:
-    languages = load_languages()
-    models = load_model_config_file()
-
-    if models[model]["type"] == "distil":
-        lang_from_config = models[model]["language"]
-        languages = {lang_from_config: languages[lang_from_config]}
-
-    return languages
+    languages_dict = load_languages()
+    all_models_configs = load_model_config_file()
+    model_config: dict = all_models_configs[model]
+    if "languages" in model_config.keys():
+        languages: list = model_config["languages"]
+        languages_dict = {language: languages_dict[language] for language in languages}
+    return languages_dict
 
 
 def open_model_dir(model: str, models_dir=MODELS_DIR) -> None:
