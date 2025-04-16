@@ -8,7 +8,7 @@
                    id="GPU"
                    type="checkbox"
                    class="toggle toggle-sm my-2"
-                   _="on change toggle @selected on #float16 then toggle @selected on #int8 then toggle @disabled on #compute_type"
+                   _="on change remove @selected from <option/> in #compute_type then add @selected to #int8 then toggle @disabled on #compute_type"
                    checked />
         {% else %}
             <input name="GPU"
