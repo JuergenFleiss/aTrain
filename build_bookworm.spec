@@ -6,10 +6,8 @@ icon_path = str(files("aTrain.static").joinpath("favicon.ico"))
 
 datas = []
 datas += collect_data_files('aTrain')
-datas += [(str(files("transformers").joinpath("")),'transformers')]
 datas += [(str(files("speechbrain").joinpath("")),'speechbrain')]
 datas += collect_data_files('torch')
-datas += collect_data_files('transformers')
 datas += collect_data_files('lightning')
 datas += collect_data_files('lightning_fabric')
 datas += collect_data_files('lightning_utilities')
@@ -20,7 +18,6 @@ datas += collect_data_files('pyannote.audio.models.embedding')
 datas += collect_data_files('pytorch_lightning')
 datas += collect_data_files('faster_whisper')
 datas += collect_data_files('aTrain_core')
-datas += copy_metadata('transformers')
 datas += copy_metadata('lightning')
 datas += copy_metadata('lightning_utilities')
 datas += copy_metadata('torch')
@@ -39,7 +36,7 @@ datas += copy_metadata('pytorch_lightning')
 datas += copy_metadata('aTrain_core')
 datas += copy_metadata('spacy')
 
-hiddenimports = ['pytorch_lightning','pyyaml','safetensors','huggingface-hub','speechbrain','pyannote','pytorch','transformers','lightning',]
+hiddenimports = ['pytorch_lightning','pyyaml','safetensors','huggingface-hub','speechbrain','pyannote','pytorch','lightning',]
 hiddenimports += collect_submodules('wakepy')
 hiddenimports += collect_submodules('speechbrain')
 hiddenimports += collect_submodules('pyannote')
