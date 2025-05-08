@@ -71,7 +71,8 @@ Transcription Time (incl. speaker detection) for 00:22:00 File:
 
 Planned in the near future.
 - Batch Processing, allowing to have files queued for transcription
-- Make more distilled-whisper models for German and other languages available
+- Add options for more verbatim output
+- Make adding custom models more easy
 - Stable Debian and MacOS installers
 - Somehow getting that snap package to work
 - Customization of output naming
