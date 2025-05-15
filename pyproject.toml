@@ -19,7 +19,7 @@ license = { file = "LICENSE" }
 requires-python = ">=3.10"
 
 dependencies = [
-  "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@develop",
+  "aTrain_core@git+https://github.com/JuergenFleiss/atrain_core.git@v1.3.1",
   "Flask==2.3.2",
   "pywebview==5.4",
   "wakepy==0.7.2",
@@ -33,7 +33,7 @@ dependencies = [
   "sox; sys_platform == 'linux'",
   "flair; sys_platform == 'linux'",
   "spacy; sys_platform == 'linux'",
-  "PyGObject==3.50.0; sys_platform == 'linux'",                               #fix depency according to https://github.com/beeware/toga/issues/3143
+  "PyGObject==3.50.0; sys_platform == 'linux'",                              #fix depency according to https://github.com/beeware/toga/issues/3143
 ]
 
 [tool.setuptools.packages.find]
