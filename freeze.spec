@@ -39,7 +39,7 @@ hiddenimports += collect_submodules('pyannote')
 hiddenimports += collect_submodules('sklearn')
 
 a = Analysis(
-    ['freeze.py'],
+    ['freeze.py', 'freeze_cli.py'],
     pathex=[],
     binaries=[],
     datas=datas,
@@ -54,10 +54,13 @@ a = Analysis(
     noarchive=False,
 )
 pyz = PYZ(a.pure, a.zipped_data, cipher=None)
+runtime_scripts = [script for script in a.scripts if script[0] not in ('freeze', 'freeze_cli')]
+gui_scripts = runtime_scripts + [script for script in a.scripts if script[0] == 'freeze']
+cli_scripts = runtime_scripts + [script for script in a.scripts if script[0] == 'freeze_cli']
 
 exe = EXE(
     pyz,
-    a.scripts,
+    gui_scripts,
     [],
     exclude_binaries=True,
     name='aTrain',
@@ -74,8 +77,28 @@ exe = EXE(
     icon=[icon_path],
     plist='Info.plist'
 )
+exe_cli = EXE(
+    pyz,
+    cli_scripts,
+    [],
+    exclude_binaries=True,
+    name='aTrain-cli',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+    icon=[icon_path],
+    plist='Info.plist'
+)
 coll = COLLECT(
     exe,
+    exe_cli,
     a.binaries,
     a.zipfiles,
     a.datas,

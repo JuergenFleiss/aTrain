@@ -15,6 +15,35 @@ aTrain is a tool for automatically transcribing speech recordings utilizing stat
 </p>
 
 
+## Command-Line Interface (CLI)
+
+aTrain also ships a Typer-based CLI for scripted transcription workflows. The CLI uses the same transcription engine and local model files as the GUI, but it does not open the GUI.
+
+Use one of these entrypoints depending on how aTrain is installed:
+
+```powershell
+aTrain-cli --help
+aTrain-cli.exe --help
+python -m aTrain.cli --help
+```
+
+The CLI provides two commands:
+
+```powershell
+aTrain-cli init
+aTrain-cli transcribe INPUT [OPTIONS]
+```
+
+`aTrain-cli init` downloads the default transcription model and speaker-detection model used by `transcribe`. `INPUT` can be a single audio/video file or a directory. Directory input scans only the top-level directory by default; pass `--recursive` to include subdirectories. Outputs are copied from a temporary transcription workspace into the selected output directory. Existing output files are kept by default; pass `--overwrite` to replace them.
+
+Example:
+
+```powershell
+aTrain-cli transcribe "D:\media\interview01.wav" --output "D:\transcripts"
+```
+
+Use `aTrain-cli transcribe --help` for model, language, speaker detection, device, compute type, format, and output-directory options.
+
 
 ## About aTrain
 
