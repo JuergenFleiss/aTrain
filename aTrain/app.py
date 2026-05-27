@@ -15,7 +15,7 @@ NICEGUI_STORAGE_PATH = user_config_path() / "aTrain" if FLATPAK else (ATRAIN_DIR
 with patch.dict(os.environ, NICEGUI_STORAGE_PATH=str(NICEGUI_STORAGE_PATH)):
     from nicegui import ui
 
-    from aTrain.pages import about, archive, faq, models, transcribe  # noqa
+    from aTrain.pages import about, archive, faq, models, transcribe, voiceprints  # noqa
 
 cli = Typer(help="CLI for aTrain.")
 

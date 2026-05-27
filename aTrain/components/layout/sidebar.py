@@ -6,6 +6,7 @@ def sidebar():
         nav_button(icon="🎧", text="Transcribe", path="/")
         nav_button(icon="💾", text="Archive", path="/archive")
         nav_button(icon="🧮", text="Models", path="/models")
+        nav_button(icon="🎙️", text="Voiceprints", path="/voiceprints")
         nav_button(icon="📖", text="FAQ", path="/faq")
         ui.separator()
         nav_button(icon="💡", text="About", path="/about")
