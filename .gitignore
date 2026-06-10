@@ -10,3 +10,4 @@ aTrain/required_models/*
 .DS_Store
 .cache
 .pytest_cache
+import sessions/
