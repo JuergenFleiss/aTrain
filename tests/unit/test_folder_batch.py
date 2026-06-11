@@ -1,10 +1,174 @@
 import json
+import sys
+import types
+from dataclasses import dataclass, field
 from datetime import datetime
+from enum import StrEnum
 from pathlib import Path
 from types import SimpleNamespace
 
 import yaml
-from aTrain.utils import transcription
+
+
+class Device(StrEnum):
+    CPU = "cpu"
+    GPU = "gpu"
+
+
+class ComputeType(StrEnum):
+    INT8 = "int8"
+    FLOAT16 = "float16"
+    FLOAT32 = "float32"
+
+
+@dataclass
+class Settings:
+    file: Path
+    file_id: str
+    file_name: str
+    model: str
+    language: str
+    speaker_detection: bool
+    speaker_count: int | None
+    device: Device
+    compute_type: ComputeType
+    timestamp: str
+    temperature: float | None
+    initial_prompt: str | None = None
+    progress: dict = field(default_factory=dict)
+    cpu_threads: int = 0
+
+
+def _install_lightweight_runtime_stubs() -> None:
+    nicegui = types.ModuleType("nicegui")
+    nicegui.app = SimpleNamespace(storage=SimpleNamespace(general={}))
+    nicegui.events = SimpleNamespace(UploadEventArguments=object)
+    nicegui.run = SimpleNamespace(cpu_bound=lambda func, **kwargs: func(**kwargs))
+    nicegui.ui = SimpleNamespace(
+        notify=lambda *args, **kwargs: None,
+        navigate=SimpleNamespace(reload=lambda: None),
+        timer=object,
+        dialog=object,
+    )
+    nicegui.ElementFilter = lambda *args, **kwargs: []
+    sys.modules.setdefault("nicegui", nicegui)
+
+    nicegui_run = types.ModuleType("nicegui.run")
+
+    class SubprocessException(Exception):  # noqa: N818 - mirrors NiceGUI's public name
+        original_message = ""
+        original_traceback = ""
+
+    nicegui_run.SubprocessException = SubprocessException
+    nicegui_run.setup = lambda: None
+    nicegui_run.tear_down = lambda: None
+    sys.modules.setdefault("nicegui.run", nicegui_run)
+
+    settings = types.ModuleType("aTrain_core.settings")
+    settings.ComputeType = ComputeType
+    settings.Device = Device
+    settings.Settings = Settings
+    settings.check_inputs_transcribe = lambda *args, **kwargs: True
+    settings.load_formats = lambda: [".mp3", ".wav"]
+    sys.modules.setdefault("aTrain_core.settings", settings)
+
+    load_resources = types.ModuleType("aTrain_core.load_resources")
+    load_resources.get_model = lambda model: Path(".")
+    load_resources.load_model_config_file = lambda: {"tiny": {"type": "normal"}}
+    sys.modules.setdefault("aTrain_core.load_resources", load_resources)
+
+    outputs = types.ModuleType("aTrain_core.outputs")
+    outputs.TRANSCRIPT_DIR = Path("transcriptions")
+
+    def output_dir(file_id: str) -> Path:
+        return Path(outputs.TRANSCRIPT_DIR) / file_id
+
+    def create_directory(file_id: str) -> None:
+        output_dir(file_id).mkdir(parents=True, exist_ok=True)
+
+    def write_logfile(message: str, file_id: str) -> None:
+        create_directory(file_id)
+        with (output_dir(file_id) / "log.txt").open("a", encoding="utf-8") as log_file:
+            log_file.write(f"{message}\n")
+
+    def create_metadata(settings_obj: Settings, audio_duration: int) -> None:
+        create_directory(settings_obj.file_id)
+        metadata = {
+            "audio_duration": audio_duration,
+            "compute_type": settings_obj.compute_type.value,
+            "device": settings_obj.device.value,
+            "file_id": settings_obj.file_id,
+            "filename": settings_obj.file_name,
+            "language": settings_obj.language,
+            "model": settings_obj.model,
+            "num_speakers": settings_obj.speaker_count,
+            "speaker_detection": settings_obj.speaker_detection,
+            "timestamp": settings_obj.timestamp,
+        }
+        with (output_dir(settings_obj.file_id) / "metadata.txt").open(
+            "w", encoding="utf-8"
+        ) as metadata_file:
+            yaml.dump(metadata, metadata_file)
+
+    def create_output_files(transcript: dict, _speaker_detection: bool, file_id: str) -> None:
+        create_directory(file_id)
+        with (output_dir(file_id) / "transcription.json").open(
+            "w", encoding="utf-8"
+        ) as output_file:
+            json.dump(transcript, output_file)
+
+    def named_tuple_to_dict(segment):
+        if isinstance(segment, dict):
+            return dict(segment)
+        if hasattr(segment, "_asdict"):
+            return segment._asdict()
+        return dict(vars(segment))
+
+    outputs.add_processing_time_to_metadata = lambda file_id: None
+    outputs.assign_word_speakers = lambda _speakers, transcript: transcript
+    outputs.create_directory = create_directory
+    outputs.create_metadata = create_metadata
+    outputs.create_output_files = create_output_files
+    outputs.named_tuple_to_dict = named_tuple_to_dict
+    outputs.transform_speakers_results = lambda segments: segments
+    outputs.write_logfile = write_logfile
+    sys.modules.setdefault("aTrain_core.outputs", outputs)
+
+    core_transcribe = types.ModuleType("aTrain_core.transcribe")
+    core_transcribe.CustomProgressHook = object
+    core_transcribe.load_audio = lambda settings_obj: ([0.0] * 16000, 1)
+    core_transcribe.run_speaker_detection = (
+        lambda settings_obj, audio_duration, audio_array, transcript: transcript
+    )
+    core_transcribe.transcription_with_progress_bar = (
+        lambda segments, info, progress: segments
+    )
+    sys.modules.setdefault("aTrain_core.transcribe", core_transcribe)
+
+    faster_whisper = types.ModuleType("faster_whisper")
+    faster_whisper.WhisperModel = object
+    sys.modules.setdefault("faster_whisper", faster_whisper)
+
+    starlette = types.ModuleType("starlette")
+    starlette_formparsers = types.ModuleType("starlette.formparsers")
+
+    class MultiPartParser:
+        spool_max_size = 0
+
+    starlette_formparsers.MultiPartParser = MultiPartParser
+    sys.modules.setdefault("starlette", starlette)
+    sys.modules.setdefault("starlette.formparsers", starlette_formparsers)
+
+    werkzeug = types.ModuleType("werkzeug")
+    werkzeug_utils = types.ModuleType("werkzeug.utils")
+    werkzeug_utils.secure_filename = lambda filename: str(filename).replace(" ", "_")
+    sys.modules.setdefault("werkzeug", werkzeug)
+    sys.modules.setdefault("werkzeug.utils", werkzeug_utils)
+
+
+_install_lightweight_runtime_stubs()
+
+from aTrain.utils import transcription  # noqa: E402
 
 
 def test_discover_media_files_filters_top_level_supported_files(tmp_path, monkeypatch):
