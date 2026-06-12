@@ -11,6 +11,7 @@ def input_model():
         with ui.select(options=get_model_options()).classes("w-full") as input:
             input.classes("w-full")
             input.props("filled bg-color=gray-100 color=dark")
+            input.mark("select_model")
 
     input.bind_value(app.storage.general, "model")
     input.on_value_change(update_language_options)
