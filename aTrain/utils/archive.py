@@ -83,7 +83,7 @@ def open_file_directory(file_id) -> None:
 
 
 def download_file_directory(file_id) -> None:
-    """WIP"""
+    """A function that zips a past transcription and lets the client download it."""
     file_id = "" if file_id == "all" else file_id
     directory = os.path.join(TRANSCRIPT_DIR, file_id)
     if os.path.exists(directory):
