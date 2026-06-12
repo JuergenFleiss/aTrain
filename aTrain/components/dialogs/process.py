@@ -94,7 +94,11 @@ def close_dialog_process():
         timers = ElementFilter(marker="timer_process", kind=ui.timer)
         dialogs = ElementFilter(marker="dialog_process", kind=ui.dialog)
     except RuntimeError as exc:
-        if "client this element belongs to has been deleted" in str(exc):
+        deleted_context_messages = (
+            "client this element belongs to has been deleted",
+            "parent element this slot belongs to has been deleted",
+        )
+        if any(message in str(exc) for message in deleted_context_messages):
             return
         raise
     for timer in timers:

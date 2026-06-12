@@ -557,6 +557,17 @@ def test_close_dialog_process_ignores_deleted_client(monkeypatch):
     process.close_dialog_process()
 
 
+def test_close_dialog_process_ignores_deleted_parent_slot(monkeypatch):
+    from aTrain.components.dialogs import process
+
+    def deleted_parent_filter(*args, **kwargs):
+        raise RuntimeError("The parent element this slot belongs to has been deleted.")
+
+    monkeypatch.setattr(process, "ElementFilter", deleted_parent_filter)
+
+    process.close_dialog_process()
+
+
 def test_gpu_phase2_runs_one_speaker_detection_process_for_batch(tmp_path, monkeypatch):
     output_root = tmp_path / "transcriptions"
     output_root.mkdir()
