@@ -2,7 +2,7 @@ import os
 
 from aTrain_core.globals import FLATPAK
 from aTrain_core.settings import load_formats
-from nicegui import ui, app
+from nicegui import app, ui
 
 
 class CustomUpload(ui.upload):

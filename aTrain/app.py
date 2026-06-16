@@ -32,8 +32,8 @@ def start(
     native: Annotated[bool, Option(help="Run in a native window")] = True,
     reload: Annotated[bool, Option(help="Reload on code change")] = False,
     show: Annotated[bool, Option(help="If no-native, open Browser tab.")] = True,
-    host: Annotated[str, Option(help="Which IP to bind to (defaults to '127.0.0.1 in native mode, otherwise '0.0.0.0').")] = None,
-    port: Annotated[int, Option(help="Which port to bind to  (default: 8080 in no-native mode, and an automatically determined open port in native mode).")] = None
+    host: Annotated[str | None, Option(help="Which IP to bind to (defaults to '127.0.0.1 in native mode, otherwise '0.0.0.0').")] = None,
+    port: Annotated[int | None, Option(help="Which port to bind to  (default: 8080 in no-native mode, and an automatically determined open port in native mode).")] = None
 ):
     """Start aTrain."""
     print("Running aTrain")

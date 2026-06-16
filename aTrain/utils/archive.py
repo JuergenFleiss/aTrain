@@ -2,14 +2,13 @@ import os
 import shutil
 import subprocess  # nosec B404 — used only with a static argv, never a shell
 import sys
+import zipfile
 from importlib.resources import files
 
 import yaml
 from aTrain_core.globals import METADATA_FILENAME, TRANSCRIPT_DIR
-from showinfm import show_in_file_manager
-
 from nicegui import ui
-import zipfile
+from showinfm import show_in_file_manager
 
 
 def read_archive() -> list:
@@ -91,12 +90,12 @@ def download_file_directory(file_id) -> None:
         if not os.path.exists(directory_zip):
             # from https://stackabuse.com/creating-a-zip-archive-of-a-directory-in-python/
             with zipfile.ZipFile(directory_zip, 'w') as zipf:
-                for root, dirs, files in os.walk(directory):
+                for root, _dirs, files in os.walk(directory):
                     for file in files:
                         zipf.write(
-                            os.path.join(root, file), 
+                            os.path.join(root, file),
                             os.path.relpath(
-                                    os.path.join(root, file), 
+                                    os.path.join(root, file),
                                     TRANSCRIPT_DIR
                                 )
                             )

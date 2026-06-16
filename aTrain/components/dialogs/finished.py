@@ -2,7 +2,7 @@ from importlib.resources import files
 from pathlib import Path
 from typing import cast
 
-from aTrain.utils.archive import open_file_directory, download_file_directory
+from aTrain.utils.archive import download_file_directory, open_file_directory
 from nicegui import app, ui
 
 GIF_FINISHED = cast(Path, files("aTrain") / "static" / "images" / "success.gif")
