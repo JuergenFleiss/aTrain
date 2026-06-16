@@ -39,11 +39,20 @@ def page():
                         ui.label(transcription["timestamp"]).classes("font-light")
                         ui.label(transcription["filename"]).classes("font-light")
                         with ui.row():
-                            btn_open = ui.button("download" if app.native.main_window is None else "open", color="dark")
+                            btn_open = ui.button(
+                                "download" if app.native.main_window is None else "open",
+                                color="dark",
+                            )
                             btn_open.props("no-caps size=0.7rem unelevated")
                             btn_delete = ui.button("delete", color="gray-100")
                             btn_delete.props("no-caps size=0.7rem unelevated")
-                btn_open.on_click(lambda t=transcription: download(t["file_id"]) if app.native.main_window is None else show(t["file_id"]))
+                btn_open.on_click(
+                    lambda t=transcription: (
+                        download(t["file_id"])
+                        if app.native.main_window is None
+                        else show(t["file_id"])
+                    )
+                )
                 btn_delete.on_click(
                     lambda t=transcription: (delete(t["file_id"]), ui.navigate.reload())
                 )

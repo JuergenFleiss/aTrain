@@ -89,16 +89,13 @@ def download_file_directory(file_id) -> None:
         directory_zip = f"{directory}.zip"
         if not os.path.exists(directory_zip):
             # from https://stackabuse.com/creating-a-zip-archive-of-a-directory-in-python/
-            with zipfile.ZipFile(directory_zip, 'w') as zipf:
+            with zipfile.ZipFile(directory_zip, "w") as zipf:
                 for root, _dirs, files in os.walk(directory):
                     for file in files:
                         zipf.write(
                             os.path.join(root, file),
-                            os.path.relpath(
-                                    os.path.join(root, file),
-                                    TRANSCRIPT_DIR
-                                )
-                            )
+                            os.path.relpath(os.path.join(root, file), TRANSCRIPT_DIR),
+                        )
 
         ui.download.file(os.path.join(directory, directory_zip))
 

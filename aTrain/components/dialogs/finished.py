@@ -20,10 +20,18 @@ def dialog_finished(file_id: str):
         with ui.row().classes("justify-between w-full items-center"):
             ui.label("").bind_text_from(state, "time", lambda x: f"We transcribed your file in {x}")
             with ui.row():
-                btn_open = ui.button("Download" if app.native.main_window is None else "Open", color="gray-200")
+                btn_open = ui.button(
+                    "Download" if app.native.main_window is None else "Open", color="gray-200"
+                )
                 btn_open.props("unelevated no-caps text-color=dark")
                 btn_exit = ui.button("Exit", color="dark")
                 btn_exit.props("unelevated no-caps")
 
         btn_exit.on_click(ui.navigate.reload)
-        btn_open.on_click(lambda: download_file_directory(file_id) if app.native.main_window is None else open_file_directory(file_id))
+        btn_open.on_click(
+            lambda: (
+                download_file_directory(file_id)
+                if app.native.main_window is None
+                else open_file_directory(file_id)
+            )
+        )
