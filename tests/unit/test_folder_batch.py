@@ -140,9 +140,7 @@ def _install_lightweight_runtime_stubs() -> None:
     core_transcribe.run_speaker_detection = (
         lambda settings_obj, audio_duration, audio_array, transcript: transcript
     )
-    core_transcribe.transcription_with_progress_bar = (
-        lambda segments, info, progress: segments
-    )
+    core_transcribe.transcription_with_progress_bar = lambda segments, info, progress: segments
     sys.modules.setdefault("aTrain_core.transcribe", core_transcribe)
 
     faster_whisper = types.ModuleType("faster_whisper")
