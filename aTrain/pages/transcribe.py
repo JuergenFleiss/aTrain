@@ -29,7 +29,9 @@ async def page(client: Client):
             input_speaker_count()
         ui.separator().classes("mt-4")
         with ui.row().classes("w-full justify-between items-center"):
-            settings_btn = ui.button("Advanced Settings", color="gray-100")
+            settings_btn = ui.button("Advanced Settings", color="gray-100").mark(
+                "open_advanced_settings"
+            )
             settings_btn.props("size=0.8rem unelevated no-caps icon=settings")
             if FLATPAK:
 

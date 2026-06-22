@@ -33,6 +33,7 @@ def input_gpu():
         else:
             switch = ui.switch("GPU", value=False).props("color=dark disable")
             state["GPU"] = False
+        switch.mark("switch_gpu")
     switch.bind_value(state, "GPU")
     switch.on_value_change(set_compute_options)
 
@@ -71,8 +72,8 @@ def input_cpu_threads():
                 value=state.get("cpu_threads", DEFAULT_CPU_THREADS),
             )
             number.props("filled bg-color=gray-100 color=dark").classes("flex-grow")
-            number.bind_value(state, "cpu_threads")
-            reset_btn = ui.button(icon="refresh", color="gray-300")
+            number.bind_value(state, "cpu_threads").mark("number_cpu_threads")
+            reset_btn = ui.button(icon="refresh", color="gray-300").mark("button_reset_cpu_threads")
             reset_btn.props("flat dense round size=sm").tooltip("Reset to default")
             reset_btn.on_click(lambda: number.set_value(DEFAULT_CPU_THREADS))
 
@@ -85,9 +86,11 @@ def input_temperature():
         with ui.row().classes("w-full gap-2 items-center"):
             number = ui.number(min=0.0, max=1.0, step=0.1, precision=1, placeholder="auto")
             number.props("filled bg-color=gray-100 color=dark").classes("flex-grow")
-            number.bind_value(app.storage.general, "temperature_override")  # <- New state name
+            number.bind_value(app.storage.general, "temperature_override").mark(
+                "number_temperature"
+            )  # <- New state name
 
-            reset_btn = ui.button(icon="refresh", color="gray-300")
+            reset_btn = ui.button(icon="refresh", color="gray-300").mark("button_reset_temperature")
             reset_btn.props("flat dense round size=sm").tooltip("Reset to default (auto)")
             reset_btn.on_click(lambda: number.set_value(None))
 
@@ -99,7 +102,7 @@ def input_initial_prompt():
     with ui.column().classes("w-full gap-2"):
         ui.label("Initial Prompt").classes("font-bold text-dark")
         ui.separator()
-        textarea = ui.textarea(placeholder="Type here...")
+        textarea = ui.textarea(placeholder="Type here...").mark("textarea_initial_prompt")
         textarea.props("color=dark autogrow clearable").classes("w-full")
     textarea.bind_value(app.storage.general, "initial_prompt")
 

@@ -13,6 +13,39 @@ uv run aTrain start     # run the app
 If you do not have uv installed yet, see the
 [uv installation guide](https://docs.astral.sh/uv/#installation).
 
+## Linux: native GUI build dependencies
+
+On Linux the runtime includes `pywebview[GTK]`, whose `pygobject`/`pycairo`
+dependencies build from source and require the cairo/glib native libraries plus
+`pkg-config`. Install them before the first `uv sync` (Debian/Ubuntu):
+
+```bash
+sudo apt-get install -y libcairo2-dev libgirepository1.0-dev pkg-config libglib2.0-dev
+```
+
+The recommended Linux workflow is the [Docker dev container](#docker-development-environment),
+which installs these for you and runs the app in the browser.
+
+## Docker development environment
+
+For a reproducible, isolated setup that needs nothing on the host but Docker,
+use the bundled dev container. It pins the toolchain and the locked dependency
+graph, bind-mounts the source for live editing, and persists downloaded models
+and transcription output across rebuilds.
+
+```bash
+docker compose up        # builds the image and starts aTrain
+```
+
+The app is then served at `http://localhost:8080`.
+
+The container runs aTrain in **browser mode** (`aTrain start --no-native`). It
+deliberately does **not** ship the native desktop-window backend: `pywebview`'s
+GTK backend has no use in a headless container, and excluding it keeps the image
+lean and portable. Development inside the container is therefore browser-based
+only; contributors who need to exercise the native window can do so on their
+host after installing the GUI build dependencies above.
+
 ## Running the CI checks locally
 
 The CI workflow runs `ruff` (lint + format), `bandit` (security scan),
