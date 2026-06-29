@@ -22,7 +22,7 @@ def dialog_process(progress: DictProxy):
         ui.image(GIF_PROCESS).classes("w-1/2 h-1/2 mx-auto")
         with ui.row().classes("gap-1"):
             lbl_task = ui.label().classes("font-bold text-dark")
-            lbl_task.bind_text_from(state, "task_number", lambda x: f"Task {x}:")
+            lbl_task.bind_text_from(state, "task_number", lambda x: f"{x}:")
             ui.label("").bind_text(state, "task")
         progress_bar = ui.linear_progress(show_value=False, color="dark")
         progress_bar.bind_value(state, "progress").props("animation-speed=500")
@@ -38,12 +38,46 @@ def dialog_process(progress: DictProxy):
 
 def update_progress(progress: DictProxy, start_time: datetime):
     state = app.storage.general
-    state["progress"] = progress["current"] / progress["total"]
-    state["task"] = progress["task"]
-    total_tasks = 3 if state["speaker_detection"] else 2
-    current_task = {"Prepare": 1, "Transcribe": 2, "Detect Speakers": 3}[state["task"]]
-    state["task_number"] = f"{current_task}/{total_tasks}"
+    current = progress["current"]
+    total = progress["total"]
+    task = progress["task"]
+    file_index = progress.get("file_index", 0)
+    file_total = progress.get("file_total", 0)
+    progress_index = progress.get("progress_index", file_index)
+    progress_total = progress.get("progress_total", file_total)
+    if progress_total:
+        state["progress"] = (progress_index + (current / total)) / progress_total
+        file_name = clean_progress_file_name(progress.get("file_name", ""))
+    else:
+        state["progress"] = current / total
+        file_name = ""
+    if file_total:
+        stage_number, stage_total, stage_label = folder_stage(task, state["speaker_detection"])
+        state["task_number"] = f"File {file_index + 1} of {file_total}"
+        state["task"] = f"Stage {stage_number}/{stage_total}: {stage_label}"
+        if file_name:
+            state["task"] = f"{state['task']} - {file_name}"
+    else:
+        total_tasks = 3 if state["speaker_detection"] else 2
+        current_task = {"Prepare": 1, "Transcribe": 2, "Detect Speakers": 3}[task]
+        state["task_number"] = f"Stage {current_task}/{total_tasks}"
+        state["task"] = task
     update_time(start_time)
+
+
+def clean_progress_file_name(file_name: str) -> str:
+    for prefix in ("Transcribe: ", "Diarize: ", "Write: "):
+        if file_name.startswith(prefix):
+            return file_name.removeprefix(prefix)
+    return file_name
+
+
+def folder_stage(task: str, speaker_detection: bool) -> tuple[int, int, str]:
+    if not speaker_detection:
+        return 1, 1, "Transcription"
+    if task == "Detect Speakers":
+        return 2, 2, "Speaker diarization"
+    return 1, 2, "Transcription"
 
 
 def update_time(start_time: datetime):
@@ -56,7 +90,18 @@ def update_time(start_time: datetime):
 
 
 def close_dialog_process():
-    for timer in ElementFilter(marker="timer_process", kind=ui.timer):
+    try:
+        timers = ElementFilter(marker="timer_process", kind=ui.timer)
+        dialogs = ElementFilter(marker="dialog_process", kind=ui.dialog)
+    except RuntimeError as exc:
+        deleted_context_messages = (
+            "client this element belongs to has been deleted",
+            "parent element this slot belongs to has been deleted",
+        )
+        if any(message in str(exc) for message in deleted_context_messages):
+            return
+        raise
+    for timer in timers:
         timer.cancel()
-    for dialog in ElementFilter(marker="dialog_process", kind=ui.dialog):
+    for dialog in dialogs:
         dialog.delete()
