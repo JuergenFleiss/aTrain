@@ -1,0 +1,138 @@
+name: Release
+
+# Phase 1 of #212 — unsigned Windows MSIX, tag-triggered. Builds via
+# PyInstaller + makeappx.exe, uploads as workflow artifact. Signing (#211),
+# Flatpak (needs Flathub manifest refresh), and macOS DMG are follow-ups.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      test_version:
+        description: "Version string for test builds (e.g. 0.0.0-test); tag-triggered runs derive this from the tag"
+        required: false
+        default: "0.0.0-test"
+
+permissions:
+  contents: write  # required for `gh release create`
+
+jobs:
+  build-windows-msix:
+    name: Build Windows MSIX (unsigned)
+    runs-on: windows-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Determine version
+        id: version
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            version="${GITHUB_REF#refs/tags/v}"
+          else
+            version="${{ inputs.test_version }}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Resolved version: $version"
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v8.1.0
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install the full app runtime + PyInstaller
+        shell: bash
+        run: |
+          uv sync --locked --extra gui
+          uv pip install pyinstaller
+
+      - name: Pre-populate required models from Flatpak-hosted tarballs
+        # aTrain resolves REQUIRED_MODELS_DIR to a path inside the installed
+        # aTrain package, which lands under read-only WindowsApps once
+        # installed. Any runtime `os.makedirs()` there raises PermissionError
+        # and blocks page render. Baking the models in at build time makes
+        # the dir already-exist, so os.makedirs is a no-op.
+        # Source: the same sha256-pinned tarballs the Flatpak build uses
+        # (flathub/io.github.juergenfleiss.aTrain), not gated.
+        shell: bash
+        run: |
+          mkdir -p aTrain/required_models
+          cd aTrain/required_models
+
+          curl -L --fail --show-error \
+            -o large-v3-turbo.tar.zst \
+            "https://huggingface.co/datasets/aTrain-core/flatpak_required_models_largev3turbo/resolve/main/large-v3-turbo.tar.zst?download=1"
+          echo "b28bd73e580b1955cc9590f271d9ac2d51f1a44f0673931ee6d13ca2945763aa  large-v3-turbo.tar.zst" | sha256sum -c -
+          # windows-latest ships bsdtar which handles .zst natively.
+          tar -xf large-v3-turbo.tar.zst
+          rm large-v3-turbo.tar.zst
+
+          curl -L --fail --show-error \
+            -o speaker-detection.tar.zst \
+            "https://huggingface.co/datasets/aTrain-core/flatpak_requiredmodel_speaker-detection/resolve/main/speaker-detection.tar.zst?download=1"
+          echo "5b992de6a3e337f0e4c581d9003fa8172cf7737578b7883fb9393e536ac8b964  speaker-detection.tar.zst" | sha256sum -c -
+          tar -xf speaker-detection.tar.zst
+          rm speaker-detection.tar.zst
+
+          echo "Populated required_models:"
+          ls -la
+
+      - name: Build the frozen app with PyInstaller
+        shell: bash
+        run: uv run --no-sync pyinstaller freeze.spec --noconfirm
+
+      - name: Stage MSIX package tree
+        # Copies the PyInstaller output into a staging dir, adds the manifest
+        # (with the version substituted in) and the placeholder Assets.
+        # makeappx.exe expects the root of the package tree to contain
+        # AppxManifest.xml + all referenced files.
+        shell: bash
+        run: |
+          version="${{ steps.version.outputs.version }}"
+          staging="msix-staging"
+          mkdir -p "$staging"
+          # PyInstaller freeze.spec's COLLECT block emits to dist/aTrain/
+          cp -r dist/aTrain "$staging/aTrain"
+          cp -r packaging/msix/Assets "$staging/Assets"
+          # Substitute {{VERSION}} in the manifest template. MSIX Package
+          # Identity Version must be four dot-separated integers, so
+          # normalize semver-like strings (e.g. "1.5.0" -> "1.5.0.0",
+          # "0.0.0-test" -> "0.0.0.0" for makeappx acceptance).
+          normalized="$(echo "$version" | sed 's/-.*//' | awk -F. '{ while (NF<3) { $(NF+1)=0 }; printf "%d.%d.%d", $1, $2, $3 }')"
+          sed "s|{{VERSION}}|$normalized|g" packaging/msix/AppxManifest.xml.template > "$staging/AppxManifest.xml"
+          echo "Manifest:"
+          cat "$staging/AppxManifest.xml"
+
+      - name: Pack MSIX with makeappx.exe
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.version }}"
+          $output = "aTrain-$version.msix"
+          # makeappx.exe ships with the Windows SDK preinstalled on
+          # windows-latest runners; the path can shift between SDK versions
+          # so glob the newest one under the standard install root.
+          $makeappx = Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\bin\*\x64\makeappx.exe" |
+                      Sort-Object -Property FullName -Descending |
+                      Select-Object -First 1
+          if (-not $makeappx) { throw "makeappx.exe not found on runner" }
+          Write-Host "Using $($makeappx.FullName)"
+          & $makeappx.FullName pack /d msix-staging /p $output /o
+          if ($LASTEXITCODE -ne 0) { throw "makeappx failed with exit code $LASTEXITCODE" }
+          Write-Host "Built $output"
+
+      - name: Upload MSIX artifact
+        # Distributes via workflow artifacts (10 GB per-file limit).
+        # GitHub release attachment is blocked because the ~4 GB bundle
+        # exceeds the 2 GB per-asset limit. Distribution channel is a
+        # follow-up decision.
+        uses: actions/upload-artifact@v4
+        with:
+          name: aTrain-msix-${{ steps.version.outputs.version }}
+          path: aTrain-*.msix
+          if-no-files-found: error

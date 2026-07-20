@@ -1,0 +1,86 @@
+{
+    "tiny": {
+        "repo_id": "aTrain-core/faster-whisper-tiny",
+        "revision": "67ab6c7eafe6e9acff2eccdc14713d307d03a895",
+        "type": "regular",
+        "repo_size": 78206636,
+        "repo_size_human": "75.54 MB"
+    },
+    "base": {
+        "repo_id": "aTrain-core/faster-whisper-base",
+        "revision": "60807e2d2c25d190ceda6bb43b6f8161f98e60da",
+        "type": "regular",
+        "repo_size": 147885958,
+        "repo_size_human": "145.22 MB"
+    },
+    "small": {
+        "repo_id": "aTrain-core/faster-whisper-small",
+        "revision": "89b1eeb2b813706ff13f183df2ec32a2d62edc35",
+        "type": "regular",
+        "repo_size": 486215389,
+        "repo_size_human": "483.55 MB"
+    },
+    "medium": {
+        "repo_id": "aTrain-core/faster-whisper-medium",
+        "revision": "078ca51d83e03f67dac98af22e795bfec073c607",
+        "type": "regular",
+        "repo_size": 1530574752,
+        "repo_size_human": "1.53 GB"
+    },
+    "large-v1": {
+        "repo_id": "aTrain-core/faster-whisper-large-v1",
+        "revision": "73fcf082376acce64d434858364bad358da72b05",
+        "type": "regular",
+        "repo_size": 3089581431,
+        "repo_size_human": "3.09 GB"
+    },
+    "large-v2": {
+        "repo_id": "aTrain-core/faster-whisper-large-v2",
+        "revision": "3f454e1e3bfd71ded923a6e2d7246660a53c484e",
+        "type": "regular",
+        "repo_size": 3089581875,
+        "repo_size_human": "3.09 GB"
+    },
+    "large-v3": {
+        "repo_id": "aTrain-core/faster-whisper-large-v3",
+        "revision": "0112cb451cd959bde97139635e231e437d9d7a3a",
+        "type": "regular",
+        "repo_size": 3090839273,
+        "repo_size_human": "3.09 GB"
+    },
+    "large-v3-turbo": {
+        "repo_id": "aTrain-core/faster-whisper-large-v3-turbo",
+        "revision": "df99141c9f5db0615d025664cff8949373a69593",
+        "type": "regular",
+        "repo_size": 1621440951,
+        "repo_size_human": "1.62 GB"
+    },
+    "speaker-detection": {
+        "repo_id": "aTrain-core/speaker-detection",
+        "revision": "027e7a80b40a5e3e69cb83ccf901725b59a4063d",
+        "repo_size": 33695573,
+        "repo_size_human": "32.1 MB"
+    },
+    "faster-distil-english": {
+        "repo_id": "aTrain-core/faster-distil-whisper-large-v2",
+        "revision": "bcbc5787cacc46911e38af69b7f32adc48512983",
+        "type": "distil",
+        "languages": [
+            "en"
+        ],
+        "repo_size": 1516112610,
+        "repo_size_human": "1.51 GB"
+    },
+    "large-norwegian": {
+        "repo_id": "aTrain-core/nb-faster-whisper-large",
+        "revision": "0c44886c8864cc9cf90d8726070ab392984c69db",
+        "type": "regular",
+        "languages": [
+            "no",
+            "nn",
+            "en"
+        ],
+        "repo_size": 6178178615,
+        "repo_size_human": "5.75 GB"
+    }
+}

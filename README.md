@@ -3,17 +3,16 @@
 ## Accessible Transcription of Interviews
 aTrain is a tool for automatically transcribing speech recordings utilizing state-of-the-art machine learning models without uploading any data. It was developed by researchers at the Business Analytics and Data Science-Center at the University of Graz and tested by researchers from the Know-Center Graz.
 
-
+## Get aTrain
 <p>
   <a href="https://flathub.org/apps/io.github.juergenfleiss.aTrain">
-    <img height="58" alt="Get it on Flathub" src="https://flathub.org/api/badge?locale=en">
-  </a>
+    <img height="58" alt="Get it on Flathub" src="https://flathub.org/api/badge?locale=en"></a>
   &nbsp;&nbsp;
   <a href="https://apps.microsoft.com/detail/9N15Q44SZNS2?mode=direct">
-    <img width="220" alt="Get it from Microsoft" src="https://get.microsoft.com/images/en-us%20dark.svg">
-  </a>
+    <img width="220" alt="Get it from Microsoft" src="https://get.microsoft.com/images/en-us%20dark.svg"></a>
 </p>
 
+aTrain is published on Flathub for Linux and the Microsoft Store for Windows.  Additional download types [can be found here](https://business-analytics.uni-graz.at/de/forschung/atrain/download/).
 
 
 ## About aTrain
@@ -68,6 +67,74 @@ Transcription Time (incl. speaker detection) for 00:22:00 File:
 | GPU: RTX 2080 Ti       | 00:01:44    | 00:01:06          | 00:??:??       |
 | GPU: RTX 2070 Max-Q    | 00:05:59    | 00:??:??          | 00:04:37       |
 
+
+## Headless / CLI Usage
+
+For headless transcription pipelines (servers, automation, scripts) aTrain
+is also installable via pip and exposes a CLI.
+
+### Install
+
+Until aTrain ships on PyPI, install directly from the GitHub repo. Engine
+only (CLI usage):
+
+```bash
+pip install "aTrain @ git+https://github.com/JuergenFleiss/aTrain.git"
+```
+
+For `aTrain start` (the desktop / browser app), add the GUI extras:
+
+```bash
+pip install "aTrain[gui] @ git+https://github.com/JuergenFleiss/aTrain.git"
+```
+
+On Windows, prepend the PyTorch CUDA index for the `cu130` torch wheel:
+
+```bash
+pip install ... --extra-index-url https://download.pytorch.org/whl/cu130
+```
+
+On Linux the PyPI torch wheel already bundles CUDA; macOS is CPU-only.
+NVIDIA CUDA GPU support currently covers Windows and Debian-based Linux.
+
+> 💡 **Linux + slow disk**: if `pip install` keeps killing the torch wheel
+> collection, retry with `--no-cache-dir`.
+
+When aTrain reaches PyPI (planned, not yet), the install command becomes
+`pip install aTrain` and `pip install 'aTrain[gui]'`.
+
+### Transcribe from the command line
+
+Default settings:
+
+```bash
+aTrain_core transcribe /path/to/audio/file.mp3
+```
+
+With overrides:
+
+```bash
+aTrain_core transcribe /path/to/audio/file.mp3 \
+    --model <MODEL> --language <LANGUAGE> \
+    --speaker-detection --speaker-count <N> \
+    --device <DEVICE> --compute-type <COMPUTE_TYPE>
+```
+
+The full list of model configurations (with **defaults in bold**):
+
+![Model Configurations](docs/images/model_configurations.png)
+
+> 💡 **Distilled models** (e.g. `faster-distil-english`) need an explicit
+> `--language` flag since they are single-language only.
+
+### Manage models manually
+
+```bash
+aTrain init                # download the required models in one go
+aTrain_core load <MODEL>   # download a specific model
+aTrain_core load all       # download every supported model
+aTrain_core remove <MODEL> # delete a specific model
+```
 
 ## Roadmap and Upcoming Features
 
