@@ -59,21 +59,21 @@ def start(
         )
 
     print("Running aTrain")
+
+    def ui_run(native: bool, reload: bool, show: bool, host: str, port: int):
+        ui.run(
+            native=native,
+            reload=reload,
+            title="aTrain",
+            favicon=cast(Path, files("aTrain") / "static" / "favicon.ico"),
+            window_size=(1280, 720) if native else None,
+            show=show,
+            host=host,
+            port=port,
+        )
+
     if FLATPAK:
         ui_run(native, reload, show, host, port)
     else:
         with keep.running():
             ui_run(native, reload, show, host, port)
-
-
-def ui_run(native: bool, reload: bool, show: bool, host: str, port: int):
-    ui.run(
-        native=native,
-        reload=reload,
-        title="aTrain",
-        favicon=cast(Path, files("aTrain") / "static" / "favicon.ico"),
-        window_size=(1280, 720) if native else None,
-        show=show,
-        host=host,
-        port=port,
-    )
