@@ -14,6 +14,8 @@ aTrain is a tool for automatically transcribing speech recordings utilizing stat
 
 aTrain is published on Flathub for Linux and the Microsoft Store for Windows.  Additional download types [can be found here](https://business-analytics.uni-graz.at/de/forschung/atrain/download/).
 
+How release builds are signed: see the [Code signing policy](docs/code-signing-policy.md).
+
 
 ## About aTrain
 
@@ -42,7 +44,7 @@ aTrain-core can process speech recordings a total of 99 languages, including Afr
 \
 **MAXQDA, ATLAS.ti and nVivo compatible output 📄**
 \
-aTrain-core provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti, MAXQDA and nVivo. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp. Go to the [tutorial](https://github.com/BANDAS-Center/aTrain/wiki/Tutorials) for MAXQDA.
+aTrain-core provides transcription files that are seamlessly importable into the most popular tools for qualitative analysis, ATLAS.ti, MAXQDA and nVivo. This allows you to directly play audio for the corresponding text segment by clicking on its timestamp. Go to the [tutorial](docs/tutorials.md) for MAXQDA and NVivo.
 \
 \
 **Nvidia GPU support 🖥️**
@@ -79,19 +81,19 @@ Until aTrain ships on PyPI, install directly from the GitHub repo. Engine
 only (CLI usage):
 
 ```bash
-pip install "aTrain @ git+https://github.com/JuergenFleiss/aTrain.git"
+pip install "aTrain @ git+https://github.com/aTrainTranscription/aTrain.git"
 ```
 
 For `aTrain start` (the desktop / browser app), add the GUI extras:
 
 ```bash
-pip install "aTrain[gui] @ git+https://github.com/JuergenFleiss/aTrain.git"
+pip install "aTrain[gui] @ git+https://github.com/aTrainTranscription/aTrain.git"
 ```
 
-On Windows, prepend the PyTorch CUDA index for the `cu130` torch wheel:
+On Windows, prepend the PyTorch CUDA index for the `cu128` torch wheel:
 
 ```bash
-pip install ... --extra-index-url https://download.pytorch.org/whl/cu130
+pip install ... --extra-index-url https://download.pytorch.org/whl/cu128
 ```
 
 On Linux the PyPI torch wheel already bundles CUDA; macOS is CPU-only.
@@ -148,10 +150,21 @@ Planned in the near future.
 - Allowing users to setting the output directory
 - Allow for saving settings and defaults (currently resets after each transcription)  **Implemented in v1.4.0
 
+## Documentation
+
+Full user documentation lives in [`docs/`](docs/README.md):
+
+- [Installation (end users)](docs/installation.md) — packaged apps and pip.
+- [Linux installation](docs/installation-linux.md) — manual Ubuntu / Debian setup.
+- [Tutorials](docs/tutorials.md) — importing aTrain output into MAXQDA and NVivo.
+
 ## For contributors
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for local development setup. aTrain
-uses [uv](https://docs.astral.sh/uv/) as its recommended package manager.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for local development setup, building a
+standalone executable, and the branching model. aTrain uses
+[uv](https://docs.astral.sh/uv/) as its recommended package manager.
 
 ## Attribution
 The GIFs and Icons in aTrain are from [tenor](https://tenor.com/) and [flaticon](https://www.flaticon.com/).
+
+Free code signing provided by [SignPath.io](https://signpath.io), certificate by [SignPath Foundation](https://signpath.org).

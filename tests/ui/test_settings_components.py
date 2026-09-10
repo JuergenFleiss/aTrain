@@ -15,16 +15,11 @@ each one is mounted there exactly as a user sees it (rather than in a
 synthetic test page), which keeps the test environment honest.
 """
 
-import aTrain.pages.transcribe as transcribe_page
 import aTrain_core.transcribe  # noqa: F401  pre-import so the splash import is instant
 import pytest
 from aTrain.components.settings import model as model_component
 from nicegui import app, ui
 from nicegui.testing import User
-
-# All tests in this module render the real transcribe page (`/`).
-pytestmark = pytest.mark.module_under_test(transcribe_page)
-
 
 # app.storage.general is cleared between tests by NiceGUI's own
 # `nicegui_reset_globals` fixture (autouse via the `user` fixture chain),

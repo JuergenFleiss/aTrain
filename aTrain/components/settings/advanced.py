@@ -1,4 +1,6 @@
-from aTrain_core.cli import DEFAULT_CPU_THREADS, MAX_CPU_THREADS
+# From globals, not cli: cli imports transcribe and with it torch, which
+# must stay unloaded until the splash screen fetches it in the background.
+from aTrain_core.globals import DEFAULT_CPU_THREADS, MAX_CPU_THREADS
 from aTrain_core.settings import ComputeType
 from nicegui import ElementFilter, app, ui
 

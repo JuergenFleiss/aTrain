@@ -15,7 +15,7 @@ authors = [
 
 dynamic = ["version"]
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "AGPL-3.0-or-later"
 requires-python = ">=3.11"
 
 dependencies = [
@@ -24,7 +24,7 @@ dependencies = [
   "pandas==2.3.3",
   "pyannote.audio==4.0.4",
   "numpy==2.2.2",
-  "werkzeug==3.0.3",
+  "werkzeug==3.1.8",
   "huggingface-hub==0.30.2",
   "torch==2.9.1+cu128; sys_platform == 'win32'",
   "torch==2.9.1; sys_platform != 'win32'",
@@ -42,7 +42,7 @@ dependencies = [
 # headless CLI (`aTrain_core transcribe …`, `aTrain init`) works on the
 # base install.
 gui = [
-  "nicegui==2.21.1",
+  "nicegui==3.15.0",
   "pywebview==6.1",
   "pywebview[GTK]; sys_platform == 'linux'",
   "show-in-file-manager==1.1.4",
@@ -100,3 +100,6 @@ testpaths = ["tests"]
 # NiceGUI's `user` fixture (UI E2E) is async; auto mode lets pytest-asyncio
 # handle async tests/fixtures without per-item markers.
 asyncio_mode = "auto"
+# nicegui>=3's `user` fixture executes a main file per test (replaces the
+# 2.x `module_under_test` marker); see tests/ui/main.py.
+main_file = "tests/ui/main.py"

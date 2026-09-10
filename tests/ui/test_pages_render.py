@@ -13,10 +13,6 @@ buttons or dialogs.
 
 from pathlib import Path
 
-import aTrain.pages.about as about_page
-import aTrain.pages.archive as archive_page
-import aTrain.pages.faq as faq_page
-import aTrain.pages.models as models_page
 import aTrain_core.globals as core_globals
 import pytest
 from aTrain.utils import archive as archive_utils
@@ -48,19 +44,16 @@ def isolated_user_dir(tmp_path, monkeypatch):
     return tmp_path
 
 
-@pytest.mark.module_under_test(about_page)
 async def test_about_page_renders(user: User):
     await user.open("/about")
     await user.should_see("About aTrain", retries=100)
 
 
-@pytest.mark.module_under_test(faq_page)
 async def test_faq_page_renders(user: User):
     await user.open("/faq")
     await user.should_see("Frequently Asked Questions", retries=100)
 
 
-@pytest.mark.module_under_test(archive_page)
 async def test_archive_page_renders_empty(isolated_user_dir: Path, user: User):
     # No transcriptions on disk → the page still renders header + actions.
     await user.open("/archive")
@@ -69,7 +62,6 @@ async def test_archive_page_renders_empty(isolated_user_dir: Path, user: User):
     await user.should_see("Delete All")
 
 
-@pytest.mark.module_under_test(models_page)
 async def test_models_page_renders(isolated_user_dir: Path, user: User):
     await user.open("/models")
     await user.should_see("Model Manager", retries=100)

@@ -51,6 +51,32 @@ else:
     REQUIRED_MODELS_DIR = MODELS_DIR
 
 REQUIRED_MODELS = ["speaker-detection", "large-v3-turbo"]
+
+
+def packaged_models_dir() -> Path | None:
+    """The read-only dir shipping models, or None when this build bundles none.
+
+    The two dirs above answer different questions: REQUIRED_MODELS_DIR is where
+    the *packager* puts models at build time (inside the install location, which
+    is read-only for MSIX and Flatpak), MODELS_DIR is where the *app* writes
+    downloads at runtime. They collapse into one when nothing is bundled, so the
+    inequality - not the mere existence of REQUIRED_MODELS_DIR - is what tells
+    the two situations apart.
+    """
+    return REQUIRED_MODELS_DIR if REQUIRED_MODELS_DIR != MODELS_DIR else None
+
+
+def is_packaged_model(model: str) -> bool:
+    """True when `model` ships inside the install dir, so the user cannot manage it.
+
+    Ask this instead of testing membership in REQUIRED_MODELS: that list names
+    models the build *may* bundle, which stopped implying that it *did* once slim
+    builds shipped without them.
+    """
+    packaged = packaged_models_dir()
+    return packaged is not None and (packaged / model).is_dir()
+
+
 TRANSCRIPT_DIR = ATRAIN_DIR / "transcriptions"
 METADATA_FILENAME = "metadata.txt"
 LOG_FILENAME = "log.txt"

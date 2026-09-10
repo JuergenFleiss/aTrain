@@ -15,7 +15,11 @@ from playwright.sync_api import Page, expect
 
 def test_main_page_loads(atrain_server: str, page: Page) -> None:
     page.goto(atrain_server)
-    expect(page.get_by_text("Select File").first).to_be_visible()
+    # First visit: the splash shows while torch loads in the background, and
+    # only then the page renders. A cold import can take well over the 5 s
+    # expect default on a CI runner, so wait explicitly for the handover.
+    expect(page.get_by_text("Starting Application")).to_be_visible()
+    expect(page.get_by_text("Select File").first).to_be_visible(timeout=60_000)
     expect(page.get_by_text("Speaker Detection").first).to_be_visible()
 
 

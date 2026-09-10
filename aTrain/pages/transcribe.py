@@ -1,5 +1,4 @@
 from pathlib import Path
-from types import SimpleNamespace
 
 from aTrain.components.settings.advanced import advanced_settings
 from aTrain.components.settings.file import input_file
@@ -9,7 +8,7 @@ from aTrain.components.settings.speaker_count import input_speaker_count
 from aTrain.components.settings.speaker_detection import input_speaker_detection
 from aTrain.components.splash_screen import splash_screen
 from aTrain.layouts.base import base_layout
-from aTrain.utils.transcription import start_transcription
+from aTrain.utils.transcription import start_transcription, start_transcription_from_path
 from aTrain_core.globals import FLATPAK, LINUX
 from nicegui import Client, app, ui
 
@@ -39,11 +38,9 @@ async def page(client: Client):
                     if not getattr(file, "selected_path", None):
                         ui.notify("Please select a file first", color="negative")
                         return
-                    payload = SimpleNamespace(
-                        name=file.selected_name,
-                        content=Path(file.selected_path),
+                    await start_transcription_from_path(
+                        Path(file.selected_path), file.selected_name
                     )
-                    await start_transcription(payload)
 
                 start_btn = ui.button("Start", on_click=start_from_selected, color="dark")
             else:

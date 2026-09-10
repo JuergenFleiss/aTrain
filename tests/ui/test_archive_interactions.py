@@ -8,13 +8,10 @@ which would actually try to open a file manager on CI, so the
 underlying utility is monkeypatched to a recorder.
 """
 
-import aTrain.pages.archive as archive_page
 import aTrain_core.globals as core_globals
 import pytest
 from aTrain.utils import archive as archive_utils
 from nicegui.testing import User
-
-pytestmark = pytest.mark.module_under_test(archive_page)
 
 
 @pytest.fixture
@@ -38,9 +35,13 @@ def _seed(root, *names):
 @pytest.fixture
 def show_recorder(monkeypatch):
     """Replace open_file_directory with a recorder so the test doesn't
-    actually shell out to xdg-open / show-in-file-manager."""
+    actually shell out to xdg-open / show-in-file-manager.
+
+    Patched on the persistent utils module (the page module is re-imported
+    fresh per test and copies the name at import time), so this fixture must
+    be listed before `user` in the test signature."""
     calls = []
-    monkeypatch.setattr(archive_page, "show", lambda file_id: calls.append(file_id))
+    monkeypatch.setattr(archive_utils, "open_file_directory", lambda file_id: calls.append(file_id))
     return calls
 
 
@@ -88,7 +89,7 @@ async def test_archive_row_delete_button_removes_directory(user: User, archive_r
 
 
 async def test_archive_show_all_button_invokes_show_with_all(
-    user: User, archive_root, show_recorder
+    archive_root, show_recorder, user: User
 ):
     await user.open("/archive")
     await user.should_see("Show All", retries=100)
@@ -97,7 +98,7 @@ async def test_archive_show_all_button_invokes_show_with_all(
 
 
 async def test_archive_row_open_button_invokes_show_with_file_id(
-    user: User, archive_root, show_recorder
+    archive_root, show_recorder, user: User
 ):
     # One seeded row → exactly one per-row "open" button, so the find
     # unambiguously targets that row's handler. Symmetric to the show-all

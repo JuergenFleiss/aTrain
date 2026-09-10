@@ -15,15 +15,12 @@ first via the marked settings button so the interactive instance is in
 view.
 """
 
-import aTrain.pages.transcribe as transcribe_page
 import aTrain_core.transcribe  # noqa: F401  pre-import so the splash import is instant
 import pytest
 from aTrain_core.cli import DEFAULT_CPU_THREADS
 from aTrain_core.settings import ComputeType
 from nicegui import app
 from nicegui.testing import User
-
-pytestmark = pytest.mark.module_under_test(transcribe_page)
 
 
 @pytest.fixture

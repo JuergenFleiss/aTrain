@@ -31,6 +31,9 @@ def atrain_server() -> Generator[str, None, None]:
     # WAKEPY_FAKE_SUCCESS mirrors tests/ui/test_boot_serve.py - wakepy has no
     # backend on headless CI and raises without it.
     env = {**os.environ, "WAKEPY_FAKE_SUCCESS": "1"}
+    # The subprocess must not look like it runs inside pytest: nicegui>=3's
+    # ui.run sees PYTEST_CURRENT_TEST and then requires the screen-test port.
+    env.pop("PYTEST_CURRENT_TEST", None)
     proc = subprocess.Popen(
         ["aTrain", "start", "--no-native"],
         stdout=subprocess.PIPE,

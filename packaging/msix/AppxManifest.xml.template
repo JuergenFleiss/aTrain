@@ -4,12 +4,13 @@
   workflow. `{{VERSION}}` is substituted at build time from the tag ref
   (see .github/workflows/release.yml).
 
-  Publisher is a placeholder for unsigned / sideloaded MSIX. When signing
-  is added (Phase 2, see #211), the Publisher CN must match the signing
-  certificate exactly, and the same identity must be registered with
-  Microsoft Partner Center if this MSIX is intended for MS Store
-  distribution. Do not treat this manifest as MS-Store-publishable in its
-  current form.
+  `{{PUBLISHER}}` is substituted from the `SIGNPATH_PUBLISHER` repository
+  variable and must match the subject of the signing certificate exactly,
+  or signing fails. The test and production certificates have different
+  subjects, which is why this is a variable rather than a fixed string.
+  Builds that skip signing get a placeholder. For MS Store distribution
+  the same identity would additionally have to be registered with
+  Microsoft Partner Center.
 -->
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -19,7 +20,7 @@
 
   <Identity
     Name="aTrainTranscription.aTrain"
-    Publisher="CN=aTrain unsigned build"
+    Publisher="{{PUBLISHER}}"
     Version="{{VERSION}}.0"
     ProcessorArchitecture="x64" />
 
